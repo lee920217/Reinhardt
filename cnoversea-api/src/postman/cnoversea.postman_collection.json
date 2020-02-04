@@ -1,0 +1,164 @@
+{
+	"info": {
+		"_postman_id": "79ea084f-d34e-4467-8623-dce46fcafed6",
+		"name": "cnoversea",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "注册",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"query\":{\n            \"uid\" : \"benson1\",\n            \"uname\" : \"benson1\",\n            \"email\" : \"benson1@163.com\",\n            \"mobile\" : \"15912345678\",\n            \"pass\" : \"benson\"\n        }\n    }"
+				},
+				"url": {
+					"raw": "localhost:8080/api/user/regist",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"regist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "登录",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"query\":{\n            \"uid\" : \"benson\",\n            \"pass\" : \"benson\"\n        }\n    }"
+				},
+				"url": {
+					"raw": "localhost:8080/api/user/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "发布行程",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"query\":{\n            \"uuid\" : \"480fe025c6e24d29a652d99427f7eecd\",\n            \"title\" : \"去李嘉琦家蹦迪\",\n            \"start_time\" : \"2020-02-04 18:30:00\",\n            \"description\" : \"欢乐蹦迪你我他\",\n            \"start\" : \"050001\",\n            \"target\" : \"050004\",\n            \"through\" : \"050002;050003\"\n        },\n        \"auth\":{\n    \t    \"userKey\":\"benson\",\n    \t    \"timestamp\":1580800079489,\n    \t    \"verifyKey\":\"375256bdc3cb847a97c3a3690306fdb7\"\n        }\n    }"
+				},
+				"url": {
+					"raw": "localhost:8080/api/task/declare",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"task",
+						"declare"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "加入行程",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"query\":{\n            \"tid\" : \"1\",\n            \"partner_uuid\" : \"480fe025c6e24d29a652d99427f7eecd\",\n            \"message\" : \"欢乐蹦迪你我他\"\n        },\n        \"auth\":{\n    \t    \"userKey\":\"benson\",\n    \t    \"timestamp\":1580800079489,\n    \t    \"verifyKey\":\"375256bdc3cb847a97c3a3690306fdb7\"\n        }\n    }"
+				},
+				"url": {
+					"raw": "localhost:8080/api/task/join",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"task",
+						"join"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "查看同行小伙伴",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"query\":{\n            \"tid\" : \"1\"\n        },\n        \"auth\":{\n    \t    \"userKey\":\"benson\",\n    \t    \"timestamp\":1580800079489,\n    \t    \"verifyKey\":\"375256bdc3cb847a97c3a3690306fdb7\"\n        }\n    }"
+				},
+				"url": {
+					"raw": "localhost:8080/api/task/partners",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"task",
+						"partners"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
