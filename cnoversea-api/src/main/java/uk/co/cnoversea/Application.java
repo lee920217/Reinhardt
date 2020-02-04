@@ -69,7 +69,7 @@ public class Application implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AuthenticationInterceptor());
+        //registry.addInterceptor(new AuthenticationInterceptor());
     }
 
     @Bean
