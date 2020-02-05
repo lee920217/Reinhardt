@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="uk.co.cnoversea.api.dao.mapper.TaskMapper">
-  <resultMap id="BaseResultMap" type="uk.co.cnoversea.api.dao.model.Task">
-    <id column="tid" jdbcType="BIGINT" property="tid" />
+<mapper namespace="uk.co.cnoversea.api.dao.mapper.MessageMapper">
+  <resultMap id="BaseResultMap" type="uk.co.cnoversea.api.dao.model.Message">
+    <id column="mid" jdbcType="BIGINT" property="mid" />
+    <result column="tid" jdbcType="BIGINT" property="tid" />
     <result column="uuid" jdbcType="VARCHAR" property="uuid" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
-    <result column="start" jdbcType="VARCHAR" property="start" />
-    <result column="target" jdbcType="VARCHAR" property="target" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="uk.co.cnoversea.api.dao.model.TaskWithBLOBs">
-    <result column="description" jdbcType="LONGVARCHAR" property="description" />
-    <result column="through" jdbcType="LONGVARCHAR" property="through" />
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="uk.co.cnoversea.api.dao.model.Message">
+    <result column="message" jdbcType="LONGVARCHAR" property="message" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,12 +71,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    tid, uuid, title, start_time, start, target, status, create_time, modify_time
+    mid, tid, uuid, status, create_time, modify_time
   </sql>
   <sql id="Blob_Column_List">
-    description, through
+    message
   </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="uk.co.cnoversea.api.dao.model.TaskExample" resultMap="ResultMapWithBLOBs">
+  <select id="selectByExampleWithBLOBs" parameterType="uk.co.cnoversea.api.dao.model.MessageExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
       distinct
@@ -88,7 +84,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from cnos_task
+    from cnos_message
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -96,13 +92,13 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExample" parameterType="uk.co.cnoversea.api.dao.model.TaskExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="uk.co.cnoversea.api.dao.model.MessageExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cnos_task
+    from cnos_message
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -115,49 +111,38 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from cnos_task
-    where tid = #{tid,jdbcType=BIGINT}
+    from cnos_message
+    where mid = #{mid,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from cnos_task
-    where tid = #{tid,jdbcType=BIGINT}
+    delete from cnos_message
+    where mid = #{mid,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="uk.co.cnoversea.api.dao.model.TaskExample">
-    delete from cnos_task
+  <delete id="deleteByExample" parameterType="uk.co.cnoversea.api.dao.model.MessageExample">
+    delete from cnos_message
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="uk.co.cnoversea.api.dao.model.TaskWithBLOBs" useGeneratedKeys="true" keyProperty="tid">
-    insert into cnos_task (tid, uuid, title, 
-      start_time, start, target, 
+  <insert id="insert" parameterType="uk.co.cnoversea.api.dao.model.Message" useGeneratedKeys="true" keyProperty="mid">
+    insert into cnos_message (mid, tid, uuid, 
       status, create_time, modify_time, 
-      description, through)
-    values (#{tid,jdbcType=BIGINT}, #{uuid,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{start,jdbcType=VARCHAR}, #{target,jdbcType=VARCHAR}, 
+      message)
+    values (#{mid,jdbcType=BIGINT}, #{tid,jdbcType=BIGINT}, #{uuid,jdbcType=VARCHAR}, 
       #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, 
-      #{description,jdbcType=LONGVARCHAR}, #{through,jdbcType=LONGVARCHAR})
+      #{message,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="uk.co.cnoversea.api.dao.model.TaskWithBLOBs" useGeneratedKeys="true" keyProperty="tid">
-    insert into cnos_task
+  <insert id="insertSelective" parameterType="uk.co.cnoversea.api.dao.model.Message" useGeneratedKeys="true" keyProperty="mid">
+    insert into cnos_message
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="mid != null">
+        mid,
+      </if>
       <if test="tid != null">
         tid,
       </if>
       <if test="uuid != null">
         uuid,
-      </if>
-      <if test="title != null">
-        title,
-      </if>
-      <if test="startTime != null">
-        start_time,
-      </if>
-      <if test="start != null">
-        start,
-      </if>
-      <if test="target != null">
-        target,
       </if>
       <if test="status != null">
         status,
@@ -168,31 +153,19 @@
       <if test="modifyTime != null">
         modify_time,
       </if>
-      <if test="description != null">
-        description,
-      </if>
-      <if test="through != null">
-        through,
+      <if test="message != null">
+        message,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="mid != null">
+        #{mid,jdbcType=BIGINT},
+      </if>
       <if test="tid != null">
         #{tid,jdbcType=BIGINT},
       </if>
       <if test="uuid != null">
         #{uuid,jdbcType=VARCHAR},
-      </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="startTime != null">
-        #{startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="start != null">
-        #{start,jdbcType=VARCHAR},
-      </if>
-      <if test="target != null">
-        #{target,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -203,40 +176,28 @@
       <if test="modifyTime != null">
         #{modifyTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="description != null">
-        #{description,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="through != null">
-        #{through,jdbcType=LONGVARCHAR},
+      <if test="message != null">
+        #{message,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="uk.co.cnoversea.api.dao.model.TaskExample" resultType="java.lang.Long">
-    select count(*) from cnos_task
+  <select id="countByExample" parameterType="uk.co.cnoversea.api.dao.model.MessageExample" resultType="java.lang.Long">
+    select count(*) from cnos_message
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update cnos_task
+    update cnos_message
     <set>
+      <if test="record.mid != null">
+        mid = #{record.mid,jdbcType=BIGINT},
+      </if>
       <if test="record.tid != null">
         tid = #{record.tid,jdbcType=BIGINT},
       </if>
       <if test="record.uuid != null">
         uuid = #{record.uuid,jdbcType=VARCHAR},
-      </if>
-      <if test="record.title != null">
-        title = #{record.title,jdbcType=VARCHAR},
-      </if>
-      <if test="record.startTime != null">
-        start_time = #{record.startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.start != null">
-        start = #{record.start,jdbcType=VARCHAR},
-      </if>
-      <if test="record.target != null">
-        target = #{record.target,jdbcType=VARCHAR},
       </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
@@ -247,11 +208,8 @@
       <if test="record.modifyTime != null">
         modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.description != null">
-        description = #{record.description,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="record.through != null">
-        through = #{record.through,jdbcType=LONGVARCHAR},
+      <if test="record.message != null">
+        message = #{record.message,jdbcType=LONGVARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -259,30 +217,23 @@
     </if>
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
-    update cnos_task
-    set tid = #{record.tid,jdbcType=BIGINT},
+    update cnos_message
+    set mid = #{record.mid,jdbcType=BIGINT},
+      tid = #{record.tid,jdbcType=BIGINT},
       uuid = #{record.uuid,jdbcType=VARCHAR},
-      title = #{record.title,jdbcType=VARCHAR},
-      start_time = #{record.startTime,jdbcType=TIMESTAMP},
-      start = #{record.start,jdbcType=VARCHAR},
-      target = #{record.target,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
-      description = #{record.description,jdbcType=LONGVARCHAR},
-      through = #{record.through,jdbcType=LONGVARCHAR}
+      message = #{record.message,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update cnos_task
-    set tid = #{record.tid,jdbcType=BIGINT},
+    update cnos_message
+    set mid = #{record.mid,jdbcType=BIGINT},
+      tid = #{record.tid,jdbcType=BIGINT},
       uuid = #{record.uuid,jdbcType=VARCHAR},
-      title = #{record.title,jdbcType=VARCHAR},
-      start_time = #{record.startTime,jdbcType=TIMESTAMP},
-      start = #{record.start,jdbcType=VARCHAR},
-      target = #{record.target,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       modify_time = #{record.modifyTime,jdbcType=TIMESTAMP}
@@ -290,23 +241,14 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="uk.co.cnoversea.api.dao.model.TaskWithBLOBs">
-    update cnos_task
+  <update id="updateByPrimaryKeySelective" parameterType="uk.co.cnoversea.api.dao.model.Message">
+    update cnos_message
     <set>
+      <if test="tid != null">
+        tid = #{tid,jdbcType=BIGINT},
+      </if>
       <if test="uuid != null">
         uuid = #{uuid,jdbcType=VARCHAR},
-      </if>
-      <if test="title != null">
-        title = #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="startTime != null">
-        start_time = #{startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="start != null">
-        start = #{start,jdbcType=VARCHAR},
-      </if>
-      <if test="target != null">
-        target = #{target,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
@@ -317,39 +259,44 @@
       <if test="modifyTime != null">
         modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="description != null">
-        description = #{description,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="through != null">
-        through = #{through,jdbcType=LONGVARCHAR},
+      <if test="message != null">
+        message = #{message,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where tid = #{tid,jdbcType=BIGINT}
+    where mid = #{mid,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="uk.co.cnoversea.api.dao.model.TaskWithBLOBs">
-    update cnos_task
-    set uuid = #{uuid,jdbcType=VARCHAR},
-      title = #{title,jdbcType=VARCHAR},
-      start_time = #{startTime,jdbcType=TIMESTAMP},
-      start = #{start,jdbcType=VARCHAR},
-      target = #{target,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="uk.co.cnoversea.api.dao.model.Message">
+    update cnos_message
+    set tid = #{tid,jdbcType=BIGINT},
+      uuid = #{uuid,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      description = #{description,jdbcType=LONGVARCHAR},
-      through = #{through,jdbcType=LONGVARCHAR}
-    where tid = #{tid,jdbcType=BIGINT}
+      message = #{message,jdbcType=LONGVARCHAR}
+    where mid = #{mid,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="uk.co.cnoversea.api.dao.model.Task">
-    update cnos_task
-    set uuid = #{uuid,jdbcType=VARCHAR},
-      title = #{title,jdbcType=VARCHAR},
-      start_time = #{startTime,jdbcType=TIMESTAMP},
-      start = #{start,jdbcType=VARCHAR},
-      target = #{target,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="uk.co.cnoversea.api.dao.model.Message">
+    update cnos_message
+    set tid = #{tid,jdbcType=BIGINT},
+      uuid = #{uuid,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP}
-    where tid = #{tid,jdbcType=BIGINT}
+    where mid = #{mid,jdbcType=BIGINT}
   </update>
+
+  <select id="selectByFetchParam" parameterType="uk.co.cnoversea.api.vo.MessageFetchParam" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cnos_message
+    where tid = #{tid,jdbcType=BIGINT}
+    <if test="mid != null">
+      and mid > #{mid,jdbcType=BIGINT}
+    </if>
+    order by #{order_,jdbcType=VARCHAR} #{sort_,jdbcType=VARCHAR}
+    limit #{pageSize_,jdbcType=BIGINT}
+  </select>
+
 </mapper>

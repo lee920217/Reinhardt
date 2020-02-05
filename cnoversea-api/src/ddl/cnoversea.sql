@@ -4,22 +4,6 @@ CREATE DATABASE `cnoversea_api`;
 
 USE `cnoversea_api`;
 
-DROP TABLE IF EXISTS `rule`;
-CREATE TABLE `rule` (
-  `id`           bigint(20)  NOT NULL AUTO_INCREMENT                                        COMMENT '规则编号',
-  `group_id`     varchar(32) NOT NULL                                                       COMMENT '组ID',
-  `conditions`   mediumtext  NOT NULL                                                       COMMENT '条件',
-  `expretion`    mediumtext                                                                 COMMENT '翻译好的表达式',
-  `return_info`  mediumtext                                                                 COMMENT '返回信息',
-  `description`  mediumtext                                                                 COMMENT '描述',
-  `apply`        tinyint(4)  NOT NULL DEFAULT '1'                                           COMMENT '是否生效 1:生效 0:无效',
-  `create_time`  datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP                             COMMENT '创建时间',
-  `modify_time`  timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='规则表';
-
----------------------------------------
-
 DROP TABLE IF EXISTS `cnos_user`;
 CREATE TABLE `cnos_user` (
   `uuid`         varchar(32) NOT NULL                                                       COMMENT '用户UUID',
@@ -74,3 +58,18 @@ CREATE TABLE `cnos_partner` (
   INDEX (`uuid`),
   INDEX (`partner_uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='同行人表';
+
+DROP TABLE IF EXISTS `cnos_message`;
+CREATE TABLE `cnos_message` (
+  `mid`          bigint(20)  NOT NULL AUTO_INCREMENT                                        COMMENT '消息ID',
+  `tid`          bigint(20)  NOT NULL                                                       COMMENT '任务ID',
+  `uuid`         varchar(32) NOT NULL                                                       COMMENT '发消息用户UUID',
+
+  `message`      mediumtext  NOT NULL                                                       COMMENT '消息',
+
+  `status`       tinyint(4)  NOT NULL DEFAULT '1'                                           COMMENT '是否生效 1:生效 0:无效',
+  `create_time`  datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP                             COMMENT '创建时间',
+  `modify_time`  timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`mid`),
+  KEY (`tid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='消息表';

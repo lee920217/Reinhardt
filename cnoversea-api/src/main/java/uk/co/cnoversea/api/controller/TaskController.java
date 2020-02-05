@@ -38,6 +38,7 @@ public class TaskController extends AbstractController {
             taskRet = taskService.declareTask(task);
             return genResponse(taskRet);
         } catch (Exception e) {
+            logger.error("declare task fail", e);
             return genResponse(ResponseVO.CODE_ERR, "declare task fail, " + e.getMessage() , task);
         }
     }
@@ -52,6 +53,7 @@ public class TaskController extends AbstractController {
             userRet = taskService.joinTask(user);
             return genResponse(userRet);
         } catch (Exception e) {
+            logger.error("join task fail", e);
             if (e instanceof DuplicateKeyException) {
                 return genResponse(ResponseVO.CODE_ERR, "repeat join, taskId : " + user.getTid(), user);
             } else {
@@ -70,6 +72,7 @@ public class TaskController extends AbstractController {
             taskRet = taskService.queryPartner(task);
             return genResponse(taskRet);
         } catch (Exception e) {
+            logger.error("query partners fail", e);
             return genResponse(ResponseVO.CODE_ERR, "query partner fail, " + e.getMessage() , taskRet);
         }
     }

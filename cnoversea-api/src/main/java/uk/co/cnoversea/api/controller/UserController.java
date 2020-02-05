@@ -32,6 +32,7 @@ public class UserController extends AbstractController {
             userRet = userService.regist(user);
             return genResponse(userRet);
         } catch (Exception e) {
+            logger.error("regist user fail", e);
             if (e instanceof DuplicateKeyException) {
                 return genResponse(ResponseVO.CODE_ERR, "repeat uid : " + user.getUid(), userRet);
             } else {

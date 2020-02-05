@@ -4,12 +4,12 @@ import uk.co.cnoversea.web.vo.WebVO;
 
 import java.util.Date;
 
-public class Partner extends WebVO {
+public class Message extends WebVO {
+    private Long mid;
+
     private Long tid;
 
     private String uuid;
-
-    private String partnerUuid;
 
     private Byte status;
 
@@ -18,6 +18,14 @@ public class Partner extends WebVO {
     private Date modifyTime;
 
     private String message;
+
+    public Long getMid() {
+        return mid;
+    }
+
+    public void setMid(Long mid) {
+        this.mid = mid;
+    }
 
     public Long getTid() {
         return tid;
@@ -33,14 +41,6 @@ public class Partner extends WebVO {
 
     public void setUuid(String uuid) {
         this.uuid = uuid == null ? null : uuid.trim();
-    }
-
-    public String getPartnerUuid() {
-        return partnerUuid;
-    }
-
-    public void setPartnerUuid(String partnerUuid) {
-        this.partnerUuid = partnerUuid == null ? null : partnerUuid.trim();
     }
 
     public Byte getStatus() {
