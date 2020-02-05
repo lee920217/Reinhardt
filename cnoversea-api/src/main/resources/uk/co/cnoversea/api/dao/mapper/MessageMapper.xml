@@ -295,7 +295,7 @@
     <if test="mid != null">
       and mid > #{mid,jdbcType=BIGINT}
     </if>
-    order by #{order_,jdbcType=VARCHAR} #{sort_,jdbcType=VARCHAR}
+    order by ${order_} ${sort_}
     limit #{pageSize_,jdbcType=BIGINT}
   </select>
 

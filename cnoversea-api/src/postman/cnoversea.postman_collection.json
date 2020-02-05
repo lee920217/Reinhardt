@@ -205,7 +205,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "    {\n        \"query\":{\n            \"tid\" : \"1\",\n            \"mid\" : \"0\",\n            \"order_\" : \"create_time\",\n            \"sort_\" : \"desc\",\n            \"pageSize_\" : \"10\"\n        },\n        \"auth\":{\n    \t    \"userKey\":\"benson\",\n    \t    \"timestamp\":1580800079489,\n    \t    \"verifyKey\":\"375256bdc3cb847a97c3a3690306fdb7\"\n        }\n    }"
+					"raw": "    {\n        \"query\":{\n            \"tid\" : \"1\",\n            \"mid\" : \"0\",\n            \"order_\" : \"create_time\",\n            \"sort_\" : \"asc\",\n            \"pageSize_\" : \"10\"\n        },\n        \"auth\":{\n    \t    \"userKey\":\"benson\",\n    \t    \"timestamp\":1580800079489,\n    \t    \"verifyKey\":\"375256bdc3cb847a97c3a3690306fdb7\"\n        }\n    }"
 				},
 				"url": {
 					"raw": "localhost:8080/api/message/fetch",
