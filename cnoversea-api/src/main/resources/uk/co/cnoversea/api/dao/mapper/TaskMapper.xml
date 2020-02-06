@@ -4,10 +4,13 @@
   <resultMap id="BaseResultMap" type="uk.co.cnoversea.api.dao.model.Task">
     <id column="tid" jdbcType="BIGINT" property="tid" />
     <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="start" jdbcType="VARCHAR" property="start" />
+    <result column="start_code" jdbcType="VARCHAR" property="startCode" />
     <result column="target" jdbcType="VARCHAR" property="target" />
+    <result column="target_code" jdbcType="VARCHAR" property="targetCode" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
@@ -15,6 +18,7 @@
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="uk.co.cnoversea.api.dao.model.TaskWithBLOBs">
     <result column="description" jdbcType="LONGVARCHAR" property="description" />
     <result column="through" jdbcType="LONGVARCHAR" property="through" />
+    <result column="through_code" jdbcType="LONGVARCHAR" property="throughCode" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,10 +79,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    tid, uuid, title, start_time, start, target, status, create_time, modify_time
+    tid, uuid, type, title, start_time, start, start_code, target, target_code, status, 
+    create_time, modify_time
   </sql>
   <sql id="Blob_Column_List">
-    description, through
+    description, through, through_code
   </sql>
   <select id="selectByExampleWithBLOBs" parameterType="uk.co.cnoversea.api.dao.model.TaskExample" resultMap="ResultMapWithBLOBs">
     select
@@ -129,14 +134,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="uk.co.cnoversea.api.dao.model.TaskWithBLOBs" useGeneratedKeys="true" keyProperty="tid">
-    insert into cnos_task (tid, uuid, title, 
-      start_time, start, target, 
+    insert into cnos_task (tid, uuid, type, 
+      title, start_time, start, 
+      start_code, target, target_code, 
       status, create_time, modify_time, 
-      description, through)
-    values (#{tid,jdbcType=BIGINT}, #{uuid,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{start,jdbcType=VARCHAR}, #{target,jdbcType=VARCHAR}, 
+      description, through, through_code
+      )
+    values (#{tid,jdbcType=BIGINT}, #{uuid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{start,jdbcType=VARCHAR}, 
+      #{startCode,jdbcType=VARCHAR}, #{target,jdbcType=VARCHAR}, #{targetCode,jdbcType=VARCHAR}, 
       #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, 
-      #{description,jdbcType=LONGVARCHAR}, #{through,jdbcType=LONGVARCHAR})
+      #{description,jdbcType=LONGVARCHAR}, #{through,jdbcType=LONGVARCHAR}, #{throughCode,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="uk.co.cnoversea.api.dao.model.TaskWithBLOBs" useGeneratedKeys="true" keyProperty="tid">
     insert into cnos_task
@@ -147,6 +156,9 @@
       <if test="uuid != null">
         uuid,
       </if>
+      <if test="type != null">
+        type,
+      </if>
       <if test="title != null">
         title,
       </if>
@@ -156,8 +168,14 @@
       <if test="start != null">
         start,
       </if>
+      <if test="startCode != null">
+        start_code,
+      </if>
       <if test="target != null">
         target,
+      </if>
+      <if test="targetCode != null">
+        target_code,
       </if>
       <if test="status != null">
         status,
@@ -174,6 +192,9 @@
       <if test="through != null">
         through,
       </if>
+      <if test="throughCode != null">
+        through_code,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="tid != null">
@@ -181,6 +202,9 @@
       </if>
       <if test="uuid != null">
         #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
@@ -191,8 +215,14 @@
       <if test="start != null">
         #{start,jdbcType=VARCHAR},
       </if>
+      <if test="startCode != null">
+        #{startCode,jdbcType=VARCHAR},
+      </if>
       <if test="target != null">
         #{target,jdbcType=VARCHAR},
+      </if>
+      <if test="targetCode != null">
+        #{targetCode,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -208,6 +238,9 @@
       </if>
       <if test="through != null">
         #{through,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="throughCode != null">
+        #{throughCode,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -226,6 +259,9 @@
       <if test="record.uuid != null">
         uuid = #{record.uuid,jdbcType=VARCHAR},
       </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
       </if>
@@ -235,8 +271,14 @@
       <if test="record.start != null">
         start = #{record.start,jdbcType=VARCHAR},
       </if>
+      <if test="record.startCode != null">
+        start_code = #{record.startCode,jdbcType=VARCHAR},
+      </if>
       <if test="record.target != null">
         target = #{record.target,jdbcType=VARCHAR},
+      </if>
+      <if test="record.targetCode != null">
+        target_code = #{record.targetCode,jdbcType=VARCHAR},
       </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
@@ -253,6 +295,9 @@
       <if test="record.through != null">
         through = #{record.through,jdbcType=LONGVARCHAR},
       </if>
+      <if test="record.throughCode != null">
+        through_code = #{record.throughCode,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -262,15 +307,19 @@
     update cnos_task
     set tid = #{record.tid,jdbcType=BIGINT},
       uuid = #{record.uuid,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       start = #{record.start,jdbcType=VARCHAR},
+      start_code = #{record.startCode,jdbcType=VARCHAR},
       target = #{record.target,jdbcType=VARCHAR},
+      target_code = #{record.targetCode,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
       description = #{record.description,jdbcType=LONGVARCHAR},
-      through = #{record.through,jdbcType=LONGVARCHAR}
+      through = #{record.through,jdbcType=LONGVARCHAR},
+      through_code = #{record.throughCode,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -279,10 +328,13 @@
     update cnos_task
     set tid = #{record.tid,jdbcType=BIGINT},
       uuid = #{record.uuid,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       start = #{record.start,jdbcType=VARCHAR},
+      start_code = #{record.startCode,jdbcType=VARCHAR},
       target = #{record.target,jdbcType=VARCHAR},
+      target_code = #{record.targetCode,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       modify_time = #{record.modifyTime,jdbcType=TIMESTAMP}
@@ -296,6 +348,9 @@
       <if test="uuid != null">
         uuid = #{uuid,jdbcType=VARCHAR},
       </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
@@ -305,8 +360,14 @@
       <if test="start != null">
         start = #{start,jdbcType=VARCHAR},
       </if>
+      <if test="startCode != null">
+        start_code = #{startCode,jdbcType=VARCHAR},
+      </if>
       <if test="target != null">
         target = #{target,jdbcType=VARCHAR},
+      </if>
+      <if test="targetCode != null">
+        target_code = #{targetCode,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
@@ -323,30 +384,40 @@
       <if test="through != null">
         through = #{through,jdbcType=LONGVARCHAR},
       </if>
+      <if test="throughCode != null">
+        through_code = #{throughCode,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     where tid = #{tid,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="uk.co.cnoversea.api.dao.model.TaskWithBLOBs">
     update cnos_task
     set uuid = #{uuid,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       start = #{start,jdbcType=VARCHAR},
+      start_code = #{startCode,jdbcType=VARCHAR},
       target = #{target,jdbcType=VARCHAR},
+      target_code = #{targetCode,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       description = #{description,jdbcType=LONGVARCHAR},
-      through = #{through,jdbcType=LONGVARCHAR}
+      through = #{through,jdbcType=LONGVARCHAR},
+      through_code = #{throughCode,jdbcType=LONGVARCHAR}
     where tid = #{tid,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="uk.co.cnoversea.api.dao.model.Task">
     update cnos_task
     set uuid = #{uuid,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       start = #{start,jdbcType=VARCHAR},
+      start_code = #{startCode,jdbcType=VARCHAR},
       target = #{target,jdbcType=VARCHAR},
+      target_code = #{targetCode,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP}

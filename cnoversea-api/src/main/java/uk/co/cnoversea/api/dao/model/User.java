@@ -13,6 +13,8 @@ public class User extends WebVO {
 
     private String email;
 
+    private Byte gender;
+
     private String mobile;
 
     private String pass;
@@ -53,6 +55,14 @@ public class User extends WebVO {
 
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim();
+    }
+
+    public Byte getGender() {
+        return gender;
+    }
+
+    public void setGender(Byte gender) {
+        this.gender = gender;
     }
 
     public String getMobile() {

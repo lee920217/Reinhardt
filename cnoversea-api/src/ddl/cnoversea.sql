@@ -10,6 +10,7 @@ CREATE TABLE `cnos_user` (
   `uid`          varchar(32) NOT NULL                                                       COMMENT '用户登录ID',
   `uname`        varchar(32) NOT NULL                                                       COMMENT '用户名',
   `email`        varchar(64)                                                                COMMENT '用户邮箱',
+  `gender`       tinyint(4)                                                                 COMMENT '用户性别 1:male, 0:female',
   `mobile`       varchar(32)                                                                COMMENT '用户手机号',
   `pass`         varchar(32) NOT NULL                                                       COMMENT '用户密码',
   `status`       tinyint(4)  NOT NULL DEFAULT '1'                                           COMMENT '是否生效 1:生效 0:无效',
@@ -24,13 +25,17 @@ CREATE TABLE `cnos_task` (
   `tid`          bigint(20)   NOT NULL AUTO_INCREMENT                                        COMMENT '任务ID',
   `uuid`         varchar(32)  NOT NULL                                                       COMMENT '用户UUID',
 
+  `type`         varchar(32)  NOT NULL                                                       COMMENT '行程类型 自己定',
   `title`        varchar(128) NOT NULL                                                       COMMENT '行程标题',
   `start_time`   datetime     NOT NULL                                                       COMMENT '出发时间',
   `description`  mediumtext                                                                  COMMENT '行程描述',
 
   `start`        varchar(32)  NOT NULL                                                       COMMENT '出发地',
+  `start_code`   varchar(32)  NOT NULL                                                       COMMENT '出发地邮编',
   `target`       varchar(32)  NOT NULL                                                       COMMENT '目的地',
+  `target_code`  varchar(32)  NOT NULL                                                       COMMENT '目的地邮编',
   `through`      mediumtext                                                                  COMMENT '途经,多个之间可以用分号分割',
+  `through_code` mediumtext                                                                  COMMENT '途经邮编,多个之间可以用分号分割',
 
   `status`       tinyint(4)   NOT NULL DEFAULT '1'                                           COMMENT '是否生效 1:生效 0:无效',
   `create_time`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP                             COMMENT '创建时间',

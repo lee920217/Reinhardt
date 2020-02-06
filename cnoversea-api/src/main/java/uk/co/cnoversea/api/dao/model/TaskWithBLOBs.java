@@ -5,6 +5,8 @@ public class TaskWithBLOBs extends Task {
 
     private String through;
 
+    private String throughCode;
+
     public String getDescription() {
         return description;
     }
@@ -19,5 +21,13 @@ public class TaskWithBLOBs extends Task {
 
     public void setThrough(String through) {
         this.through = through == null ? null : through.trim();
+    }
+
+    public String getThroughCode() {
+        return throughCode;
+    }
+
+    public void setThroughCode(String throughCode) {
+        this.throughCode = throughCode == null ? null : throughCode.trim();
     }
 }

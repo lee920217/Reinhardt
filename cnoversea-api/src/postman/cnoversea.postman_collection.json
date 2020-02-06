@@ -19,7 +19,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "    {\n        \"query\":{\n            \"uid\" : \"benson1\",\n            \"uname\" : \"benson1\",\n            \"email\" : \"benson1@163.com\",\n            \"mobile\" : \"15912345678\",\n            \"pass\" : \"benson\"\n        }\n    }"
+					"raw": "    {\n        \"query\":{\n            \"uid\" : \"benson1\",\n            \"uname\" : \"benson1\",\n            \"email\" : \"benson1@163.com\",\n            \"gender\" : \"1\",\n            \"mobile\" : \"15912345678\",\n            \"pass\" : \"benson\"\n        }\n    }"
 				},
 				"url": {
 					"raw": "localhost:8080/api/user/regist",
@@ -81,7 +81,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "    {\n        \"query\":{\n            \"uuid\" : \"480fe025c6e24d29a652d99427f7eecd\",\n            \"title\" : \"去李嘉琦家蹦迪\",\n            \"start_time\" : \"2020-02-04 18:30:00\",\n            \"description\" : \"欢乐蹦迪你我他\",\n            \"start\" : \"050001\",\n            \"target\" : \"050004\",\n            \"through\" : \"050002;050003\"\n        },\n        \"auth\":{\n    \t    \"userKey\":\"benson\",\n    \t    \"timestamp\":1580800079489,\n    \t    \"verifyKey\":\"375256bdc3cb847a97c3a3690306fdb7\"\n        }\n    }"
+					"raw": "    {\n        \"query\":{\n            \"uuid\" : \"6f39a99aab514cbdab8fad3298482853\",\n            \"type\" : \"1\",\n            \"title\" : \"去李嘉琦家蹦迪\",\n            \"startTime\" : \"2020-02-04 18:30:00\",\n            \"description\" : \"欢乐蹦迪你我他\",\n            \"start\" : \"Liverpool\",\n            \"startCode\" : \"050001\",\n            \"target\" : \"Portsmouth\",\n            \"targetCode\" : \"050004\",\n            \"through\" : \"Exeter;Birmingham\",\n            \"throughCode\" : \"050002;050003\"\n        },\n        \"auth\":{\n    \t    \"userKey\":\"benson\",\n    \t    \"timestamp\":1580800079489,\n    \t    \"verifyKey\":\"375256bdc3cb847a97c3a3690306fdb7\"\n        }\n    }"
 				},
 				"url": {
 					"raw": "localhost:8080/api/task/declare",
@@ -112,7 +112,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "    {\n        \"query\":{\n            \"tid\" : \"1\",\n            \"partner_uuid\" : \"480fe025c6e24d29a652d99427f7eecd\",\n            \"message\" : \"欢乐蹦迪你我他\"\n        },\n        \"auth\":{\n    \t    \"userKey\":\"benson\",\n    \t    \"timestamp\":1580800079489,\n    \t    \"verifyKey\":\"375256bdc3cb847a97c3a3690306fdb7\"\n        }\n    }"
+					"raw": "    {\n        \"query\":{\n            \"tid\" : \"1\",\n            \"partnerUuid\" : \"6f39a99aab514cbdab8fad3298482853\",\n            \"message\" : \"欢乐蹦迪你我他\"\n        },\n        \"auth\":{\n    \t    \"userKey\":\"benson\",\n    \t    \"timestamp\":1580800079489,\n    \t    \"verifyKey\":\"375256bdc3cb847a97c3a3690306fdb7\"\n        }\n    }"
 				},
 				"url": {
 					"raw": "localhost:8080/api/task/join",

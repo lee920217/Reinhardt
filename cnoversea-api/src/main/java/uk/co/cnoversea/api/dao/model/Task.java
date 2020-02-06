@@ -9,13 +9,19 @@ public class Task  extends WebVO {
 
     private String uuid;
 
+    private String type;
+
     private String title;
 
     private Date startTime;
 
     private String start;
 
+    private String startCode;
+
     private String target;
+
+    private String targetCode;
 
     private Byte status;
 
@@ -37,6 +43,14 @@ public class Task  extends WebVO {
 
     public void setUuid(String uuid) {
         this.uuid = uuid == null ? null : uuid.trim();
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type == null ? null : type.trim();
     }
 
     public String getTitle() {
@@ -63,12 +77,28 @@ public class Task  extends WebVO {
         this.start = start == null ? null : start.trim();
     }
 
+    public String getStartCode() {
+        return startCode;
+    }
+
+    public void setStartCode(String startCode) {
+        this.startCode = startCode == null ? null : startCode.trim();
+    }
+
     public String getTarget() {
         return target;
     }
 
     public void setTarget(String target) {
         this.target = target == null ? null : target.trim();
+    }
+
+    public String getTargetCode() {
+        return targetCode;
+    }
+
+    public void setTargetCode(String targetCode) {
+        this.targetCode = targetCode == null ? null : targetCode.trim();
     }
 
     public Byte getStatus() {

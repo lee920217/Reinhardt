@@ -6,6 +6,7 @@
     <result column="uid" jdbcType="VARCHAR" property="uid" />
     <result column="uname" jdbcType="VARCHAR" property="uname" />
     <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="gender" jdbcType="TINYINT" property="gender" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="pass" jdbcType="VARCHAR" property="pass" />
     <result column="status" jdbcType="TINYINT" property="status" />
@@ -71,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    uuid, uid, uname, email, mobile, pass, status, create_time, modify_time
+    uuid, uid, uname, email, gender, mobile, pass, status, create_time, modify_time
   </sql>
   <select id="selectByExample" parameterType="uk.co.cnoversea.api.dao.model.UserExample" resultMap="BaseResultMap">
     select
@@ -105,13 +106,13 @@
   </delete>
   <insert id="insert" parameterType="uk.co.cnoversea.api.dao.model.User">
     insert into cnos_user (uuid, uid, uname, 
-      email, mobile, pass, 
-      status, create_time, modify_time
-      )
+      email, gender, mobile, 
+      pass, status, create_time, 
+      modify_time)
     values (#{uuid,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{uname,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{pass,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}
-      )
+      #{email,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, #{mobile,jdbcType=VARCHAR}, 
+      #{pass,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="uk.co.cnoversea.api.dao.model.User">
     insert into cnos_user
@@ -127,6 +128,9 @@
       </if>
       <if test="email != null">
         email,
+      </if>
+      <if test="gender != null">
+        gender,
       </if>
       <if test="mobile != null">
         mobile,
@@ -156,6 +160,9 @@
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=TINYINT},
       </if>
       <if test="mobile != null">
         #{mobile,jdbcType=VARCHAR},
@@ -195,6 +202,9 @@
       <if test="record.email != null">
         email = #{record.email,jdbcType=VARCHAR},
       </if>
+      <if test="record.gender != null">
+        gender = #{record.gender,jdbcType=TINYINT},
+      </if>
       <if test="record.mobile != null">
         mobile = #{record.mobile,jdbcType=VARCHAR},
       </if>
@@ -221,6 +231,7 @@
       uid = #{record.uid,jdbcType=VARCHAR},
       uname = #{record.uname,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=TINYINT},
       mobile = #{record.mobile,jdbcType=VARCHAR},
       pass = #{record.pass,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
@@ -241,6 +252,9 @@
       </if>
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=TINYINT},
       </if>
       <if test="mobile != null">
         mobile = #{mobile,jdbcType=VARCHAR},
@@ -265,6 +279,7 @@
     set uid = #{uid,jdbcType=VARCHAR},
       uname = #{uname,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=TINYINT},
       mobile = #{mobile,jdbcType=VARCHAR},
       pass = #{pass,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
