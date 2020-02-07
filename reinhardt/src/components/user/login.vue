@@ -1,0 +1,109 @@
+<template>
+  <div class="ov-login-container">
+    <div class="logo">Oversea</div>
+    <div>
+      <input
+        class="login-input login-username"
+        type="text"
+        placeholder="输入用户名密码"
+        v-model="loginParams.uname"
+      />
+    </div>
+    <div>
+      <input
+        class="login-input login-password"
+        type="password"
+        placeholder="输入用户名密码"
+        v-model="loginParams.pass"
+      />
+    </div>
+    <div>
+      <div class="login-button" v-on:touchstart="confirmLogin">登录</div>
+    </div>
+    <div>
+      <div class="transfer" v-on:touchstart="transfer('register')">还没有账号？点击注册</div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "login",
+  props: {
+    userKey: {
+      type: String,
+      default: "login"
+    }
+  },
+  data() {
+    return {
+      loginParams: {
+        uname: "",
+        pass: ""
+      }
+    };
+  },
+  methods: {
+    transfer(target) {
+      const self = this;
+      self.$emit("transfer", target);
+    },
+    confirmLogin() {
+      const self = this;
+      if (!self.emailCheck(self.loginParams.uname)) {
+        self.$emit("handleError", {
+          errno: 1,
+          errmsg: "邮箱地址非法",
+          redirect: 0,
+          path: "/"
+        });
+      }
+      console.log(self.loginParams);
+    },
+    emailCheck(email) {
+      const regExp = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+      if (!regExp.test(email)) {
+        return false;
+      }
+      return true;
+    }
+  }
+};
+</script>
+
+<style lang="scss" scope>
+$designWidth: 750;
+@import "@/assets/library/px2rem.scss";
+.ov-login-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .login-input {
+    width: px2rem(280);
+    height: px2rem(60);
+    padding: 0 px2rem(10);
+    font-size: px2rem(20);
+    border: px2rem(2) solid #000;
+    border-radius: px2rem(10);
+    margin: px2rem(20) 0;
+  }
+  .login-button {
+    width: px2rem(300);
+    height: px2rem(60);
+    margin: px2rem(20) 0;
+    background-color: #000;
+    border-radius: px2rem(10);
+    box-sizing: border-box;
+    color: #f2f2f2;
+    font-size: px2rem(20);
+    line-height: px2rem(60);
+    font-weight: 600;
+  }
+  .transfer {
+    font-size: px2rem(26);
+  }
+}
+</style>
