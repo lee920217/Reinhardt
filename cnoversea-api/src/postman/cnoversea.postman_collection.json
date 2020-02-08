@@ -223,7 +223,7 @@
 			"response": []
 		},
 		{
-			"name": "分页查任务",
+			"name": "分页条件查询行程",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -254,15 +254,15 @@
 			"response": []
 		},
 		{
-			"name": "查我参与过的任务",
+			"name": "查我参与过的行程",
 			"request": {
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
 						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
+						"type": "text",
+						"value": "application/json"
 					}
 				],
 				"body": {
