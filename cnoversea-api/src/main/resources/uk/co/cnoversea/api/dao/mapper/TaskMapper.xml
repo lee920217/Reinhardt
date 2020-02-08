@@ -423,4 +423,45 @@
       modify_time = #{modifyTime,jdbcType=TIMESTAMP}
     where tid = #{tid,jdbcType=BIGINT}
   </update>
+
+  <sql id="SelectiveAndPreEqListWithoutId">
+    <if test="tid != null">and tid = #{tid,jdbcType=BIGINT}</if>
+    <if test="uuid != null">and uuid = #{uuid,jdbcType=VARCHAR}</if>
+    <if test="startTime != null">and start_time = #{startTime,jdbcType=TIMESTAMP}</if>
+    <if test="start != null">
+      and (
+        start = #{start,jdbcType=VARCHAR}
+        or target = #{start,jdbcType=VARCHAR}
+        or locate( #{start,jdbcType=VARCHAR}, target) &gt; 0
+      )
+    </if>
+  </sql>
+  <select id="selectPage" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cnos_task
+    where 1 = 1
+    <include refid="SelectiveAndPreEqListWithoutId" />
+    order by ${order_} ${sort_}
+    limit ${limitStart_}, ${limitSize_}
+  </select>
+  <select id="pageCount" resultType="int">
+    select count(1)
+    from cnos_task
+    where 1 = 1
+    <include refid="SelectiveAndPreEqListWithoutId" />
+  </select>
+
+  <select id="selectByPartnerUUID" parameterType="uk.co.cnoversea.api.dao.model.Partner" resultMap="ResultMapWithBLOBs">
+    select
+    distinct
+    task.*
+    from cnos_task task left join cnos_partner partner
+    on task.tid = partner.tid
+    where partner.uuid = #{uuid,jdbcType=VARCHAR}
+    order by task.create_time desc
+  </select>
+
 </mapper>

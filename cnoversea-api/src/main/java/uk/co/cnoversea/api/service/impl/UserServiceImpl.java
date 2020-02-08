@@ -50,6 +50,16 @@ public class UserServiceImpl implements IUserService {
             User dbUser = list.get(0);
             String securityPass = MD5Util.queryMD5(user.getPass());
             if (securityPass.equals(dbUser.getPass())) {
+                user.setPass(null);
+                user.setUuid(dbUser.getUuid());
+                user.setUid(dbUser.getUid());
+                user.setUname(dbUser.getUname());
+                user.setEmail(dbUser.getEmail());
+                user.setGender(dbUser.getGender());
+                user.setMobile(dbUser.getMobile());
+                user.setStatus(dbUser.getStatus());
+                user.setCreateTime(dbUser.getCreateTime());
+                user.setModifyTime(dbUser.getModifyTime());
                 return true;
             } else {
                 throw new Exception("incorrect pass");

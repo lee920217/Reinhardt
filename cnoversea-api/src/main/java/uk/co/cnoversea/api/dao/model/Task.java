@@ -1,10 +1,10 @@
 package uk.co.cnoversea.api.dao.model;
 
-import uk.co.cnoversea.web.vo.WebVO;
+import uk.co.cnoversea.web.vo.PageAble;
 
 import java.util.Date;
 
-public class Task  extends WebVO {
+public class Task  extends PageAble {
     private Long tid;
 
     private String uuid;

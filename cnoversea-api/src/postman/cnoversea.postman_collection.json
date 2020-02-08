@@ -19,7 +19,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "    {\n        \"query\":{\n            \"uid\" : \"benson1\",\n            \"uname\" : \"benson1\",\n            \"email\" : \"benson1@163.com\",\n            \"gender\" : \"1\",\n            \"mobile\" : \"15912345678\",\n            \"pass\" : \"benson\"\n        }\n    }"
+					"raw": "    {\n        \"query\":{\n            \"uid\" : \"benson\",\n            \"uname\" : \"benson\",\n            \"email\" : \"benson1@163.com\",\n            \"gender\" : \"1\",\n            \"mobile\" : \"15912345678\",\n            \"pass\" : \"benson\"\n        }\n    }"
 				},
 				"url": {
 					"raw": "localhost:8080/api/user/regist",
@@ -217,6 +217,68 @@
 						"api",
 						"message",
 						"fetch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "分页查任务",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"query\":{\n            \"uuid\" : \"6f39a99aab514cbdab8fad3298482853\",\n            \"tid\" : \"1\",\n            \"startTime\" : 1580812200000,\n            \"start\" : \"Liverpool\",\n            \n            \"order_\" : \"create_time\",\n            \"sort_\" : \"desc\",\n            \"pageNum_\" : \"1\",\n            \"pageSize_\" : \"10\"\n        },\n        \"auth\":{\n    \t    \"userKey\":\"benson\",\n    \t    \"timestamp\":1580800079489,\n    \t    \"verifyKey\":\"375256bdc3cb847a97c3a3690306fdb7\"\n        }\n    }"
+				},
+				"url": {
+					"raw": "localhost:8080/api/task/page",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"task",
+						"page"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "查我参与过的任务",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"query\":{\n            \"uuid\" : \"6f39a99aab514cbdab8fad3298482853\",\n        },\n        \"auth\":{\n    \t    \"userKey\":\"benson\",\n    \t    \"timestamp\":1580800079489,\n    \t    \"verifyKey\":\"375256bdc3cb847a97c3a3690306fdb7\"\n        }\n    }"
+				},
+				"url": {
+					"raw": "localhost:8080/api/task/joinedTask",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"task",
+						"joinedTask"
 					]
 				}
 			},

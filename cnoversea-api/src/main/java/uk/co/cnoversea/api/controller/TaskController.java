@@ -11,11 +11,11 @@ import uk.co.cnoversea.api.dao.model.TaskWithBLOBs;
 import uk.co.cnoversea.api.service.ITaskService;
 import uk.co.cnoversea.api.service.IUserService;
 import uk.co.cnoversea.web.controller.AbstractController;
+import uk.co.cnoversea.web.vo.Page;
 import uk.co.cnoversea.web.vo.RequestVO;
 import uk.co.cnoversea.web.vo.ResponseVO;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/task")
@@ -40,6 +40,21 @@ public class TaskController extends AbstractController {
         } catch (Exception e) {
             logger.error("declare task fail", e);
             return genResponse(ResponseVO.CODE_ERR, "declare task fail, " + e.getMessage() , task);
+        }
+    }
+
+    //查询行程
+    @RequestMapping(value = "/page", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseVO<Page<TaskWithBLOBs>> page(@RequestBody RequestVO<TaskWithBLOBs> param) {
+        TaskWithBLOBs task = param.getQuery();
+        Page<TaskWithBLOBs> page = null;
+        try {
+            page = taskService.page(task);
+            return genResponse(page);
+        } catch (Exception e) {
+            logger.error("declare task fail", e);
+            return genResponse(ResponseVO.CODE_ERR, "declare task fail, " + e.getMessage() , page);
         }
     }
 
@@ -77,4 +92,18 @@ public class TaskController extends AbstractController {
         }
     }
 
+    //查询参与过的行程
+    @RequestMapping(value = "/joinedTask", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseVO<List<TaskWithBLOBs>> joinedTask(@RequestBody RequestVO<Partner> param) {
+        Partner partner = param.getQuery();
+        List<TaskWithBLOBs> taskRet = null;
+        try {
+            taskRet = taskService.myJoinedTask(partner);
+            return genResponse(taskRet);
+        } catch (Exception e) {
+            logger.error("query partners fail", e);
+            return genResponse(ResponseVO.CODE_ERR, "query partner fail, " + e.getMessage() , taskRet);
+        }
+    }
 }
