@@ -13,10 +13,17 @@ Vue.prototype.$qs = qs;
 Vue.prototype.$userId = -1;
 Vue.prototype.$userName = "";
 Vue.prototype.$uuid = -1;
-Vue.prototype.$addUser = function(id, name, uuid) {
+Vue.prototype.$userId = "lijiaqi777";
+Vue.prototype.$userName = "lijiaqi777";
+Vue.prototype.$uuid = "1e34280df22d418a945545808fba0087";
+Vue.prototype.$gender = 1;
+Vue.prototype.$email = "fr@gmail.com";
+Vue.prototype.$addUser = function(id, name, uuid, gender, email) {
   Vue.prototype.$userId = id;
   Vue.prototype.$userName = name;
   Vue.prototype.$uuid = uuid;
+  Vue.prototype.$gender = gender;
+  Vue.prototype.$email = email;
 };
 
 new Vue({

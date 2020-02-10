@@ -4,11 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import uk.co.cnoversea.api.dao.manager.ITaskManger;
 import uk.co.cnoversea.api.dao.mapper.PartnerMapper;
 import uk.co.cnoversea.api.dao.mapper.TaskMapper;
 import uk.co.cnoversea.api.dao.mapper.UserMapper;
 import uk.co.cnoversea.api.dao.model.*;
 import uk.co.cnoversea.api.service.ITaskService;
+import uk.co.cnoversea.web.vo.Page;
 
 import java.util.List;
 
@@ -23,6 +25,8 @@ public class TaskServiceImpl implements ITaskService {
     private TaskMapper taskMapper;
     @Autowired
     private PartnerMapper partnerMapper;
+    @Autowired
+    private ITaskManger taskManger;
 
     @Override
     public TaskWithBLOBs declareTask(TaskWithBLOBs task) throws Exception {
@@ -34,6 +38,11 @@ public class TaskServiceImpl implements ITaskService {
             return task;
         }
         return null;
+    }
+
+    @Override
+    public Page<TaskWithBLOBs> page(TaskWithBLOBs record) throws Exception {
+        return taskManger.pageQuery(record);
     }
 
     @Override
@@ -55,5 +64,10 @@ public class TaskServiceImpl implements ITaskService {
         e.createCriteria().andTidEqualTo(task.getTid());
         List<Partner> list = partnerMapper.selectByExampleWithBLOBs(e);
         return list;
+    }
+
+    @Override
+    public List<TaskWithBLOBs> myJoinedTask(Partner partner) throws Exception {
+        return taskMapper.selectByPartnerUUID(partner);
     }
 }

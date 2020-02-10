@@ -2,6 +2,7 @@ package uk.co.cnoversea.api.dao.mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import uk.co.cnoversea.api.dao.model.Partner;
 import uk.co.cnoversea.api.dao.model.Task;
 import uk.co.cnoversea.api.dao.model.TaskExample;
 import uk.co.cnoversea.api.dao.model.TaskWithBLOBs;
@@ -34,4 +35,9 @@ public interface TaskMapper {
     int updateByPrimaryKeyWithBLOBs(TaskWithBLOBs record);
 
     int updateByPrimaryKey(Task record);
+
+    List<TaskWithBLOBs> selectPage(TaskWithBLOBs record);
+    int pageCount(TaskWithBLOBs record);
+
+    List<TaskWithBLOBs> selectByPartnerUUID(Partner record);
 }

@@ -11,8 +11,6 @@ import uk.co.cnoversea.web.controller.AbstractController;
 import uk.co.cnoversea.web.vo.RequestVO;
 import uk.co.cnoversea.web.vo.ResponseVO;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping("/user")
 public class UserController extends AbstractController {
@@ -44,16 +42,16 @@ public class UserController extends AbstractController {
     //登录
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseVO<Map<String, Object>> login(@RequestBody RequestVO<User> param) {
+    ResponseVO<User> login(@RequestBody RequestVO<User> param) {
         try{
             if (userService.login(param.getQuery())) {
-                return genResponse();
+                return genResponse(param.getQuery());
             } else {
-                return genResponse(ResponseVO.CODE_ERR, "login fail");
+                return genResponse(ResponseVO.CODE_ERR, "login fail", param.getQuery());
             }
         }catch(Exception e){
             logger.error("login fail", e);
-            return genResponse(ResponseVO.CODE_ERR, "login fail, " + e.getMessage());
+            return genResponse(ResponseVO.CODE_ERR, "login fail, " + e.getMessage(), param.getQuery());
         }
     }
 

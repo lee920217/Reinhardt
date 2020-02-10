@@ -2,62 +2,35 @@
   <div class="task-list-container">
     <OVHeader />
     <MaskView v-if="addTask" />
-    <AddTask v-if="addTask" @hideAddTaskDialog="hideAddTaskDialog" />
+    <AddTask v-if="addTask" @hideAddTaskDialog="hideAddTaskDialog" @handleError="handleError" />
     <MessageTop v-if="errorData.errno >= 0" :errorData="errorData" />
     <CitySelect v-if="maskStatus" @changeCity="changeCity" @maskControl="maskControl" />
-    <div class="task-location-select" v-on:touchstart="maskControl(true)">{{ currentCity }}</div>
+    <div class="task-location-select" v-on:touchstart="maskControl(true)">
+      <div class="city-name">{{ currentCity }}</div>
+    </div>
     <div class="task-location-search">
       <input type="text" class="location-search" placeholder="输入地名或者邮编" />
       <div class="search-btn"></div>
     </div>
-    <iscroll-view class="scroll-view">
-      <div class="task-item active">
+    <iscroll-view ref="iscroll" class="scroll-view">
+      <div
+        class="task-item"
+        v-for="i in taskList"
+        v-bind:key="i.tid"
+        v-on:touchend="redirectToTaskDtl(i)"
+        :class="[i.type == 1 ? 'active': 'dangerous']"
+      >
         <div class="task-item-dtl">
           <div class="dtl-item current-location">
-            <div class="location-name">Hardman House</div>
-            <div class="location-postcode">L1 9JG</div>
+            <div class="location-name">{{i.startCode[0]}}</div>
+            <div class="location-postcode">{{i.startCode[1]}}</div>
+            <div class="time-info">{{i.Date}}</div>
+            <div class="time-info">{{i.Time}}</div>
           </div>
-          <div class="arrow"></div>
-          <div class="dtl-item target-location">
-            <div class="location-name">Hardman House</div>
-            <div class="location-postcode">L1 9JG</div>
-          </div>
-        </div>
-        <div class="time-team-info">
-          <div class="time-info">19:59</div>
-          <div class="team-info">
-            <div class="team-avatar"></div>
-            <div class="team-avatar"></div>
-            <div class="team-avatar"></div>
-            <div class="team-avatar"></div>
-            <div class="team-avatar"></div>
-            <div class="team-avatar"></div>
-            <div class="team-avatar"></div>
-            <div class="team-avatar"></div>
-            <div class="team-avatar"></div>
-            <div class="team-avatar"></div>
-            <div class="team-avatar"></div>
-            <div class="team-avatar"></div>
-            <div class="team-avatar"></div>
-            <div class="team-avatar"></div>
-            <div class="team-avatar"></div>
-            <div class="team-avatar"></div>
-            <div class="team-avatar"></div>
-            <div class="team-avatar"></div>
-          </div>
-        </div>
-      </div>
-      <div class="task-item dangerous">
-        <div class="task-item-dtl">
-          <div class="dtl-item current-location">
-            <div class="location-name">Hardman House</div>
-            <div class="location-postcode">L1 9JG</div>
-          </div>
-        </div>
-        <div class="time-team-info">
-          <div class="time-info">19:59</div>
-          <div class="team-info">
-            <div class="team-avatar"></div>
+          <div class="arrow" v-if="i.type == 1"></div>
+          <div class="dtl-item target-location" v-if="i.type == 1">
+            <div class="location-name">{{i.targetCode[0]}}</div>
+            <div class="location-postcode">{{i.targetCode[1]}}</div>
           </div>
         </div>
       </div>
@@ -67,6 +40,7 @@
 </template>
 
 <script>
+import { Post } from "@/assets/api/api.js";
 import OVHeader from "@/components/common/OVHeader.vue";
 import CitySelect from "@/components/common/CitySelect.vue";
 import MaskView from "@/components/common/Mask.vue";
@@ -83,14 +57,67 @@ export default {
       addTask: false,
       errorData: {
         errno: -1,
-        errmsg: ''
-      }
+        errmsg: ""
+      },
+      taskList: [],
+      scroll: null,
     };
   },
+  mounted () {
+    this.getTaskList()
+  },
   methods: {
+    refreshSroll () {
+      const self = this;
+      const el = self.$refs.iscroll;
+      el.refresh();
+    },
+    getTaskList (v = {}) {
+      const self = this;
+      if (v = {}) {
+        v = {
+          order_: "start",
+          start: self.currentCity
+        }
+      }
+      Post('http://localhost:8360/api/task/page', { query: v })
+        .then(res => {
+          if (res.code !== 0) {
+            self.errorData = {
+              errno: 1,
+              errmsg: "获取列表失败",
+              redirect: 0,
+              path: "/"
+            }
+          } else {
+            for (let j = 0; j < res.data.rows.length; j++) {
+              res.data.rows[j].startCode = res.data.rows[j].startCode.split(',')
+              res.data.rows[j].targetCode = res.data.rows[j].targetCode.split(',')
+              let newTime = new Date(res.data.rows[j].startTime)
+              let year = newTime.getFullYear();
+              let month = newTime.getMonth() + 1;
+              let days = newTime.getDate();
+              let hours = newTime.getHours();
+              let minutes = newTime.getMinutes();
+              let seconds = newTime.getSeconds();
+              res.data.rows[j].startTime = `${year}-${month}-${days} ${hours}:${minutes}`
+              res.data.rows[j].Time = `${hours}:${minutes}`
+              res.data.rows[j].Date = `${year}-${month}-${days}`
+            }
+            self.taskList = res.data.rows
+            self.refreshSroll();
+          }
+        })
+    },
+    redirectToTaskDtl (info) {
+      const self = this;
+      info.id = info.tid;
+      self.$router.push({ name: 'Task', params: info });
+    },
     changeCity (city) {
       const self = this;
       self.currentCity = city;
+      self.getTaskList();
     },
     maskControl (bol) {
       const self = this;
@@ -103,7 +130,15 @@ export default {
     showAddTaskDialog () {
       const self = this;
       self.addTask = true;
-    }
+    },
+    handleError (data) {
+      const self = this;
+      self.errorData = data;
+      setTimeout(() => {
+        self.errorData.errno = -1
+      }, 2000)
+      console.log(data);
+    },
   }
 };
 </script>
@@ -115,15 +150,26 @@ $designWidth: 750;
   width: 100%;
   height: 100%;
   overflow: hidden;
+  background-color: #2b2435;
   .task-location-select {
+    position: relative;
     margin: px2rem(100) px2rem(20) px2rem(20) px2rem(20);
-    height: px2rem(200);
+    height: px2rem(300);
     box-sizing: border-box;
-    background-color: #5d2b2b;
+    background-color: #f2f2f2;
+    background-image: url("../assets/img/city.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom right;
     border-radius: px2rem(10);
     line-height: px2rem(200);
-    color: #f2f2f2;
+    color: #003399;
     font-weight: bolder;
+    .city-name {
+      position: absolute;
+      left: px2rem(40);
+      font-size: px2rem(60);
+    }
   }
   .task-location-search {
     display: flex;
@@ -154,34 +200,62 @@ $designWidth: 750;
     touch-action: none;
     /* -- Attention-- */
     position: fixed;
-    top: px2rem(400);
+    top: px2rem(500);
     bottom: 0;
     left: 0;
     right: 0;
     overflow: hidden;
+    margin: px2rem(20) 0 px2rem(10) 0;
     .task-item {
-      width: px2rem(710);
-      height: px2rem(200);
-      margin: px2rem(20) auto px2rem(20) auto;
+      display: flex;
+      width: px2rem(711);
+      height: px2rem(301);
+      margin: 0 auto px2rem(20) auto;
       border-radius: px2rem(10);
       overflow: hidden;
       &.active {
-        background-color: #5cadff;
+        // background-color: #ecc029;
+        background-image: url("../assets/img/travel-ticket.png");
+        background-repeat: no-repeat;
+        background-size: px2rem(711) px2rem(301);
+        color: #000;
       }
       &.dangerous {
-        background-color: #ed4014;
+        background-image: url("../assets/img/dangerous-ticket.png");
+        background-repeat: no-repeat;
+        background-size: px2rem(711) px2rem(301);
       }
       .task-item-dtl {
         display: flex;
-        color: #f2f2f2;
+        width: 100%;
+        color: #000;
+        justify-content: space-around;
+        align-items: center;
         .dtl-item {
-          height: px2rem(90);
-          font-size: px2rem(35);
+          width: 45%;
+          height: px2rem(150);
+          font-size: px2rem(28);
           font-weight: bolder;
-          margin: px2rem(20) px2rem(30) 0 px2rem(30);
-          text-align: left;
+          margin: px2rem(20) px2rem(12) 0 px2rem(12);
           .location-postcode {
             font-weight: lighter;
+            text-align: center;
+            overflow: hidden;
+            /*文本不会换行*/
+            white-space: nowrap;
+            /*当文本溢出包含元素时，以省略号表示超出的文本*/
+            text-overflow: ellipsis;
+          }
+          .location-name {
+            text-align: center;
+            overflow: hidden;
+            /*文本不会换行*/
+            white-space: nowrap;
+            /*当文本溢出包含元素时，以省略号表示超出的文本*/
+            text-overflow: ellipsis;
+          }
+          .time-info {
+            font-size: px2rem(20);
           }
         }
         .arrow {
@@ -194,13 +268,12 @@ $designWidth: 750;
         }
       }
       .time-team-info {
-        width: 100%;
+        width: 20%;
         overflow: hidden;
         padding: 0 px2rem(30);
         margin-top: px2rem(20);
-        display: flex;
         .time-info {
-          font-size: px2rem(40);
+          font-size: px2rem(28);
           color: #f2f2f2;
           font-weight: bolder;
         }

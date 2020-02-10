@@ -1,26 +1,26 @@
 <template>
   <div class="task-view-container">
     <div class="panel-item">
-      <div class="back-item"></div>
+      <div class="back-item" v-on:touchstart="redirectToList"></div>
       <div class="item">
         <div class="title">Task ID:</div>
         <div class="content">{{ $route.params.id }}</div>
       </div>
       <div class="item">
         <div class="title">From:</div>
-        <div class="content">Hardman Street / L1 9JG</div>
+        <div class="content">{{taskDtl.startCode[1]}} / {{taskDtl.startCode[0]}}</div>
       </div>
-      <div class="item">
+      <div class="item" v-if="taskDtl.type == 1">
         <div class="title">To:</div>
-        <div class="content">Hardman Street / L1 9JG</div>
+        <div class="content">{{taskDtl.targetCode[1]}} / {{taskDtl.targetCode[0]}}</div>
       </div>
       <div class="item">
         <div class="title">Time:</div>
-        <div class="content">2020/12/31 19:59</div>
+        <div class="content">{{taskDtl.startTime}}</div>
       </div>
       <div class="item">
         <div class="title">Note:</div>
-        <div class="content">今天去买菜</div>
+        <div class="content">{{taskDtl.description}}</div>
       </div>
       <div class="item">
         <div class="title">Team:</div>
@@ -51,10 +51,11 @@
           </div>
         </div>
       </div>
+      <div class="travel-plan-icon"></div>
     </div>
     <div class="chat-dialog">
       <div class="unteammate-mask">
-        <div class="join-btn">加入Task</div>
+        <div class="join-btn" v-on:touchstart="joinTask">加入Task</div>
       </div>
       <iscroll-view class="chat-scroll-view">
         <div class="chat-message">
@@ -79,8 +80,42 @@
 </template>
 
 <script>
+import { Post } from "@/assets/api/api.js";
+
 export default {
-  name: "taskView"
+  name: "taskView",
+  data () {
+    return {
+      taskDtl: {}
+    }
+  },
+  mounted: function () {
+    this.getTaskDtl()
+  },
+  methods: {
+    getTaskDtl () {
+      const self = this;
+      const taskInfo = self.$route.params;
+      self.taskDtl = taskInfo;
+    },
+    redirectToList () {
+      const self = this;
+      self.$router.push({ path: '/taskList' });
+    },
+    joinTask () {
+      const self = this;
+      const taskId = self.$route.params.id;
+      Post("http://localhost:8360/api/task/join", {
+        query: {
+          tid: self.$route.params.id,
+          partnerUuid: self.$uuid,
+          message: '加入了行程'
+        }
+      }).then(res => {
+        console.log(res)
+      })
+    }
+  }
 };
 </script>
 
@@ -95,16 +130,17 @@ $designWidth: 750;
   padding: px2rem(20) px2rem(20) px2rem(20) px2rem(20);
   box-sizing: border-box;
   .panel-item {
+    position: relative;
     padding: px2rem(20) px2rem(20) 0 px2rem(20);
     box-sizing: border-box;
-    background-color: #cad0c9;
+    background-image: url("../assets/img/travel-plan-panel.png");
     border-radius: px2rem(10);
     margin-bottom: px2rem(20);
     .back-item {
       width: px2rem(50);
       height: px2rem(50);
       position: absolute;
-      top: px2rem(40);
+      bottom: px2rem(40);
       right: px2rem(40);
       background-image: url("../assets/img/quit.png");
       background-size: contain;
@@ -113,7 +149,9 @@ $designWidth: 750;
     .item {
       padding-bottom: px2rem(20);
       .title {
-        font-size: px2rem(18);
+        font-size: px2rem(24);
+        color: #cc3366;
+        font-weight: bolder;
       }
       .content {
         font-size: px2rem(36);
@@ -154,6 +192,17 @@ $designWidth: 750;
           }
         }
       }
+    }
+    .travel-plan-icon {
+      position: absolute;
+      width: px2rem(178);
+      height: px2rem(232);
+      top: 0;
+      right: 0;
+      background-image: url("../assets/img/travel-plan-icon.png");
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: bottom right;
     }
   }
   .chat-dialog {

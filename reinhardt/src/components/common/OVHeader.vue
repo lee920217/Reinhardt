@@ -5,7 +5,7 @@
       <div>健康平安，{{ username }}</div>
       <div class="user-list">
         <div class="list-info">
-          <div class="item">个人信息</div>
+          <div class="item" v-on:touchstart="redirectToProfile">个人信息</div>
           <div class="item">退出登录</div>
         </div>
       </div>
@@ -16,27 +16,34 @@
 <script>
 export default {
   name: "OVHeader",
-  data() {
+  data () {
     return {
       username: ""
     };
   },
-  created: function() {
+  created: function () {
     const self = this;
     self.username = self.$userName;
+    if (self.$userId == -1) {
+      self.$router.push({ path: "/taskList" });
+    }
   },
-  mounted: function() {
+  mounted: function () {
     console.log(this.$userId);
     // this.$addUser(11, "cao");
   },
   methods: {
-    checkLoginStatus() {
+    checkLoginStatus () {
       const self = this;
       let userId = self.$userId;
     },
-    transfer() {
+    transfer () {
       const self = this;
       self.$router.push({ path: "/user" });
+    },
+    redirectToProfile () {
+      const self = this;
+      self.$router.push({ path: `/profile/${self.$userName}` });
     }
   }
 };
@@ -55,6 +62,8 @@ $designWidth: 750;
   align-items: center;
   padding: 0 px2rem(20);
   box-sizing: border-box;
+  color: #f2f2f2;
+  z-index: 20;
   .user-center {
     width: px2rem(80);
     height: px2rem(80);
@@ -79,7 +88,8 @@ $designWidth: 750;
       background-color: #ffffff;
       font-size: px2rem(20);
       color: #000;
-      box-shadow: px2rem(6) px2rem(4) px2rem(8) px2rem(4) #888888;
+      box-shadow: 0 px2rem(4) px2rem(8) rgba(0, 0, 0, 0.32),
+        0 px2rem(4) px2rem(40) rgba(0, 0, 0, 0.4);
       .list-info {
         .item {
           margin: px2rem(20) 0;

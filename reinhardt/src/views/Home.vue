@@ -17,7 +17,7 @@ import OVHeader from "@/components/common/OVHeader.vue";
 export default {
   name: "Home",
   components: { OVHeader },
-  mounted: function() {
+  mounted: function () {
     setTimeout(() => {
       console.log(this.$userId);
     }, 5000);
@@ -36,6 +36,7 @@ $designWidth: 750;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  background-color: #2b2435;
   .logo {
     height: px2rem(120);
     line-height: px2rem(120);

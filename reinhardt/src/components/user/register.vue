@@ -131,11 +131,10 @@ export default {
         self.registerParams.mobile &&
         self.registerParams.pass
       ) {
-        self.$emit("handleError", {
-          errno: 0,
-          errmsg: "注册成功",
-          redirect: 0,
-          path: "/"
+        let finalParams = self.registerParams;
+        delete finalParams.repass;
+        Post("http://localhost:8360/api/user/regist", { query: self.registerParams }).then(res => {
+          self.handleRequest(res);
         });
       } else {
         self.$emit("handleError", {
@@ -145,12 +144,29 @@ export default {
           path: "/"
         });
       }
-      let finalParams = self.registerParams;
-      delete finalParams.repass;
-      Post("http://localhost:8360/api/user/regist", self.registerParams).then(res => {
-        console.log(res);
-      });
       console.log(self.registerParams);
+    },
+    handleRequest(res) {
+      const self = this;
+      if (res.code === 0) {
+        self.$emit("handleError", {
+          errno: 0,
+          errmsg: "注册成功",
+          redirect: 0,
+          path: "/"
+        });
+        self.$addUser(res.data.uid, res.data.uname, res.data.uuid, res.data.gender, res.data.email);
+        self.$router.push({ path: "/taskList" });
+      } else {
+        if ("repeat uid".indexOf(res.msg) >= 0) {
+          self.$emit("handleError", {
+            errno: 0,
+            errmsg: "用户名已经存在",
+            redirect: 0,
+            path: "/"
+          });
+        }
+      }
     }
   }
 };
