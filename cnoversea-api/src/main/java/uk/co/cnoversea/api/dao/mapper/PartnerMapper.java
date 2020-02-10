@@ -4,6 +4,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import uk.co.cnoversea.api.dao.model.Partner;
 import uk.co.cnoversea.api.dao.model.PartnerExample;
+import uk.co.cnoversea.api.vo.PartnerUser;
 
 public interface PartnerMapper {
     long countByExample(PartnerExample example);
@@ -23,4 +24,6 @@ public interface PartnerMapper {
     int updateByExampleWithBLOBs(@Param("record") Partner record, @Param("example") PartnerExample example);
 
     int updateByExample(@Param("record") Partner record, @Param("example") PartnerExample example);
+
+    List<PartnerUser> selectPartnerUserByTid(Long tid);
 }

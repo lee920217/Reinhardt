@@ -10,6 +10,7 @@ import uk.co.cnoversea.api.dao.model.Task;
 import uk.co.cnoversea.api.dao.model.TaskWithBLOBs;
 import uk.co.cnoversea.api.service.ITaskService;
 import uk.co.cnoversea.api.service.IUserService;
+import uk.co.cnoversea.api.vo.PartnerUser;
 import uk.co.cnoversea.web.controller.AbstractController;
 import uk.co.cnoversea.web.vo.Page;
 import uk.co.cnoversea.web.vo.RequestVO;
@@ -80,9 +81,9 @@ public class TaskController extends AbstractController {
     //查询同行人
     @RequestMapping(value = "/partners", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseVO<List<Partner>> partners(@RequestBody RequestVO<Task> param) {
+    ResponseVO<List<PartnerUser>> partners(@RequestBody RequestVO<Task> param) {
         Task task = param.getQuery();
-        List<Partner> taskRet = null;
+        List<PartnerUser> taskRet = null;
         try {
             taskRet = taskService.queryPartner(task);
             return genResponse(taskRet);

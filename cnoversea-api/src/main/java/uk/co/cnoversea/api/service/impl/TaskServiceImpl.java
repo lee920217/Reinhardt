@@ -10,6 +10,7 @@ import uk.co.cnoversea.api.dao.mapper.TaskMapper;
 import uk.co.cnoversea.api.dao.mapper.UserMapper;
 import uk.co.cnoversea.api.dao.model.*;
 import uk.co.cnoversea.api.service.ITaskService;
+import uk.co.cnoversea.api.vo.PartnerUser;
 import uk.co.cnoversea.web.vo.Page;
 
 import java.util.List;
@@ -59,10 +60,8 @@ public class TaskServiceImpl implements ITaskService {
     }
 
     @Override
-    public List<Partner> queryPartner(Task task) throws Exception {
-        PartnerExample e = new PartnerExample();
-        e.createCriteria().andTidEqualTo(task.getTid());
-        List<Partner> list = partnerMapper.selectByExampleWithBLOBs(e);
+    public List<PartnerUser> queryPartner(Task task) throws Exception {
+        List<PartnerUser> list = partnerMapper.selectPartnerUserByTid(task.getTid());
         return list;
     }
 

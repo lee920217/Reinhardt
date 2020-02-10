@@ -229,4 +229,23 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+
+
+  <resultMap extends="ResultMapWithBLOBs" id="ResultMapPartnerUser" type="uk.co.cnoversea.api.vo.PartnerUser">
+    <result column="uname" jdbcType="VARCHAR" property="uname" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="gender" jdbcType="TINYINT" property="gender" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+  </resultMap>
+
+  <select id="selectPartnerUserByTid" parameterType="java.lang.Long" resultMap="ResultMapPartnerUser">
+    select
+    distinct
+    p.*, u.uname, u.email, u.gender, u.mobile
+    from cnos_partner p left join cnos_user u
+    on p.partner_uuid = u.uuid
+    where p.tid = #{uuid,jdbcType=VARCHAR}
+    order by p.create_time desc
+  </select>
+
 </mapper>
