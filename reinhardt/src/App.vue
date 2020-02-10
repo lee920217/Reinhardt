@@ -3,6 +3,17 @@
     <router-view />
   </div>
 </template>
+<script>
+// @ is an alias to /src
+// eslint-disable-next-line import/no-unresolved
+// eslint-disable-next-line import/extensions
+
+export default {
+  name: "Home",
+  components: {},
+  methods: {}
+};
+</script>
 
 <style lang="scss" scoped>
 #app {
@@ -12,6 +23,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #000000;
 }
 </style>
