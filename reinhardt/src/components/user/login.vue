@@ -37,7 +37,7 @@ export default {
       default: "login"
     }
   },
-  data() {
+  data () {
     return {
       loginParams: {
         uid: "",
@@ -46,11 +46,11 @@ export default {
     };
   },
   methods: {
-    transfer(target) {
+    transfer (target) {
       const self = this;
       self.$emit("transfer", target);
     },
-    confirmLogin() {
+    confirmLogin () {
       const self = this;
       // if (!self.emailCheck(self.loginParams.uname)) {
       //   self.$emit("handleError", {
@@ -83,7 +83,7 @@ export default {
       });
       console.log(self.loginParams);
     },
-    handleRequest(res) {
+    handleRequest (res) {
       const self = this;
       if (res.code !== 0) {
         self.$emit("handleError", {
@@ -99,9 +99,19 @@ export default {
           redirect: 0,
           path: "/"
         });
+        self.$addUser(res.data.uid, res.data.uname, res.data.uuid, res.data.gender, res.data.email);
+        setTimeout(() => {
+          self.$emit("handleError", {
+            errno: -1,
+            errmsg: "登录成功",
+            redirect: 0,
+            path: "/"
+          });
+          self.$router.push({ path: "/taskList" });
+        }, 2000)
       }
     },
-    emailCheck(email) {
+    emailCheck (email) {
       const regExp = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
       if (!regExp.test(email)) {
         return false;
