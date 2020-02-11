@@ -36,7 +36,14 @@ public class TaskServiceImpl implements ITaskService {
         task.setModifyTime(null);
 
         if(taskMapper.insertSelective(task) == 1){
-            return task;
+            Partner partner = new Partner();
+            partner.setTid(task.getTid());
+            partner.setUuid(task.getUuid());
+            partner.setPartnerUuid(task.getUuid());
+            partner.setMessage("sponsor");
+            if(partnerMapper.insertSelective(partner) == 1){
+                return task;
+            }
         }
         return null;
     }
