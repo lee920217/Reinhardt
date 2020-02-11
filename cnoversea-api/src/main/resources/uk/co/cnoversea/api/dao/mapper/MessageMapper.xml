@@ -285,15 +285,21 @@
     where mid = #{mid,jdbcType=BIGINT}
   </update>
 
-  <select id="selectByFetchParam" parameterType="uk.co.cnoversea.api.vo.MessageFetchParam" resultMap="ResultMapWithBLOBs">
+  <resultMap extends="ResultMapWithBLOBs" id="ResultMapMessageUser" type="uk.co.cnoversea.api.vo.MessageUser">
+    <result column="uname" jdbcType="VARCHAR" property="uname" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="gender" jdbcType="TINYINT" property="gender" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+  </resultMap>
+
+  <select id="selectByFetchParam" parameterType="uk.co.cnoversea.api.vo.MessageFetchParam" resultMap="ResultMapMessageUser">
     select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from cnos_message
-    where tid = #{tid,jdbcType=BIGINT}
+    m.*, u.uname, u.email, u.gender, u.mobile
+    from cnos_message m left join cnos_user u
+    on m.uuid = u.uuid
+    where m.tid = #{tid,jdbcType=BIGINT}
     <if test="mid != null">
-      and mid > #{mid,jdbcType=BIGINT}
+      and m.mid > #{mid,jdbcType=BIGINT}
     </if>
     order by ${order_} ${sort_}
     limit #{pageSize_,jdbcType=BIGINT}

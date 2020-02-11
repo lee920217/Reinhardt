@@ -8,6 +8,7 @@ import uk.co.cnoversea.api.dao.mapper.MessageMapper;
 import uk.co.cnoversea.api.dao.model.Message;
 import uk.co.cnoversea.api.service.IMessageService;
 import uk.co.cnoversea.api.vo.MessageFetchParam;
+import uk.co.cnoversea.api.vo.MessageUser;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class MessageServiceImpl implements IMessageService {
     }
 
     @Override
-    public List<Message> fetchMessageByTask(MessageFetchParam param) {
+    public List<MessageUser> fetchMessageByTask(MessageFetchParam param) {
         return messageMapper.selectByFetchParam(param);
     }
 }

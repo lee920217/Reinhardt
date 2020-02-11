@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import uk.co.cnoversea.api.dao.model.Message;
 import uk.co.cnoversea.api.service.IMessageService;
 import uk.co.cnoversea.api.vo.MessageFetchParam;
+import uk.co.cnoversea.api.vo.MessageUser;
 import uk.co.cnoversea.web.controller.AbstractController;
 import uk.co.cnoversea.web.vo.RequestVO;
 import uk.co.cnoversea.web.vo.ResponseVO;
@@ -40,9 +41,9 @@ public class MessageController extends AbstractController {
     //查询同行人
     @RequestMapping(value = "/fetch", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseVO<List<Message>> fetch(@RequestBody RequestVO<MessageFetchParam> param) {
+    ResponseVO<List<MessageUser>> fetch(@RequestBody RequestVO<MessageFetchParam> param) {
         MessageFetchParam fetchParam = param.getQuery();
-        List<Message> messageList = null;
+        List<MessageUser> messageList = null;
         try {
             messageList = messageService.fetchMessageByTask(fetchParam);
             return genResponse(messageList);

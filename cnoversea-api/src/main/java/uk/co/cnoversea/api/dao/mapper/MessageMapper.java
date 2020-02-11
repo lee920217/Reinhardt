@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import uk.co.cnoversea.api.dao.model.Message;
 import uk.co.cnoversea.api.dao.model.MessageExample;
 import uk.co.cnoversea.api.vo.MessageFetchParam;
+import uk.co.cnoversea.api.vo.MessageUser;
 
 public interface MessageMapper {
     long countByExample(MessageExample example);
@@ -35,5 +36,5 @@ public interface MessageMapper {
 
     int updateByPrimaryKey(Message record);
 
-    List<Message> selectByFetchParam(MessageFetchParam param);
+    List<MessageUser> selectByFetchParam(MessageFetchParam param);
 }
