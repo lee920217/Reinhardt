@@ -67,6 +67,26 @@ public class TaskServiceImpl implements ITaskService {
     }
 
     @Override
+    public Partner secedeTask(Partner partner) throws Exception {
+        TaskWithBLOBs task = taskMapper.selectByPrimaryKey(partner.getTid());
+        if(task == null){
+            throw new Exception("task not exists");
+        }
+        if(task.getUuid().equals(partner.getPartnerUuid())){
+            throw new Exception("can not secede your own task");
+        }
+        PartnerExample pe = new PartnerExample();
+        pe.createCriteria().andTidEqualTo(partner.getTid()).andPartnerUuidEqualTo(partner.getPartnerUuid());
+        Partner param = new Partner();
+        param.setStatus(Byte.valueOf("0"));
+        if(partnerMapper.updateByExampleSelective(param, pe) == 1){
+            partner.setStatus(Byte.valueOf("0"));
+            return partner;
+        }
+        return null;
+    }
+
+    @Override
     public List<PartnerUser> queryPartner(Task task) throws Exception {
         List<PartnerUser> list = partnerMapper.selectPartnerUserByTid(task.getTid());
         return list;

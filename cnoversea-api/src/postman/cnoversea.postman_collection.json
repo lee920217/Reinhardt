@@ -19,14 +19,14 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "    {\n        \"query\":{\n            \"uid\" : \"benson\",\n            \"uname\" : \"benson\",\n            \"email\" : \"benson1@163.com\",\n            \"gender\" : \"1\",\n            \"mobile\" : \"15912345678\",\n            \"pass\" : \"benson\"\n        }\n    }"
+					"raw": "    {\n        \"query\":{\n            \"uid\" : \"benson2\",\n            \"uname\" : \"benson2\",\n            \"email\" : \"benson1@163.com\",\n            \"gender\" : \"1\",\n            \"mobile\" : \"15912345678\",\n            \"pass\" : \"benson\"\n        }\n    }"
 				},
 				"url": {
-					"raw": "localhost:8080/api/user/regist",
+					"raw": "localhost:8360/api/user/regist",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8360",
 					"path": [
 						"api",
 						"user",
@@ -81,14 +81,14 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "    {\n        \"query\":{\n            \"uuid\" : \"6f39a99aab514cbdab8fad3298482853\",\n            \"type\" : \"1\",\n            \"title\" : \"去李嘉琦家蹦迪\",\n            \"startTime\" : \"2020-02-04 18:30:00\",\n            \"description\" : \"欢乐蹦迪你我他\",\n            \"start\" : \"Liverpool\",\n            \"startCode\" : \"050001\",\n            \"target\" : \"Portsmouth\",\n            \"targetCode\" : \"050004\",\n            \"through\" : \"Exeter;Birmingham\",\n            \"throughCode\" : \"050002;050003\"\n        },\n        \"auth\":{\n    \t    \"userKey\":\"benson\",\n    \t    \"timestamp\":1580800079489,\n    \t    \"verifyKey\":\"375256bdc3cb847a97c3a3690306fdb7\"\n        }\n    }"
+					"raw": "    {\n        \"query\":{\n            \"uuid\" : \"6f39a99aab514cbdab8fad3298482853\",\n            \"type\" : \"1\",\n            \"title\" : \"去李嘉琦家蹦迪2\",\n            \"startTime\" : \"2020-02-04 18:30:00\",\n            \"description\" : \"欢乐蹦迪你我他\",\n            \"start\" : \"Liverpool\",\n            \"startCode\" : \"050001\",\n            \"target\" : \"Portsmouth\",\n            \"targetCode\" : \"050004\",\n            \"through\" : \"Exeter;Birmingham\",\n            \"throughCode\" : \"050002;050003\"\n        },\n        \"auth\":{\n    \t    \"userKey\":\"benson\",\n    \t    \"timestamp\":1580800079489,\n    \t    \"verifyKey\":\"375256bdc3cb847a97c3a3690306fdb7\"\n        }\n    }"
 				},
 				"url": {
-					"raw": "localhost:8080/api/task/declare",
+					"raw": "localhost:8360/api/task/declare",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8360",
 					"path": [
 						"api",
 						"task",
@@ -146,11 +146,11 @@
 					"raw": "    {\n        \"query\":{\n            \"tid\" : \"1\"\n        },\n        \"auth\":{\n    \t    \"userKey\":\"benson\",\n    \t    \"timestamp\":1580800079489,\n    \t    \"verifyKey\":\"375256bdc3cb847a97c3a3690306fdb7\"\n        }\n    }"
 				},
 				"url": {
-					"raw": "localhost:8080/api/task/partners",
+					"raw": "localhost:8360/api/task/partners",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8360",
 					"path": [
 						"api",
 						"task",
@@ -208,11 +208,11 @@
 					"raw": "    {\n        \"query\":{\n            \"tid\" : \"1\",\n            \"mid\" : \"0\",\n            \"order_\" : \"create_time\",\n            \"sort_\" : \"asc\",\n            \"pageSize_\" : \"10\"\n        },\n        \"auth\":{\n    \t    \"userKey\":\"benson\",\n    \t    \"timestamp\":1580800079489,\n    \t    \"verifyKey\":\"375256bdc3cb847a97c3a3690306fdb7\"\n        }\n    }"
 				},
 				"url": {
-					"raw": "localhost:8080/api/message/fetch",
+					"raw": "localhost:8360/api/message/fetch",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8360",
 					"path": [
 						"api",
 						"message",
@@ -236,14 +236,14 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "    {\n        \"query\":{\n            \"uuid\" : \"6f39a99aab514cbdab8fad3298482853\",\n            \"tid\" : \"1\",\n            \"startTime\" : 1580812200000,\n            \"start\" : \"Liverpool\",\n            \n            \"order_\" : \"create_time\",\n            \"sort_\" : \"desc\",\n            \"pageNum_\" : \"1\",\n            \"pageSize_\" : \"10\"\n        },\n        \"auth\":{\n    \t    \"userKey\":\"benson\",\n    \t    \"timestamp\":1580800079489,\n    \t    \"verifyKey\":\"375256bdc3cb847a97c3a3690306fdb7\"\n        }\n    }"
+					"raw": "    {\n        \"query\":{\n            \"uuid\" : \"6f39a99aab514cbdab8fad3298482853\",\n            \"tid\" : \"1\",\n            \"startTime\" : 1580812200000,\n            \"start\" : \"Liverpool\",\n            \"type\" : \"1\",\n            \n            \"order_\" : \"create_time\",\n            \"sort_\" : \"desc\",\n            \"pageNum_\" : \"1\",\n            \"pageSize_\" : \"10\"\n        },\n        \"auth\":{\n    \t    \"userKey\":\"benson\",\n    \t    \"timestamp\":1580800079489,\n    \t    \"verifyKey\":\"375256bdc3cb847a97c3a3690306fdb7\"\n        }\n    }"
 				},
 				"url": {
-					"raw": "localhost:8080/api/task/page",
+					"raw": "localhost:8360/api/task/page",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8360",
 					"path": [
 						"api",
 						"task",
@@ -279,6 +279,37 @@
 						"api",
 						"task",
 						"joinedTask"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "退出行程",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"query\":{\n            \"tid\" : \"1\",\n\t\t\t\"partnerUuid\":\"480fe025c6e24d29a652d99427f7eecd\"\n        },\n        \"auth\":{\n    \t    \"userKey\":\"benson\",\n    \t    \"timestamp\":1580800079489,\n    \t    \"verifyKey\":\"375256bdc3cb847a97c3a3690306fdb7\"\n        }\n    }"
+				},
+				"url": {
+					"raw": "localhost:8360/api/task/secede",
+					"host": [
+						"localhost"
+					],
+					"port": "8360",
+					"path": [
+						"api",
+						"task",
+						"secede"
 					]
 				}
 			},

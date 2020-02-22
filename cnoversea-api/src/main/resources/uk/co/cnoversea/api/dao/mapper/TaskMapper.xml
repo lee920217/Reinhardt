@@ -427,6 +427,7 @@
   <sql id="SelectiveAndPreEqListWithoutId">
     <if test="tid != null">and tid = #{tid,jdbcType=BIGINT}</if>
     <if test="uuid != null">and uuid = #{uuid,jdbcType=VARCHAR}</if>
+    <if test="type != null">and type = #{type,jdbcType=VARCHAR}</if>
     <if test="startTime != null">and start_time = #{startTime,jdbcType=TIMESTAMP}</if>
     <if test="start != null">
       and (

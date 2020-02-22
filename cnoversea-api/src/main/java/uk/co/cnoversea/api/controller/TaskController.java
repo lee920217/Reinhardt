@@ -93,6 +93,21 @@ public class TaskController extends AbstractController {
         }
     }
 
+    //脱离行程
+    @RequestMapping(value = "/secede", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseVO<Partner> secede(@RequestBody RequestVO<Partner> param) {
+        Partner user = param.getQuery();
+        Partner userRet = null;
+        try {
+            userRet = taskService.secedeTask(user);
+            return genResponse(userRet);
+        } catch (Exception e) {
+            logger.error("join task fail", e);
+            return genResponse(ResponseVO.CODE_ERR, "secede fail, " + e.getMessage() , user);
+        }
+    }
+
     //查询参与过的行程
     @RequestMapping(value = "/joinedTask", method = RequestMethod.POST)
     public @ResponseBody
