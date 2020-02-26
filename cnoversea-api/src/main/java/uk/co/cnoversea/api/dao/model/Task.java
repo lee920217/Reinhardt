@@ -11,6 +11,10 @@ public class Task  extends PageAble {
 
     private String type;
 
+    private String trafficType;
+
+    private Byte scaleLimit;
+
     private String title;
 
     private Date startTime;
@@ -51,6 +55,22 @@ public class Task  extends PageAble {
 
     public void setType(String type) {
         this.type = type == null ? null : type.trim();
+    }
+
+    public String getTrafficType() {
+        return trafficType;
+    }
+
+    public void setTrafficType(String trafficType) {
+        this.trafficType = trafficType == null ? null : trafficType.trim();
+    }
+
+    public Byte getScaleLimit() {
+        return scaleLimit;
+    }
+
+    public void setScaleLimit(Byte scaleLimit) {
+        this.scaleLimit = scaleLimit;
     }
 
     public String getTitle() {

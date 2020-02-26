@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import uk.co.cnoversea.api.dao.manager.ITaskManger;
 import uk.co.cnoversea.api.dao.mapper.PartnerMapper;
 import uk.co.cnoversea.api.dao.mapper.TaskMapper;
@@ -20,15 +21,22 @@ public class TaskServiceImpl implements ITaskService {
 
     private final static Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private UserMapper userMapper;
+
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private TaskMapper taskMapper;
+
     @Autowired
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private PartnerMapper partnerMapper;
+
     @Autowired
     private ITaskManger taskManger;
 
+    @Transactional
     @Override
     public TaskWithBLOBs declareTask(TaskWithBLOBs task) throws Exception {
         task.setTid(null);
@@ -58,6 +66,14 @@ public class TaskServiceImpl implements ITaskService {
         TaskWithBLOBs task = taskMapper.selectByPrimaryKey(partner.getTid());
         if(task == null){
             throw new Exception("task not exists");
+        }
+        long limit = task.getScaleLimit().longValue();
+        PartnerExample pe = new PartnerExample();
+        pe.createCriteria().andTidEqualTo(task.getTid());
+        long count = partnerMapper.countByExample(pe);
+        logger.info("task scala limit check, tid = {}, limit = {}, count = {}", task.getTid(), limit , count);
+        if(count >= limit){
+            throw new Exception("task scala limit overload, tid = " + task.getTid() + ", limit = " + limit + ", count = " + count);
         }
         partner.setUuid(task.getUuid());
         if(partnerMapper.insertSelective(partner) == 1){

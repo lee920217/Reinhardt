@@ -305,6 +305,136 @@ public class TaskExample {
             return (Criteria) this;
         }
 
+        public Criteria andTrafficTypeIsNull() {
+            addCriterion("traffic_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeIsNotNull() {
+            addCriterion("traffic_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeEqualTo(String value) {
+            addCriterion("traffic_type =", value, "trafficType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeNotEqualTo(String value) {
+            addCriterion("traffic_type <>", value, "trafficType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeGreaterThan(String value) {
+            addCriterion("traffic_type >", value, "trafficType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("traffic_type >=", value, "trafficType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeLessThan(String value) {
+            addCriterion("traffic_type <", value, "trafficType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeLessThanOrEqualTo(String value) {
+            addCriterion("traffic_type <=", value, "trafficType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeLike(String value) {
+            addCriterion("traffic_type like", value, "trafficType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeNotLike(String value) {
+            addCriterion("traffic_type not like", value, "trafficType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeIn(List<String> values) {
+            addCriterion("traffic_type in", values, "trafficType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeNotIn(List<String> values) {
+            addCriterion("traffic_type not in", values, "trafficType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeBetween(String value1, String value2) {
+            addCriterion("traffic_type between", value1, value2, "trafficType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeNotBetween(String value1, String value2) {
+            addCriterion("traffic_type not between", value1, value2, "trafficType");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleLimitIsNull() {
+            addCriterion("scale_limit is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleLimitIsNotNull() {
+            addCriterion("scale_limit is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleLimitEqualTo(Byte value) {
+            addCriterion("scale_limit =", value, "scaleLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleLimitNotEqualTo(Byte value) {
+            addCriterion("scale_limit <>", value, "scaleLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleLimitGreaterThan(Byte value) {
+            addCriterion("scale_limit >", value, "scaleLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleLimitGreaterThanOrEqualTo(Byte value) {
+            addCriterion("scale_limit >=", value, "scaleLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleLimitLessThan(Byte value) {
+            addCriterion("scale_limit <", value, "scaleLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleLimitLessThanOrEqualTo(Byte value) {
+            addCriterion("scale_limit <=", value, "scaleLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleLimitIn(List<Byte> values) {
+            addCriterion("scale_limit in", values, "scaleLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleLimitNotIn(List<Byte> values) {
+            addCriterion("scale_limit not in", values, "scaleLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleLimitBetween(Byte value1, Byte value2) {
+            addCriterion("scale_limit between", value1, value2, "scaleLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleLimitNotBetween(Byte value1, Byte value2) {
+            addCriterion("scale_limit not between", value1, value2, "scaleLimit");
+            return (Criteria) this;
+        }
+
         public Criteria andTitleIsNull() {
             addCriterion("title is null");
             return (Criteria) this;

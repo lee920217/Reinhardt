@@ -18,6 +18,7 @@ public class UserServiceImpl implements IUserService {
 
     private final static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private UserMapper userMapper;
 

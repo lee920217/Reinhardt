@@ -5,6 +5,8 @@
     <id column="tid" jdbcType="BIGINT" property="tid" />
     <result column="uuid" jdbcType="VARCHAR" property="uuid" />
     <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="traffic_type" jdbcType="VARCHAR" property="trafficType" />
+    <result column="scale_limit" jdbcType="TINYINT" property="scaleLimit" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="start" jdbcType="VARCHAR" property="start" />
@@ -79,8 +81,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    tid, uuid, type, title, start_time, start, start_code, target, target_code, status, 
-    create_time, modify_time
+    tid, uuid, type, traffic_type, scale_limit, title, start_time, start, start_code, 
+    target, target_code, status, create_time, modify_time
   </sql>
   <sql id="Blob_Column_List">
     description, through, through_code
@@ -135,17 +137,17 @@
   </delete>
   <insert id="insert" parameterType="uk.co.cnoversea.api.dao.model.TaskWithBLOBs" useGeneratedKeys="true" keyProperty="tid">
     insert into cnos_task (tid, uuid, type, 
-      title, start_time, start, 
-      start_code, target, target_code, 
-      status, create_time, modify_time, 
-      description, through, through_code
-      )
+      traffic_type, scale_limit, title, 
+      start_time, start, start_code, 
+      target, target_code, status, 
+      create_time, modify_time, description, 
+      through, through_code)
     values (#{tid,jdbcType=BIGINT}, #{uuid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
-      #{title,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{start,jdbcType=VARCHAR}, 
-      #{startCode,jdbcType=VARCHAR}, #{target,jdbcType=VARCHAR}, #{targetCode,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, 
-      #{description,jdbcType=LONGVARCHAR}, #{through,jdbcType=LONGVARCHAR}, #{throughCode,jdbcType=LONGVARCHAR}
-      )
+      #{trafficType,jdbcType=VARCHAR}, #{scaleLimit,jdbcType=TINYINT}, #{title,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{start,jdbcType=VARCHAR}, #{startCode,jdbcType=VARCHAR}, 
+      #{target,jdbcType=VARCHAR}, #{targetCode,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{description,jdbcType=LONGVARCHAR}, 
+      #{through,jdbcType=LONGVARCHAR}, #{throughCode,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="uk.co.cnoversea.api.dao.model.TaskWithBLOBs" useGeneratedKeys="true" keyProperty="tid">
     insert into cnos_task
@@ -158,6 +160,12 @@
       </if>
       <if test="type != null">
         type,
+      </if>
+      <if test="trafficType != null">
+        traffic_type,
+      </if>
+      <if test="scaleLimit != null">
+        scale_limit,
       </if>
       <if test="title != null">
         title,
@@ -205,6 +213,12 @@
       </if>
       <if test="type != null">
         #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="trafficType != null">
+        #{trafficType,jdbcType=VARCHAR},
+      </if>
+      <if test="scaleLimit != null">
+        #{scaleLimit,jdbcType=TINYINT},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
@@ -262,6 +276,12 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=VARCHAR},
       </if>
+      <if test="record.trafficType != null">
+        traffic_type = #{record.trafficType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scaleLimit != null">
+        scale_limit = #{record.scaleLimit,jdbcType=TINYINT},
+      </if>
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
       </if>
@@ -308,6 +328,8 @@
     set tid = #{record.tid,jdbcType=BIGINT},
       uuid = #{record.uuid,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=VARCHAR},
+      traffic_type = #{record.trafficType,jdbcType=VARCHAR},
+      scale_limit = #{record.scaleLimit,jdbcType=TINYINT},
       title = #{record.title,jdbcType=VARCHAR},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       start = #{record.start,jdbcType=VARCHAR},
@@ -329,6 +351,8 @@
     set tid = #{record.tid,jdbcType=BIGINT},
       uuid = #{record.uuid,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=VARCHAR},
+      traffic_type = #{record.trafficType,jdbcType=VARCHAR},
+      scale_limit = #{record.scaleLimit,jdbcType=TINYINT},
       title = #{record.title,jdbcType=VARCHAR},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       start = #{record.start,jdbcType=VARCHAR},
@@ -350,6 +374,12 @@
       </if>
       <if test="type != null">
         type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="trafficType != null">
+        traffic_type = #{trafficType,jdbcType=VARCHAR},
+      </if>
+      <if test="scaleLimit != null">
+        scale_limit = #{scaleLimit,jdbcType=TINYINT},
       </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
@@ -394,6 +424,8 @@
     update cnos_task
     set uuid = #{uuid,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
+      traffic_type = #{trafficType,jdbcType=VARCHAR},
+      scale_limit = #{scaleLimit,jdbcType=TINYINT},
       title = #{title,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       start = #{start,jdbcType=VARCHAR},
@@ -412,6 +444,8 @@
     update cnos_task
     set uuid = #{uuid,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
+      traffic_type = #{trafficType,jdbcType=VARCHAR},
+      scale_limit = #{scaleLimit,jdbcType=TINYINT},
       title = #{title,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       start = #{start,jdbcType=VARCHAR},

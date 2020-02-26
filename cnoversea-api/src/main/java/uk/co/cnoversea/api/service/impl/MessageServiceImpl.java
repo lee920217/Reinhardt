@@ -17,6 +17,7 @@ public class MessageServiceImpl implements IMessageService {
 
     private final static Logger logger = LoggerFactory.getLogger(MessageServiceImpl.class);
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private MessageMapper messageMapper;
 

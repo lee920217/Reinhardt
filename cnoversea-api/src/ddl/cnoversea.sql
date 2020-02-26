@@ -25,7 +25,9 @@ CREATE TABLE `cnos_task` (
   `tid`          bigint(20)   NOT NULL AUTO_INCREMENT                                        COMMENT '任务ID',
   `uuid`         varchar(32)  NOT NULL                                                       COMMENT '用户UUID',
 
-  `type`         varchar(32)  NOT NULL                                                       COMMENT '行程类型 自己定',
+  `type`         varchar(32)  NOT NULL                                                       COMMENT '行程安全类型 自己定',
+  `traffic_type` varchar(32)  NOT NULL                                                       COMMENT '出行方式类型 自己定',
+  `scale_limit`  tinyint(4)   NOT NULL DEFAULT 10                                            COMMENT '人数限制',
   `title`        varchar(128) NOT NULL                                                       COMMENT '行程标题',
   `start_time`   datetime     NOT NULL                                                       COMMENT '出发时间',
   `description`  mediumtext                                                                  COMMENT '行程描述',
@@ -78,3 +80,19 @@ CREATE TABLE `cnos_message` (
   PRIMARY KEY (`mid`),
   KEY (`tid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='消息表';
+
+DROP TABLE IF EXISTS `cnos_postcode_lnglat_map`;
+CREATE TABLE `cnos_postcode_lnglat_map` (
+  `mid`          bigint(20)  NOT NULL AUTO_INCREMENT                                        COMMENT '映射 ID',
+  `postcode`     varchar(32)  NOT NULL                                                      COMMENT '邮编',
+  `longtitude`   varchar(32)  NOT NULL                                                      COMMENT '经度',
+  `latitude`     varchar(32)  NOT NULL                                                      COMMENT '维度',
+
+  `status`       tinyint(4)  NOT NULL DEFAULT '1'                                           COMMENT '是否生效 1:生效 0:无效',
+  `create_time`  datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP                             COMMENT '创建时间',
+  `modify_time`  timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`mid`),
+  UNIQUE KEY (`postcode`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='邮编和经纬度映射表';
+
+￿￿￿
