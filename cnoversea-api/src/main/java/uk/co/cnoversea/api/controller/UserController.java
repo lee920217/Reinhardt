@@ -32,7 +32,7 @@ public class UserController extends AbstractController {
         } catch (Exception e) {
             logger.error("regist user fail", e);
             if (e instanceof DuplicateKeyException) {
-                return genResponse(ResponseVO.CODE_ERR, "repeat uid : " + user.getUid(), userRet);
+                return genResponse(ResponseVO.CODE_ERR, "repeat uid : " + user.getUid() + ", email : " + user.getEmail(), userRet);
             } else {
                 return genResponse(ResponseVO.CODE_ERR, "regist fail, " + e.getMessage() , userRet);
             }
