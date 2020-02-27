@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import uk.co.cnoversea.api.dao.mapper.UserMapper;
 import uk.co.cnoversea.api.dao.model.User;
 import uk.co.cnoversea.api.dao.model.UserExample;
+import uk.co.cnoversea.api.exception.UserNotExistException;
 import uk.co.cnoversea.api.service.IUserService;
 import uk.co.cnoversea.common.security.MD5Util;
 import uk.co.cnoversea.common.string.Simple;
@@ -79,7 +80,7 @@ public class UserServiceImpl implements IUserService {
                 throw new Exception("incorrect pass");
             }
         }else{
-            throw new Exception("unexists user : uid = " + user.getUid() + ", email = " + user.getEmail());
+            throw new UserNotExistException("unexists user : uid = " + user.getUid() + ", email = " + user.getEmail());
         }
     }
 }

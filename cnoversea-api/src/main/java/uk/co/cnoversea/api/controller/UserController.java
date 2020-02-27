@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 import uk.co.cnoversea.api.dao.model.User;
+import uk.co.cnoversea.api.exception.UserNotExistException;
 import uk.co.cnoversea.api.service.IUserService;
 import uk.co.cnoversea.web.controller.AbstractController;
 import uk.co.cnoversea.web.vo.RequestVO;
@@ -32,7 +33,7 @@ public class UserController extends AbstractController {
         } catch (Exception e) {
             logger.error("regist user fail", e);
             if (e instanceof DuplicateKeyException) {
-                return genResponse(ResponseVO.CODE_ERR, "repeat uid : " + user.getUid() + ", email : " + user.getEmail(), userRet);
+                return genResponse(ResponseVO.CODE_ERR_USER_REPEAT, "repeat uid : " + user.getUid() + ", email : " + user.getEmail(), userRet);
             } else {
                 return genResponse(ResponseVO.CODE_ERR, "regist fail, " + e.getMessage() , userRet);
             }
@@ -43,15 +44,20 @@ public class UserController extends AbstractController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public @ResponseBody
     ResponseVO<User> login(@RequestBody RequestVO<User> param) {
+        User user = param.getQuery();
         try{
-            if (userService.login(param.getQuery())) {
-                return genResponse(param.getQuery());
+            if (userService.login(user)) {
+                return genResponse(user);
             } else {
-                return genResponse(ResponseVO.CODE_ERR, "login fail", param.getQuery());
+                return genResponse(ResponseVO.CODE_ERR, "login fail", user);
             }
         }catch(Exception e){
             logger.error("login fail", e);
-            return genResponse(ResponseVO.CODE_ERR, "login fail, " + e.getMessage(), param.getQuery());
+            if (e instanceof UserNotExistException) {
+                return genResponse(ResponseVO.CODE_ERR_USER_NOT_EXIST, "repeat uid : " + user.getUid() + ", email : " + user.getEmail(), user);
+            } else{
+                return genResponse(ResponseVO.CODE_ERR, "login fail, " + e.getMessage(), user);
+            }
         }
     }
 

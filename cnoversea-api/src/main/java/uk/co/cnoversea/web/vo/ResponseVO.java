@@ -7,6 +7,8 @@ public class ResponseVO<T> extends WebVO {
      * */
     public static final int CODE_OK = 0;
     public static final int CODE_ERR = 1;
+    public static final int CODE_ERR_USER_NOT_EXIST = 2;//用户不存在
+    public static final int CODE_ERR_USER_REPEAT = 3;//重复注册
 
     private int code;
     private String msg;
