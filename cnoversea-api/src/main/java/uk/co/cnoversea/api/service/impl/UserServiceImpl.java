@@ -44,9 +44,22 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public boolean login(User user) throws Exception {
-        UserExample e = new UserExample();
-        e.createCriteria().andUidEqualTo(user.getUid());
-        List<User> list = userMapper.selectByExample(e);
+        UserExample e = null;
+        List<User> list = null;
+
+        //uid和email都可以登录
+        if(Simple.StringNotNull(user.getUid())){
+            e = new UserExample();
+            e.createCriteria().andUidEqualTo(user.getUid());
+            list = userMapper.selectByExample(e);
+        }else if(Simple.StringNotNull(user.getEmail())){
+            e = new UserExample();
+            e.createCriteria().andEmailEqualTo(user.getEmail());
+            list = userMapper.selectByExample(e);
+        }else{
+            throw new Exception("login by uid or email ?");
+        }
+
         if (list != null && list.size() == 1) {
             User dbUser = list.get(0);
             String securityPass = MD5Util.queryMD5(user.getPass());
@@ -66,7 +79,7 @@ public class UserServiceImpl implements IUserService {
                 throw new Exception("incorrect pass");
             }
         }else{
-            throw new Exception("unexists user : " + user.getUuid());
+            throw new Exception("unexists user : uid = " + user.getUid() + ", email = " + user.getEmail());
         }
     }
 }

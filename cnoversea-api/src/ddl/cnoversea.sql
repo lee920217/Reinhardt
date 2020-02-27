@@ -9,7 +9,7 @@ CREATE TABLE `cnos_user` (
   `uuid`         varchar(32) NOT NULL                                                       COMMENT '用户UUID',
   `uid`          varchar(32) NOT NULL                                                       COMMENT '用户登录ID',
   `uname`        varchar(32) NOT NULL                                                       COMMENT '用户名',
-  `email`        varchar(64)                                                                COMMENT '用户邮箱',
+  `email`        varchar(64) NOT NULL                                                       COMMENT '用户邮箱',
   `gender`       tinyint(4)                                                                 COMMENT '用户性别 1:male, 0:female',
   `mobile`       varchar(32)                                                                COMMENT '用户手机号',
   `pass`         varchar(32) NOT NULL                                                       COMMENT '用户密码',
@@ -17,7 +17,8 @@ CREATE TABLE `cnos_user` (
   `create_time`  datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP                             COMMENT '创建时间',
   `modify_time`  timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`uuid`),
-  UNIQUE KEY (`uid`)
+  UNIQUE KEY (`uid`),
+  UNIQUE KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 DROP TABLE IF EXISTS `cnos_task`;
