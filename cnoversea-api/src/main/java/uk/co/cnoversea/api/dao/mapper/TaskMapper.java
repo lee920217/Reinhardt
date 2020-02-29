@@ -6,6 +6,7 @@ import uk.co.cnoversea.api.dao.model.Partner;
 import uk.co.cnoversea.api.dao.model.Task;
 import uk.co.cnoversea.api.dao.model.TaskExample;
 import uk.co.cnoversea.api.dao.model.TaskWithBLOBs;
+import uk.co.cnoversea.api.vo.TaskExt;
 
 public interface TaskMapper {
     long countByExample(TaskExample example);
@@ -36,7 +37,7 @@ public interface TaskMapper {
 
     int updateByPrimaryKey(Task record);
 
-    List<TaskWithBLOBs> selectPage(TaskWithBLOBs record);
+    List<TaskExt> selectPage(TaskWithBLOBs record);
     int pageCount(TaskWithBLOBs record);
 
     List<TaskWithBLOBs> selectByPartnerUUID(Partner record);

@@ -12,6 +12,7 @@ import uk.co.cnoversea.api.dao.mapper.UserMapper;
 import uk.co.cnoversea.api.dao.model.*;
 import uk.co.cnoversea.api.service.ITaskService;
 import uk.co.cnoversea.api.vo.PartnerUser;
+import uk.co.cnoversea.api.vo.TaskExt;
 import uk.co.cnoversea.web.vo.Page;
 
 import java.util.List;
@@ -57,7 +58,7 @@ public class TaskServiceImpl implements ITaskService {
     }
 
     @Override
-    public Page<TaskWithBLOBs> page(TaskWithBLOBs record) throws Exception {
+    public Page<TaskExt> page(TaskWithBLOBs record) throws Exception {
         return taskManger.pageQuery(record);
     }
 

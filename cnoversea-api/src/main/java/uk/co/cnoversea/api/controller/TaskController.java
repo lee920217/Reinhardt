@@ -11,6 +11,7 @@ import uk.co.cnoversea.api.dao.model.TaskWithBLOBs;
 import uk.co.cnoversea.api.service.ITaskService;
 import uk.co.cnoversea.api.service.IUserService;
 import uk.co.cnoversea.api.vo.PartnerUser;
+import uk.co.cnoversea.api.vo.TaskExt;
 import uk.co.cnoversea.web.controller.AbstractController;
 import uk.co.cnoversea.web.vo.Page;
 import uk.co.cnoversea.web.vo.RequestVO;
@@ -47,9 +48,9 @@ public class TaskController extends AbstractController {
     //查询行程
     @RequestMapping(value = "/page", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseVO<Page<TaskWithBLOBs>> page(@RequestBody RequestVO<TaskWithBLOBs> param) {
+    ResponseVO<Page<TaskExt>> page(@RequestBody RequestVO<TaskWithBLOBs> param) {
         TaskWithBLOBs task = param.getQuery();
-        Page<TaskWithBLOBs> page = null;
+        Page<TaskExt> page = null;
         try {
             page = taskService.page(task);
             return genResponse(page);

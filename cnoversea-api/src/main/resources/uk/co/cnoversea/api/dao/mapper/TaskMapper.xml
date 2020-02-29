@@ -458,33 +458,41 @@
     where tid = #{tid,jdbcType=BIGINT}
   </update>
 
+  <resultMap extends="ResultMapWithBLOBs" id="TaskExtResultMapWithBLOBs" type="uk.co.cnoversea.api.vo.TaskExt">
+    <result column="start_longtitude" jdbcType="VARCHAR" property="startLongtitude" />
+    <result column="start_latitude" jdbcType="VARCHAR" property="startLatitude" />
+    <result column="target_longtitude" jdbcType="VARCHAR" property="targetLongtitude" />
+    <result column="target_latitude" jdbcType="VARCHAR" property="targetLatitude" />
+  </resultMap>
   <sql id="SelectiveAndPreEqListWithoutId">
-    <if test="tid != null">and tid = #{tid,jdbcType=BIGINT}</if>
-    <if test="uuid != null">and uuid = #{uuid,jdbcType=VARCHAR}</if>
-    <if test="type != null">and type = #{type,jdbcType=VARCHAR}</if>
-    <if test="startTime != null">and start_time = #{startTime,jdbcType=TIMESTAMP}</if>
+    <if test="tid != null">and t.tid = #{tid,jdbcType=BIGINT}</if>
+    <if test="uuid != null">and t.uuid = #{uuid,jdbcType=VARCHAR}</if>
+    <if test="type != null">and t.type = #{type,jdbcType=VARCHAR}</if>
+    <if test="startTime != null">and t.start_time = #{startTime,jdbcType=TIMESTAMP}</if>
     <if test="start != null">
       and (
-        start = #{start,jdbcType=VARCHAR}
-        or target = #{start,jdbcType=VARCHAR}
-        or locate( #{start,jdbcType=VARCHAR}, target) &gt; 0
+        t.start = #{start,jdbcType=VARCHAR}
+        or t.target = #{start,jdbcType=VARCHAR}
+        or locate( #{start,jdbcType=VARCHAR}, t.target) &gt; 0
       )
     </if>
   </sql>
-  <select id="selectPage" resultMap="ResultMapWithBLOBs">
+  <select id="selectPage" resultMap="TaskExtResultMapWithBLOBs">
     select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from cnos_task
+      t.*,
+      m_start.longtitude start_longtitude, m_start.latitude start_latitude,
+      m_target.longtitude target_longtitude, m_target.latitude target_latitude
+    from cnos_task t
+    left join cnos_postcode_lnglat_map m_start on t.start_code = m_start.postcode
+    left join cnos_postcode_lnglat_map m_target on t.target_code = m_target.postcode
     where 1 = 1
     <include refid="SelectiveAndPreEqListWithoutId" />
-    order by ${order_} ${sort_}
+    order by t.${order_} ${sort_}
     limit ${limitStart_}, ${limitSize_}
   </select>
   <select id="pageCount" resultType="int">
     select count(1)
-    from cnos_task
+    from cnos_task t
     where 1 = 1
     <include refid="SelectiveAndPreEqListWithoutId" />
   </select>
@@ -492,11 +500,11 @@
   <select id="selectByPartnerUUID" parameterType="uk.co.cnoversea.api.dao.model.Partner" resultMap="ResultMapWithBLOBs">
     select
     distinct
-    task.*
-    from cnos_task task left join cnos_partner partner
-    on task.tid = partner.tid
-    where partner.uuid = #{uuid,jdbcType=VARCHAR}
-    order by task.create_time desc
+    t.*
+    from cnos_task t left join cnos_partner p
+    on t.tid = p.tid
+    where p.uuid = #{uuid,jdbcType=VARCHAR}
+    order by t.create_time desc
   </select>
 
 </mapper>
