@@ -14,7 +14,7 @@
 <script>
 export default {
   name: "CitySelect",
-  data() {
+  data () {
     return {
       cityList: [
         "London",
@@ -45,12 +45,12 @@ export default {
     };
   },
   methods: {
-    transfer(city) {
+    transfer (city) {
       const self = this;
       self.$emit("changeCity", city);
       self.$emit("maskControl", false);
     },
-    closeBtn(status) {
+    closeBtn (status) {
       const self = this;
       self.$emit("maskControl", false);
     }
@@ -68,7 +68,7 @@ $designWidth: 750;
   left: 0;
   right: 0;
   background-color: #ffffff;
-  z-index: 11;
+  z-index: 99;
   .select-header {
     width: 100%;
     height: px2rem(80);

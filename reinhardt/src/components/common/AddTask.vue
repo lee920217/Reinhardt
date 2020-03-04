@@ -1,82 +1,122 @@
 <template>
   <div class="add-task-container">
-    <div class="new-task-header">新建任务</div>
+    <backPage :path="'index'" @transfer="transfer" />
+    <Toast :msg="toastMsg" v-if="toastStatus > 0" />
+    <div class="title-container">
+      <div class="title">创建我的线路</div>
+      <div class="desc">官方和个人路线没有满足您的要求时，可以自己创建</div>
+    </div>
     <div class="new-task-body">
-      <div class="item">
-        <div class="title">type:</div>
-        <div class="select-ct">
-          <div class="fake-border" v-on:touchstart="showList">{{ taskType[addNewTaskParams.type] }}</div>
-          <ul class="select-list" :class="[selectStatus ? 'active' : '']">
-            <li
-              class="list-item"
-              v-for="(i, v) in taskType"
-              v-bind:key="v"
-              v-on:touchstart="chooseTaskType(v)"
-            >{{ i }}</li>
-          </ul>
+      <div class="task-info-input">
+        <div class="title">出发地</div>
+        <div class="input-ct">
+          <input
+            type="text"
+            placeholder="出发地名称"
+            v-model="addNewTaskParams.startDesc"
+            v-on:input="checkInputContent"
+          />
         </div>
       </div>
-      <div class="item">
-        <div class="title">City:</div>
-        <div class="select-ct">
-          <div class="fake-border" v-on:touchstart="showCityList">{{ addNewTaskParams.start }}</div>
-          <ul class="select-list" :class="[citySelectStatus ? 'active' : '']">
-            <li
-              class="list-item"
-              v-for="i in cityList"
-              v-bind:key="i"
-              v-on:touchstart="chooseCity(i)"
-            >{{ i }}</li>
-          </ul>
+      <div class="task-info-input">
+        <div class="title">出发地邮编</div>
+        <div class="input-ct">
+          <div class="city" v-if="addNewTaskParams.start">{{ cityObj.from }}</div>
+          <input
+            type="text"
+            placeholder="出发地邮编"
+            v-model="addNewTaskParams.startCode"
+            v-on:input="checkInputContent"
+          />
         </div>
       </div>
-
-      <div class="item">
-        <div class="title">Time(Postcode):</div>
-        <input type="datetime-local" v-model="addNewTaskParams.startTime" />
+      <div class="task-info-input">
+        <div class="title">到达地名称</div>
+        <div class="input-ct">
+          <input
+            type="text"
+            placeholder="到达地名称"
+            v-model="addNewTaskParams.targetDesc"
+            v-on:input="checkInputContent"
+          />
+        </div>
       </div>
-      <div class="item">
-        <div class="title">From(Location):</div>
-        <input type="text" v-model="addNewTaskParams.startDesc" />
+      <div class="task-info-input">
+        <div class="title">到达地邮编</div>
+        <div class="input-ct">
+          <div class="city" v-if="addNewTaskParams.target">{{ cityObj.to }}</div>
+          <input
+            type="text"
+            placeholder="到达地邮编"
+            v-model="addNewTaskParams.targetCode"
+            v-on:input="checkInputContent"
+          />
+        </div>
       </div>
-      <div class="item">
-        <div class="title">From(Postcode):</div>
-        <input type="text" v-model="addNewTaskParams.startCode" />
+      <div class="task-info-input">
+        <div class="title">时间</div>
+        <div class="input-ct">
+          <input type="datetime-local" placeholder="出发时间" v-model="addNewTaskParams.startTime" />
+        </div>
       </div>
-      <div class="item">
-        <div class="title">To(Location):</div>
-        <input type="text" v-model="addNewTaskParams.targetDesc" />
+      <div class="task-info-input">
+        <div class="title">交通工具</div>
+        <div class="input-ct">
+          <select
+            class="traffic-selector"
+            v-model="addNewTaskParams.trafficType"
+            v-on:input="checkInputContent"
+          >
+            <option class="default" :value="0">选择交通工具</option>
+            <option :value="1">步行</option>
+            <option :value="2">4座汽车</option>
+            <option :value="3">8座汽车</option>
+            <option :value="4">巴士</option>
+          </select>
+        </div>
       </div>
-      <div class="item">
-        <div class="title">To(Postcode):</div>
-        <input type="text" v-model="addNewTaskParams.targetCode" />
-      </div>
-      <div class="item">
-        <div class="title">Note(备注):</div>
-        <input type="text" v-model="addNewTaskParams.description" />
+      <div class="task-info-input">
+        <div class="title">人数</div>
+        <div class="input-ct">
+          <input
+            type="number"
+            placeholder="人数（包括创建人）"
+            v-model="addNewTaskParams.scaleLimit"
+            v-on:input="checkInputContent"
+          />
+        </div>
       </div>
     </div>
-    <div class="control-ct">
-      <div class="cancel btn" v-on:touchstart="cancelAdd">取消</div>
-      <div class="confirm btn" v-on:touchstart="confirmAdd()">确认</div>
-    </div>
+    <div
+      class="confirm-add-task"
+      :class="[clickStatus ? 'active' : 'disable']"
+      v-on:touchstart="confirmAdd"
+    >{{ createStatus }}</div>
   </div>
 </template>
 
 <script>
-import { Post } from "@/assets/api/api.js";
+import backPage from "@/components/common/BackPage.vue";
+import Toast from "@/components/common/Toast.vue";
+import { Get, Post } from "@/assets/api/api.js";
+import { exportAddress } from "@/assets/api/setting.js";
 
 export default {
   name: "AddTask",
+  props: {
+    basicTravelData: {
+      type: Object
+    }
+  },
+  components: {
+    backPage,
+    Toast
+  },
   data () {
     return {
       selectStatus: false,
       citySelectStatus: false,
-      taskType: {
-        0: "选择任务类型",
-        1: "结伴出行",
-        2: "危险地共享"
-      },
+      currentTime: null,
       cityList: [
         "London",
         "Manchester",
@@ -103,84 +143,150 @@ export default {
         "Brighton",
         "Derby"
       ],
+      toastMsg: "",
+      toastStatus: 0,
+      createStatus: "创建路线",
+      cityObj: {
+        from: "",
+        to: ""
+      },
+      clickStatus: false,
       addNewTaskParams: {
         uuid: this.$uuid,
-        type: 0,
+        type: 1,
         title: "",
         startTime: "",
-        start: "请选择城市",
+        start: "",
         startDesc: "",
         startCode: "",
         target: "",
         targetDesc: "",
         targetCode: "",
         description: "",
+        trafficType: 0,
+        scaleLimit: null,
         through: "Tempory unavialiable",
         throughCode: "0,1,2,3"
       }
     };
   },
+  mounted: function () {
+    this.timeFormat();
+    this.combineBasicData();
+  },
   methods: {
-    cancelAdd () {
+    combineBasicData () {
       const self = this;
-      self.$emit("hideAddTaskDialog", "hideAddTaskDialog");
+      self.addNewTaskParams.startDesc = self.basicTravelData.from;
+      self.addNewTaskParams.targetDesc = self.basicTravelData.to;
+      self.addNewTaskParams.startTime = self.basicTravelData.time;
+    },
+    timeFormat () {
+      const self = this;
+      const time = new Date();
+      const timeDtl = {
+        Y: time.getFullYear(),
+        M: self.addZero(time.getMonth() + 1),
+        d: self.addZero(time.getDate()),
+        h: self.addZero(time.getHours()),
+        m: self.addZero(time.getMinutes())
+      };
+      let formatTime = `${timeDtl["Y"]}-${timeDtl["M"]}-${timeDtl["d"]}T${timeDtl["h"]}:${timeDtl["m"]}`;
+      self.currentTime = formatTime;
+    },
+    addZero (v) {
+      if (v < 10) {
+        v = "0" + v;
+      }
+      return v;
+    },
+    toastMsgWarning (msg) {
+      const self = this;
+      self.toastMsg = msg;
+      self.toastStatus = 1;
+      setTimeout(() => {
+        self.toastStatus = 0;
+        self.toastMsg = "";
+      }, 1000);
     },
     confirmAdd () {
       const self = this;
+      if (!self.clickStatus) {
+        return;
+      }
       self.addNewTaskParams.startTime = self.addNewTaskParams.startTime.replace("T", " ");
-      if (self.addNewTaskParams.type === 0) {
-        self.$emit("handleError", {
-          errno: 1,
-          errmsg: "请选择任务类型",
-          redirect: 0,
-          path: "/"
-        });
-        return;
+      const postcodeCheck = self.postcodeVaild();
+      if (!postcodeCheck) {
+        self.toastMsgWarning("邮编格式错误");
       }
       if (!self.addNewTaskParams.startTime) {
-        self.$emit("handleError", {
-          errno: 1,
-          errmsg: "请选择开始时间",
-          redirect: 0,
-          path: "/"
-        });
+        self.toastMsgWarning("出发时间不得为空");
         return;
       }
-      if (!self.addNewTaskParams.startTime) {
-        self.$emit("handleError", {
-          errno: 1,
-          errmsg: "请选择开始时间",
-          redirect: 0,
-          path: "/"
-        });
+      if (!self.addNewTaskParams.startCode) {
+        self.toastMsgWarning("出发地邮编不得为空");
         return;
       }
-      if (!self.addNewTaskParams.start || !self.addNewTaskParams.startCode) {
-        self.$emit("handleError", {
-          errno: 1,
-          errmsg: "请选择出发地和出发邮编",
-          redirect: 0,
-          path: "/"
-        });
+      if (!self.addNewTaskParams.startDesc) {
+        self.toastMsgWarning("出发地名称不得为空");
         return;
       }
-      if (
-        (self.addNewTaskParams.type == 1 && !self.addNewTaskParams.start) ||
-        !self.addNewTaskParams.startCode
-      ) {
-        self.$emit("handleError", {
-          errno: 1,
-          errmsg: "请选择结束地和结束邮编",
-          redirect: 0,
-          path: "/"
-        });
+      if (!self.addNewTaskParams.targetCode) {
+        self.toastMsgWarning("目的地邮编不得为空");
         return;
       }
-      self.addNewTaskParams['startCode'] = `${self.addNewTaskParams['startDesc']},${self.addNewTaskParams['startCode']}`
-      self.addNewTaskParams['targetCode'] = `${self.addNewTaskParams['targetDesc']},${self.addNewTaskParams['targetCode']}`
-      Post("http://localhost:8360/api/task/declare", { query: self.addNewTaskParams }).then(res => {
+      if (!self.addNewTaskParams.targetDesc) {
+        self.toastMsgWarning("目的地名称不得为空");
+        return;
+      }
+      if (!self.addNewTaskParams.trafficType) {
+        self.toastMsgWarning("交通方式不得为空");
+        return;
+      }
+      if (!self.addNewTaskParams.scaleLimit) {
+        self.toastMsgWarning("人数限制不得为空");
+        return;
+      }
+      self.createStatus = "创建中……";
+      self.clickStatus = false;
+      let getStartCity = self.requestCityByPostCode(self.addNewTaskParams.startCode);
+      let getTargetCity = self.requestCityByPostCode(self.addNewTaskParams.targetCode);
+      Promise.all([getStartCity, getTargetCity]).then(res => {
+        self.addNewTaskParams.start = res[0].result.admin_district;
+        self.addNewTaskParams.target = res[1].result.admin_district;
+        self.cityObj = {
+          from: res[0].result.admin_district,
+          to: res[1].result.admin_district
+        };
+        self.addNewTaskParams[
+          "startCode"
+        ] = `${self.addNewTaskParams["startDesc"]},${self.addNewTaskParams["startCode"]}`;
+        self.addNewTaskParams[
+          "targetCode"
+        ] = `${self.addNewTaskParams["targetDesc"]},${self.addNewTaskParams["targetCode"]}`;
+        self.requestAddNewTask();
+      });
+    },
+    requestCityByPostCode (postcode) {
+      const self = this;
+      let requestAddr = exportAddress;
+      postcode = postcode.replace(/\s+/g, "");
+      return new Promise((resolve, reject) => {
+        Get(`${requestAddr.postcodesio}/postcodes/${postcode}`).then(res => {
+          if (res.status == 200 && res.result) {
+            resolve(res);
+          } else {
+            reject("error");
+          }
+        });
+      });
+    },
+    requestAddNewTask () {
+      const self = this;
+      let requestAddr = exportAddress;
+      Post(`${requestAddr.task}/declare`, { query: self.addNewTaskParams }).then(res => {
         self.handleRequest(res);
-        self.cancelAdd();
+        self.transfer();
       });
     },
     handleRequest (res) {
@@ -224,6 +330,40 @@ export default {
       const self = this;
       self.citySelectStatus = false;
       self.selectStatus = false;
+    },
+    postcodeVaild () {
+      const self = this;
+      const startPostcode = self.addNewTaskParams.startCode;
+      const targetPostcode = self.addNewTaskParams.targetCode;
+      const re =
+        "^([A-Za-z][A-Ha-hJ-Yj-y]?[0-9][A-Za-z0-9]? ?[0-9][A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$";
+      if (startPostcode.match(re) == null) {
+        self.toastMsgWarning("出发地邮编格式错误");
+        return false;
+      }
+      if (startPostcode.match(re) == null) {
+        self.toastMsgWarning("目的地邮编格式错误");
+        return false;
+      }
+      return true;
+    },
+    transfer () {
+      const self = this;
+      self.$emit("cancelAddTaskDialog", "cancel");
+    },
+    checkInputContent () {
+      const self = this;
+      if (
+        self.addNewTaskParams.startDesc &&
+        self.addNewTaskParams.startCode &&
+        self.addNewTaskParams.targetDesc &&
+        self.addNewTaskParams.targetCode &&
+        self.addNewTaskParams.startTime &&
+        self.addNewTaskParams.trafficType &&
+        self.addNewTaskParams.scaleLimit
+      ) {
+        self.clickStatus = true;
+      }
     }
   }
 };
@@ -234,97 +374,92 @@ $designWidth: 750;
 @import "@/assets/library/px2rem.scss";
 .add-task-container {
   position: fixed;
-  width: px2rem(600);
+  width: 100%;
+  height: 100%;
   padding-bottom: px2rem(30);
-  background-color: #f2f2f2;
-  z-index: 13;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: px2rem(10);
+  background-color: white;
+  z-index: 21;
   text-align: left;
-  box-shadow: 0 px2rem(4) px2rem(8) rgba(0, 0, 0, 0.32),
-    0 px2rem(4) px2rem(40) rgba(0, 0, 0, 0.4);
   overflow: hidden;
-  .new-task-header {
-    padding: px2rem(30);
-    margin-bottom: px2rem(20);
-    font-size: px2rem(30);
-    background-color: #b5b3b3;
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.3);
+  .title-container {
+    margin-top: px2rem(256);
+    margin-left: px2rem(64);
+    .title {
+      font-size: px2rem(40);
+      font-weight: 500;
+    }
+    .desc {
+      font-size: px2rem(26);
+      color: rgba(22, 24, 35, 0.5);
+    }
   }
   .new-task-body {
-    max-height: px2rem(800);
-    overflow: scroll;
-  }
-  .item {
-    padding: 0 px2rem(30);
-    margin-bottom: px2rem(20);
-    .title {
-      margin-bottom: px2rem(10);
-      font-size: px2rem(28);
-      font-weight: bold;
-    }
-    .select-ct {
-      position: relative;
-      width: px2rem(440);
-      height: px2rem(50);
-      margin-top: px2rem(30);
-      border: px2rem(1) solid #000;
-      border-radius: px2rem(10);
-      font-size: px2rem(24);
-      line-height: px2rem(50);
-      text-align: center;
-      color: #000;
-      .select-list {
-        position: absolute;
-        top: px2rem(52);
-        width: px2rem(440);
-        height: 0;
-        background-color: #ffffff;
-        border: 0 solid #b5b3b3;
-        border-radius: px2rem(10);
-        box-sizing: border-box;
-        overflow: hidden;
-        z-index: 5;
-        &.active {
-          height: auto !important;
-          max-height: px2rem(400);
-          overflow: scroll;
-          border: px2rem(1) solid #b5b3b3;
-          transition: 0.5s;
+    width: px2rem(622);
+    margin: px2rem(84) auto 0 auto;
+    .task-info-input {
+      width: 100%;
+      height: px2rem(96);
+      display: flex;
+      border-bottom: px2rem(2) solid #f7f7f7;
+      .title {
+        width: px2rem(140);
+        font-size: px2rem(28);
+        font-weight: 500;
+        line-height: px2rem(98);
+      }
+      .input-ct {
+        position: relative;
+        width: px2rem(400);
+        height: px2rem(96);
+        margin-left: px2rem(64);
+        font-size: px2rem(30);
+        .city {
+          position: absolute;
+          top: 50%;
+          right: 0;
+          transform: translateY(-50%);
+          padding: px2rem(8) px2rem(16);
+          font-size: px2rem(20);
+          color: #2b44ff;
+          border: px2rem(2) solid #2b44ff;
+          border-radius: px2rem(4);
+        }
+        input {
+          height: 100%;
+          box-sizing: border-box;
+          line-height: px2rem(96);
+          font-size: px2rem(28);
+          &::placeholder {
+            font-size: px2rem(28);
+            color: #cccccc;
+          }
+        }
+        .traffic-selector {
+          height: px2rem(96);
+          line-height: px2rem(96);
+          font-size: px2rem(28);
+          .default {
+            color: #cccccc;
+          }
         }
       }
     }
-    input {
-      width: px2rem(400);
-      height: px2rem(50);
-      padding: 0 px2rem(20);
-      background-color: transparent;
-      border: px2rem(1) solid #000;
-      border-radius: px2rem(10);
-      font-size: px2rem(24);
-    }
   }
-  .control-ct {
-    display: flex;
-    padding: 0 px2rem(30);
-    .btn {
-      width: px2rem(180);
-      height: px2rem(80);
-      margin-top: px2rem(30);
-      border-radius: px2rem(10);
-      text-align: center;
-      line-height: px2rem(80);
-      font-size: px2rem(30);
-      color: #f2f2f2;
-      &.cancel {
-        background-color: #b5b3b3;
-      }
-      &.confirm {
-        background-color: #4285f4;
-        margin-left: px2rem(80);
-      }
+  .confirm-add-task {
+    width: px2rem(622);
+    height: px2rem(96);
+    margin: px2rem(64) auto 0 auto;
+    border-radius: px2rem(60);
+    font-size: px2rem(30);
+    text-align: center;
+    line-height: px2rem(96);
+    &.active {
+      background-color: #2b44ff;
+      color: #ffffff;
+    }
+    &.disable {
+      background-color: #eeeeee;
+      color: #bbbbbb;
     }
   }
 }

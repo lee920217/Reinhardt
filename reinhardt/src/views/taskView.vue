@@ -54,26 +54,18 @@
       <div class="travel-plan-icon"></div>
     </div>
     <div class="chat-dialog">
-      <div class="unteammate-mask">
+      <div class="unteammate-mask" v-if="!isIn">
         <div class="join-btn" v-on:touchstart="joinTask">加入Task</div>
       </div>
       <iscroll-view class="chat-scroll-view">
-        <div class="chat-message">
-          <div class="user-name">caocaocao:</div>
-          <div class="msg">出发出发</div>
-        </div>
-        <div class="chat-message">
-          <div class="user-name">caocaocao:</div>
-          <div class="msg">出发出发</div>
-        </div>
-        <div class="chat-message system-msg">
-          <div class="user-name">caocaocao</div>
-          <div class="msg">加入了</div>
+        <div class="chat-message" v-for="i in messageList" v-bind:key="i.modifyTime">
+          <div class="user-name">{{i.uname}}:</div>
+          <div class="msg">{{i.message}}</div>
         </div>
       </iscroll-view>
       <div class="input-box">
-        <input type="text" placeholder="从这里发送消息" />
-        <div class="enter-btn">确认</div>
+        <input type="text" placeholder="从这里发送消息" v-model="inputMessage" />
+        <div class="enter-btn" v-on:click="postMessage">确认</div>
       </div>
     </div>
   </div>
@@ -86,21 +78,83 @@ export default {
   name: "taskView",
   data () {
     return {
-      taskDtl: {}
+      taskDtl: {
+        targetCode: [],
+        startCode: [],
+      },
+      messageList: [],
+      isIn: false,
+      inputMessage: ''
     }
   },
   mounted: function () {
-    this.getTaskDtl()
+    this.getTaskDtl();
+    this.getMember();
   },
   methods: {
     getTaskDtl () {
       const self = this;
       const taskInfo = self.$route.params;
+      console.log(taskInfo);
       self.taskDtl = taskInfo;
     },
     redirectToList () {
       const self = this;
-      self.$router.push({ path: '/taskList' });
+      self.$router.go(-1);
+    },
+    getMember () {
+      const self = this;
+      const tid = self.taskDtl.tid;
+      Post("http://localhost:8360/api/task/partners", {
+        query: {
+          tid: tid
+        }
+      }).then(res => {
+        if (res.code === 0) {
+          const data = res.data;
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].partnerUuid == self.$uuid) {
+              self.isIn = true;
+              self.getMessage();
+            }
+          }
+        }
+      })
+    },
+    getMessage () {
+      const self = this;
+      const tid = self.taskDtl.tid;
+      Post("http://localhost:8360/api/message/fetch", {
+        query: {
+          tid: tid,
+          mid: "0",
+          order_: "create_time",
+          sort_: "asc",
+          pageSize_: "10"
+        }
+      }).then(res => {
+        console.log(res);
+        if (res.code === 0) {
+          self.messageList = res.data
+        }
+      })
+    },
+    postMessage () {
+      const self = this;
+      const tid = self.taskDtl.tid;
+      const uuid = self.$uuid;
+      const message = self.inputMessage;
+
+      Post("http://localhost:8360/api/message/send", {
+        query: {
+          tid: tid,
+          uuid: uuid,
+          message: message
+        }
+      }).then(res => {
+        console.log(res);
+        self.inputMessage = ""
+      })
     },
     joinTask () {
       const self = this;
@@ -269,6 +323,7 @@ $designWidth: 750;
         border: px2rem(2) solid #b5b3b3;
         border-radius: px2rem(10);
         padding: 0 px2rem(10);
+        font-size: px2rem(26);
       }
     }
     .enter-btn {

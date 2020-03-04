@@ -5,13 +5,16 @@
       v-if="userKey == 'login'"
       v-bind:test="test"
       v-bind:userKey="userKey"
+      v-bind:transferData="transferData"
       @transfer="transfer"
+      @toRegister="toRegister"
       @handleError="handleError"
     />
     <Register
       v-if="userKey == 'register'"
       v-bind:userKey="userKey"
       v-bind:test="test"
+      v-bind:transferData="transferData"
       @transfer="transfer"
       @handleError="handleError"
     />
@@ -26,27 +29,43 @@ import MessageTop from "@/components/common/MessageTop.vue";
 export default {
   name: "UserCenter",
   components: { Register, Login, MessageTop },
-  data () {
+  data() {
     return {
-      userKey: 'login',
+      userKey: "login",
       errorData: {
         errno: -1,
-        errmsg: ''
+        errmsg: ""
+      },
+      transferData: {
+        email: "",
+        pass: ""
       }
-    }
+    };
   },
+  created() {},
   methods: {
-    transfer (data) {
+    checkUser() {
+      // const self = this;
+      // if (self.$userId && self.$uuid && self.$userName && self.$gender && $email) {
+      //   self.$router.push({ path: "/" });
+      // }
+    },
+    toRegister(data) {
+      const self = this;
+      self.userKey = "register";
+      self.transferData = data;
+    },
+    transfer(data) {
       const self = this;
       self.userKey = data;
     },
-    handleError (data) {
+    handleError(data) {
       const self = this;
       self.errorData = data;
-      console.log(data)
+      console.log(data);
     },
-    test () {
-      console.log(1)
+    test() {
+      console.log(1);
     }
   }
 };

@@ -1,23 +1,29 @@
 <template>
   <div class="task-list-container">
     <OVHeader />
+    <Toast :msg="toastMsg" v-if="toastStatus > 0" />
     <MaskView v-if="addTask" />
-    <AddTask v-if="addTask" @hideAddTaskDialog="hideAddTaskDialog" @handleError="handleError" />
+    <AddTask
+      v-if="addTask"
+      @hideAddTaskDialog="hideAddTaskDialog"
+      @handleError="handleError"
+      @activeToast="activeToast"
+    />
     <MessageTop v-if="errorData.errno >= 0" :errorData="errorData" />
     <CitySelect v-if="maskStatus" @changeCity="changeCity" @maskControl="maskControl" />
     <div class="task-location-select" v-on:touchstart="maskControl(true)">
       <div class="city-name">{{ currentCity }}</div>
     </div>
-    <div class="task-location-search">
+    <!-- <div class="task-location-search">
       <input type="text" class="location-search" placeholder="输入地名或者邮编" />
       <div class="search-btn"></div>
-    </div>
+    </div>-->
     <iscroll-view ref="iscroll" class="scroll-view">
       <div
         class="task-item"
         v-for="i in taskList"
         v-bind:key="i.tid"
-        v-on:touchend="redirectToTaskDtl(i)"
+        v-on:click="redirectToTaskDtl(i)"
         :class="[i.type == 1 ? 'active': 'dangerous']"
       >
         <div class="task-item-dtl">
@@ -46,10 +52,11 @@ import CitySelect from "@/components/common/CitySelect.vue";
 import MaskView from "@/components/common/Mask.vue";
 import AddTask from "@/components/common/AddTask.vue";
 import MessageTop from "@/components/common/MessageTop.vue";
+import Toast from "@/components/common/Toast.vue";
 
 export default {
   name: "TaskList",
-  components: { OVHeader, CitySelect, MaskView, AddTask, MessageTop },
+  components: { OVHeader, CitySelect, MaskView, AddTask, MessageTop, Toast },
   data () {
     return {
       currentCity: "London",
@@ -61,9 +68,13 @@ export default {
       },
       taskList: [],
       scroll: null,
+      clickStatus: false,
+      toastMsg: '写错了',
+      toastStatus: -1,
     };
   },
   mounted () {
+    this.initClickStatus()
     this.getTaskList()
   },
   methods: {
@@ -71,6 +82,13 @@ export default {
       const self = this;
       const el = self.$refs.iscroll;
       el.refresh();
+    },
+    initClickStatus () {
+      const self = this;
+      self.clickStatus = false;
+      setTimeout(() => {
+        self.clickStatus = true;
+      }, 1000)
     },
     getTaskList (v = {}) {
       const self = this;
@@ -112,6 +130,9 @@ export default {
     redirectToTaskDtl (info) {
       const self = this;
       info.id = info.tid;
+      if (!self.clickStatus) {
+        return
+      }
       self.$router.push({ name: 'Task', params: info });
     },
     changeCity (city) {
@@ -125,6 +146,7 @@ export default {
     },
     hideAddTaskDialog () {
       const self = this;
+      self.initClickStatus();
       self.addTask = false;
     },
     showAddTaskDialog () {
@@ -137,8 +159,17 @@ export default {
       setTimeout(() => {
         self.errorData.errno = -1
       }, 2000)
-      console.log(data);
+      self.initClickStatus()
     },
+    activeToast (msg) {
+      debugger;
+      const self = this;
+      self.toastMsg = msg;
+      self.toastStatus = 1;
+      setTimeout(() => {
+        self.toastStatus = -1;
+      }, 2000)
+    }
   }
 };
 </script>
@@ -150,7 +181,7 @@ $designWidth: 750;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: #2b2435;
+  background-color: #ffffff;
   .task-location-select {
     position: relative;
     margin: px2rem(100) px2rem(20) px2rem(20) px2rem(20);
@@ -200,7 +231,7 @@ $designWidth: 750;
     touch-action: none;
     /* -- Attention-- */
     position: fixed;
-    top: px2rem(500);
+    top: px2rem(400);
     bottom: 0;
     left: 0;
     right: 0;

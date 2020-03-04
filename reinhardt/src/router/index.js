@@ -5,22 +5,28 @@ import UserCenter from "../views/UserCenter.vue";
 import TaskList from "../views/TaskList.vue";
 import TaskView from "../views/taskView.vue";
 import Profile from "../views/Profile.vue";
+import Index from "../views/Index.vue";
+import List from "../views/List.vue";
+import NewsList from "../views/NewsList.vue";
+import News from "../views/News.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
+    name: "首页",
+    component: Index
+  },
+  {
+    path: "/home",
     name: "home",
     component: Home
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ "../views/About.vue")
+    path: "/news/:id",
+    name: "Nes",
+    component: News
   },
   {
     path: "/user",
@@ -28,9 +34,14 @@ const routes = [
     component: UserCenter
   },
   {
-    path: "/tasklist",
-    name: "TaskList",
-    component: TaskList
+    path: "/list",
+    name: "List",
+    component: List
+  },
+  {
+    path: "/newsList",
+    name: "NewsList",
+    component: NewsList
   },
   {
     path: "/task/:id",
@@ -38,11 +49,17 @@ const routes = [
     component: TaskView
   },
   {
-    path: "/profile/:id",
+    path: "/profile",
     name: "Profile",
     component: Profile
   }
 ];
+const VueRouterPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(to) {
+  return VueRouterPush.call(this, to).catch(err => {
+    console.log(err);
+  });
+};
 
 const router = new VueRouter({
   mode: "history",

@@ -17,11 +17,7 @@ import OVHeader from "@/components/common/OVHeader.vue";
 export default {
   name: "Home",
   components: { OVHeader },
-  mounted: function () {
-    setTimeout(() => {
-      console.log(this.$userId);
-    }, 5000);
-  },
+  mounted: function() {},
   methods: {}
 };
 </script>
