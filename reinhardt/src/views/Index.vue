@@ -1,15 +1,15 @@
 <template>
   <div class="index-main-container">
     <Header />
-    <AddTask
+    <!-- <AddTask
       v-if="addTaskStatus"
       @cancelAddTaskDialog="cancelNewTask"
       :basicTravelData="basicTravelData"
-    />
+    />-->
     <div class="slider-container">
       <img src="@/assets/img/slider.png" />
     </div>
-    <div class="create-task-container">
+    <!-- <div class="create-task-container">
       <div class="base-header">
         <div class="create-text-container">
           <div class="text-header">组团出行</div>
@@ -36,8 +36,8 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="route-selector-container">
+    </div>-->
+    <!-- <div class="route-selector-container">
       <div
         class="route-bar offical-route"
         :class="[routeType == 1 ? 'active' : '']"
@@ -75,7 +75,7 @@
         :panelData="i"
       />
       <div class="route-more" v-on:touchstart="routerDirect('/list')">查看更多 ></div>
-    </div>
+    </div>-->
     <div class="data-display-container">
       <div class="base-header">
         <div class="create-text-container">
@@ -86,18 +86,18 @@
       </div>
       <div class="text-data-container">
         <div class="text-data-detail">
-          <div class="num red-font">87</div>
+          <div class="num red-font">116</div>
           <div class="desc">肺炎疫情</div>
         </div>
+        <div class="text-data-detail">
+          <div class="num yellow-font">9</div>
+          <div class="desc">累计治愈</div>
+        </div>
+        <div class="text-data-detail">
+          <div class="num blue-font">1</div>
+          <div class="desc">累计死亡</div>
+        </div>
         <!-- <div class="text-data-detail">
-          <div class="num yellow-font">51+</div>
-          <div class="desc">事件统计</div>
-        </div>
-        <div class="text-data-detail">
-          <div class="num blue-font">51+</div>
-          <div class="desc">事件统计</div>
-        </div>
-        <div class="text-data-detail">
           <div class="num purple-font">51+</div>
           <div class="desc">事件统计</div>
         </div>-->
@@ -113,13 +113,11 @@
         </div>
       </div>
       <div class="news-body">
-        <NewsPanel />
-        <NewsPanel />
-        <NewsPanel />
-        <div class="news-more">查看更多 ></div>
+        <NewsPanel v-for="(i, v) in newsList" v-bind:key="v" :Newsdata="i" />
+        <!-- <div class="news-more">查看更多 ></div> -->
       </div>
     </div>
-    <div class="addnew-task-btn" v-on:touchstart="createNewTask">创建我的路线</div>
+    <!-- <div class="addnew-task-btn" v-on:touchstart="createNewTask">创建我的路线</div> -->
   </div>
 </template>
 
@@ -136,11 +134,11 @@ export default {
   name: "Index",
   components: {
     Header,
-    RoutePanel,
-    AddTask,
+    // RoutePanel,
+    // AddTask,
     NewsPanel
   },
-  data () {
+  data() {
     return {
       UKMapSettings: UKMapSettings,
       /**
@@ -161,32 +159,50 @@ export default {
         to: "",
         time: ""
       },
+      newsList: {
+        0: {
+          title:
+            "London 25 人感染, North Est Yorkshire 10 人感染, North West & South East 均为17 人感染",
+          source: "Evening Standard",
+          time: "2020, Mar 5th, 16:13"
+        },
+        1: {
+          title: "利物浦增加两例确诊病例, 一人为曾与感染者接触, 另一人是刚刚从意大利北部回来",
+          source: "Echo",
+          time: "2020, Mar 5th, 16:23"
+        },
+        2: {
+          title: "英国累计确诊打到116例, 并出现首例死亡病例",
+          source: "DHS",
+          time: "2020, Mar 5th, 19:25"
+        }
+      },
       addTaskStatus: false
     };
   },
-  mounted () {
+  mounted() {
     this.statusCheck();
   },
   methods: {
-    touchChange () {
+    touchChange() {
       const self = this;
       self.touchChangeType = "datetime-local";
     },
-    changeRouteType (t) {
+    changeRouteType(t) {
       const self = this;
       self.routeType = t;
       if (t == 1) {
         if (Object.keys(self.officialTaskList).length == 0) {
-          self.getRoute(t)
+          self.getRoute(t);
         }
       }
       if (t == 2) {
         if (Object.keys(self.indivTaskList).length == 0) {
-          self.getRoute(t)
+          self.getRoute(t);
         }
       }
     },
-    getRoute (t = 1) {
+    getRoute(t = 1) {
       const self = this;
 
       Post(`${exportAddress.task}/page`, {
@@ -201,7 +217,7 @@ export default {
         self.handleRequest(res);
       });
     },
-    handleRequest (res) {
+    handleRequest(res) {
       const self = this;
       if (res) {
         if (res.code !== 0) {
@@ -237,7 +253,7 @@ export default {
         return false;
       }
     },
-    getRouteDtl (t) {
+    getRouteDtl(t) {
       const self = this;
       Post(`${exportAddress.task}/partners`, {
         query: {
@@ -245,19 +261,19 @@ export default {
         }
       }).then(res => {
         if (res.code === 0) {
-          self.handleRouteDtl(res.data, t)
+          self.handleRouteDtl(res.data, t);
         } else {
           //TODO 错误处理
         }
-      })
+      });
     },
-    handleRouteDtl (d, t) {
+    handleRouteDtl(d, t) {
       const self = this;
       let currentNum = d.length;
       let userIn = false;
       d.forEach(v => {
         if (v.partnerUuid == self.$uuid) {
-          userIn = true
+          userIn = true;
         }
       });
       if (self.routeType == 1) {
@@ -270,7 +286,7 @@ export default {
         self.indivTaskList[t].userIn = userIn;
       }
     },
-    timeFormat (d) {
+    timeFormat(d) {
       /**
        * @type 0 => return 年月日 时:分
        * @type 1 => return 时:分
@@ -291,7 +307,7 @@ export default {
       };
       return formatTime;
     },
-    statusCheck (s = 0) {
+    statusCheck(s = 0) {
       const self = this;
       let geoGet = setInterval(() => {
         if (self.$currentCity) {
@@ -300,15 +316,15 @@ export default {
         }
       }, 100);
     },
-    createNewTask () {
+    createNewTask() {
       const self = this;
       self.addTaskStatus = true;
     },
-    cancelNewTask () {
+    cancelNewTask() {
       const self = this;
       self.addTaskStatus = false;
     },
-    routerDirect (t) {
+    routerDirect(t) {
       const self = this;
       self.$router.push(t);
     }
@@ -324,6 +340,7 @@ $designWidth: 750;
   height: 100%;
   background-color: #e5e5e5;
   overflow: scroll;
+  //TODO
   .rendering {
     color: #999999;
     background-color: #999999;
@@ -533,8 +550,10 @@ $designWidth: 750;
     }
   }
   .data-display-container {
+    //TODO
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    height: px2rem(1064);
     overflow: hidden;
     margin-top: px2rem(16);
     background-color: #ffffff;
@@ -596,7 +615,7 @@ $designWidth: 750;
     background-color: #ffffff;
     overflow: hidden;
     margin-top: px2rem(16);
-    padding-bottom: px2rem(120);
+    padding-bottom: px2rem(20);
     .news-body {
       margin: px2rem(24) px2rem(24) 0 px2rem(24);
       .news-data {

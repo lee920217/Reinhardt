@@ -24,19 +24,19 @@
         v-for="i in taskList"
         v-bind:key="i.tid"
         v-on:click="redirectToTaskDtl(i)"
-        :class="[i.type == 1 ? 'active': 'dangerous']"
+        :class="[i.type == 1 ? 'active' : 'dangerous']"
       >
         <div class="task-item-dtl">
           <div class="dtl-item current-location">
-            <div class="location-name">{{i.startCode[0]}}</div>
-            <div class="location-postcode">{{i.startCode[1]}}</div>
-            <div class="time-info">{{i.Date}}</div>
-            <div class="time-info">{{i.Time}}</div>
+            <div class="location-name">{{ i.startCode[0] }}</div>
+            <div class="location-postcode">{{ i.startCode[1] }}</div>
+            <div class="time-info">{{ i.Date }}</div>
+            <div class="time-info">{{ i.Time }}</div>
           </div>
           <div class="arrow" v-if="i.type == 1"></div>
           <div class="dtl-item target-location" v-if="i.type == 1">
-            <div class="location-name">{{i.targetCode[0]}}</div>
-            <div class="location-postcode">{{i.targetCode[1]}}</div>
+            <div class="location-name">{{ i.targetCode[0] }}</div>
+            <div class="location-postcode">{{ i.targetCode[1] }}</div>
           </div>
         </div>
       </div>
@@ -57,7 +57,7 @@ import Toast from "@/components/common/Toast.vue";
 export default {
   name: "TaskList",
   components: { OVHeader, CitySelect, MaskView, AddTask, MessageTop, Toast },
-  data () {
+  data() {
     return {
       currentCity: "London",
       maskStatus: false,
@@ -69,106 +69,104 @@ export default {
       taskList: [],
       scroll: null,
       clickStatus: false,
-      toastMsg: '写错了',
-      toastStatus: -1,
+      toastMsg: "写错了",
+      toastStatus: -1
     };
   },
-  mounted () {
-    this.initClickStatus()
-    this.getTaskList()
+  mounted() {
+    this.initClickStatus();
+    this.getTaskList();
   },
   methods: {
-    refreshSroll () {
+    refreshSroll() {
       const self = this;
       const el = self.$refs.iscroll;
       el.refresh();
     },
-    initClickStatus () {
+    initClickStatus() {
       const self = this;
       self.clickStatus = false;
       setTimeout(() => {
         self.clickStatus = true;
-      }, 1000)
+      }, 1000);
     },
-    getTaskList (v = {}) {
+    getTaskList(v = {}) {
       const self = this;
-      if (v = {}) {
+      if ((v = {})) {
         v = {
           order_: "start",
           start: self.currentCity
-        }
+        };
       }
-      Post('http://localhost:8360/api/task/page', { query: v })
-        .then(res => {
-          if (res.code !== 0) {
-            self.errorData = {
-              errno: 1,
-              errmsg: "获取列表失败",
-              redirect: 0,
-              path: "/"
-            }
-          } else {
-            for (let j = 0; j < res.data.rows.length; j++) {
-              res.data.rows[j].startCode = res.data.rows[j].startCode.split(',')
-              res.data.rows[j].targetCode = res.data.rows[j].targetCode.split(',')
-              let newTime = new Date(res.data.rows[j].startTime)
-              let year = newTime.getFullYear();
-              let month = newTime.getMonth() + 1;
-              let days = newTime.getDate();
-              let hours = newTime.getHours();
-              let minutes = newTime.getMinutes();
-              let seconds = newTime.getSeconds();
-              res.data.rows[j].startTime = `${year}-${month}-${days} ${hours}:${minutes}`
-              res.data.rows[j].Time = `${hours}:${minutes}`
-              res.data.rows[j].Date = `${year}-${month}-${days}`
-            }
-            self.taskList = res.data.rows
-            self.refreshSroll();
+      Post("http://localhost:8360/api/task/page", { query: v }).then(res => {
+        if (res.code !== 0) {
+          self.errorData = {
+            errno: 1,
+            errmsg: "获取列表失败",
+            redirect: 0,
+            path: "/"
+          };
+        } else {
+          for (let j = 0; j < res.data.rows.length; j++) {
+            res.data.rows[j].startCode = res.data.rows[j].startCode.split(",");
+            res.data.rows[j].targetCode = res.data.rows[j].targetCode.split(",");
+            let newTime = new Date(res.data.rows[j].startTime);
+            let year = newTime.getFullYear();
+            let month = newTime.getMonth() + 1;
+            let days = newTime.getDate();
+            let hours = newTime.getHours();
+            let minutes = newTime.getMinutes();
+            let seconds = newTime.getSeconds();
+            res.data.rows[j].startTime = `${year}-${month}-${days} ${hours}:${minutes}`;
+            res.data.rows[j].Time = `${hours}:${minutes}`;
+            res.data.rows[j].Date = `${year}-${month}-${days}`;
           }
-        })
+          self.taskList = res.data.rows;
+          self.refreshSroll();
+        }
+      });
     },
-    redirectToTaskDtl (info) {
+    redirectToTaskDtl(info) {
       const self = this;
       info.id = info.tid;
       if (!self.clickStatus) {
-        return
+        return;
       }
-      self.$router.push({ name: 'Task', params: info });
+      self.$router.push({ name: "Task", params: info });
     },
-    changeCity (city) {
+    changeCity(city) {
       const self = this;
       self.currentCity = city;
       self.getTaskList();
     },
-    maskControl (bol) {
+    maskControl(bol) {
       const self = this;
       self.maskStatus = bol;
     },
-    hideAddTaskDialog () {
+    hideAddTaskDialog() {
       const self = this;
       self.initClickStatus();
       self.addTask = false;
     },
-    showAddTaskDialog () {
+    showAddTaskDialog() {
       const self = this;
       self.addTask = true;
     },
-    handleError (data) {
+    handleError(data) {
       const self = this;
       self.errorData = data;
       setTimeout(() => {
-        self.errorData.errno = -1
-      }, 2000)
-      self.initClickStatus()
+        self.errorData.errno = -1;
+      }, 2000);
+      self.initClickStatus();
     },
-    activeToast (msg) {
-      debugger;
+    activeToast(msg) {
       const self = this;
       self.toastMsg = msg;
       self.toastStatus = 1;
       setTimeout(() => {
         self.toastStatus = -1;
-      }, 2000)
+      }, 2000);
     }
   }
 };

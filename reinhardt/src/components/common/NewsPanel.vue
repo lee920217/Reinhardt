@@ -1,18 +1,23 @@
 <template>
   <div class="news-data">
     <div class="news-title">
-      利物浦Beford学生宿舍发生抢劫案，暂无人员伤亡利物浦Beford学生宿舍发生抢劫案，生宿舍发生抢劫案，生宿舍发生抢劫案，暂无人员伤亡
+      {{ Newsdata.title }}
     </div>
     <div class="news-source">
-      <div class="source-plat">信息来源：学生宿舍</div>
-      <div>2020-02-20</div>
+      <div class="source-plat">{{ Newsdata.source }}</div>
+      <div>{{ Newsdata.time }}</div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "NewsPanel"
+  name: "NewsPanel",
+  props: {
+    Newsdata: {
+      type: Object
+    }
+  }
 };
 </script>
 
