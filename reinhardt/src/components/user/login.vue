@@ -30,9 +30,7 @@
         class="login-button"
         :class="[clickStatus ? 'active' : 'disable']"
         v-on:touchstart="confirmLogin"
-      >
-        立即登录
-      </div>
+      >立即登录</div>
     </div>
     <div>
       <div class="transfer" v-on:touchstart="transfer('register')">还没有账号？点击注册</div>
@@ -66,7 +64,7 @@ export default {
   components: {
     backPage
   },
-  data() {
+  data () {
     return {
       clickStatus: false,
       loginParams: {
@@ -81,17 +79,17 @@ export default {
       errno: 0
     };
   },
-  mouted() {},
+  mouted () { },
   methods: {
-    getTransferData() {
+    getTransferData () {
       const self = this;
       self.loginParams = self.transferData;
     },
-    transfer(data) {
+    transfer (data) {
       const self = this;
       self.$emit("transfer", data);
     },
-    confirmLogin() {
+    confirmLogin () {
       const self = this;
       if (!self.emailCheck(self.loginParams.email)) {
         self.$emit("handleError", {
@@ -134,9 +132,8 @@ export default {
       Post("http://localhost:8360/api/user/login", { query: self.loginParams }).then(res => {
         self.handleRequest(res);
       });
-      console.log(self.loginParams);
     },
-    checkInputContent() {
+    checkInputContent () {
       const self = this;
       if (self.loginParams.email && self.loginParams.pass && self.loginParams.pass >= 8) {
         self.clickStatus = true;
@@ -144,7 +141,7 @@ export default {
         return;
       }
     },
-    handleRequest(res) {
+    handleRequest (res) {
       const self = this;
       if (res.code !== 0) {
         if (res.code == 2) {
@@ -177,7 +174,7 @@ export default {
         }, 500);
       }
     },
-    emailCheck(email) {
+    emailCheck (email) {
       const regExp = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
       if (!regExp.test(email)) {
         return false;

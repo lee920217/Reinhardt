@@ -29,7 +29,7 @@ import MessageTop from "@/components/common/MessageTop.vue";
 export default {
   name: "UserCenter",
   components: { Register, Login, MessageTop },
-  data() {
+  data () {
     return {
       userKey: "login",
       errorData: {
@@ -42,30 +42,28 @@ export default {
       }
     };
   },
-  created() {},
+  created () { },
   methods: {
-    checkUser() {
+    checkUser () {
       // const self = this;
       // if (self.$userId && self.$uuid && self.$userName && self.$gender && $email) {
       //   self.$router.push({ path: "/" });
       // }
     },
-    toRegister(data) {
+    toRegister (data) {
       const self = this;
       self.userKey = "register";
       self.transferData = data;
     },
-    transfer(data) {
+    transfer (data) {
       const self = this;
       self.userKey = data;
     },
-    handleError(data) {
+    handleError (data) {
       const self = this;
       self.errorData = data;
-      console.log(data);
     },
-    test() {
-      console.log(1);
+    test () {
     }
   }
 };

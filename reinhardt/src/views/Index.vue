@@ -56,7 +56,7 @@
         :panelData="i"
         :renderStatus="renderStatus"
       />
-      <div class="route-more">查看更多 ></div>
+      <div class="route-more" v-on:touchstart="routerDirect('/list')">查看更多 ></div>
     </div>
     <div class="route-display-container" v-if="renderStatus && routeType == 2">
       <RoutePanel
@@ -65,7 +65,7 @@
         :panelData="j"
         :renderStatus="renderStatus"
       />
-      <div class="route-more">查看更多 ></div>
+      <div class="route-more" v-on:touchstart="routerDirect('/list')">查看更多 ></div>
     </div>
     <div class="route-display-container" v-if="!renderStatus">
       <RoutePanel
@@ -74,7 +74,7 @@
         v-bind:key="`individual-${i.tid}`"
         :panelData="i"
       />
-      <div class="route-more">查看更多 ></div>
+      <div class="route-more" v-on:touchstart="routerDirect('/list')">查看更多 ></div>
     </div>
     <div class="data-display-container">
       <div class="base-header">
@@ -310,7 +310,7 @@ export default {
     },
     routerDirect (t) {
       const self = this;
-
+      self.$router.push(t);
     }
   }
 };
@@ -583,12 +583,12 @@ $designWidth: 750;
     .map-data-container {
       width: 100%;
       height: px2rem(816);
-      div[data-highcharts-chart] {
-        height: px2rem(816) !important;
-      }
-      #highcharts-nhagfnv-0 {
-        height: px2rem(816) !important;
-      }
+      // div[data-highcharts-chart] {
+      //   height: px2rem(816) !important;
+      // }
+      // #highcharts-nhagfnv-0 {
+      //   height: px2rem(816) !important;
+      // }
     }
   }
   .news-display-container {

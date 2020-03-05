@@ -6,7 +6,6 @@
 import data from "./uk-data.js";
 import UKJsonData from "./ukgeo.json";
 
-console.log(UKJsonData);
 var settings = {
   chart: {
     map: "countries/gb/gb-all"
@@ -55,14 +54,18 @@ var settings = {
     symbolHeight: 14,
     itemStyle: {
       color: "#000000",
-      fontWeight: "bold",
-      fontSize: "24px"
+      fontWeight: "bold"
     }
   },
   series: [
     {
       data: data,
-      name: "恶性时间发生次数",
+      name: "肺炎疫情",
+      itemStyle: {
+        color: "#000000",
+        fontWeight: "bold",
+        fontSize: "24px"
+      },
       states: {
         hover: {
           color: "#BADA55"
