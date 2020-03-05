@@ -95,7 +95,6 @@ export default {
     getTaskDtl () {
       const self = this;
       const taskInfo = self.$route.params;
-      console.log(taskInfo);
       self.taskDtl = taskInfo;
     },
     redirectToList () {
@@ -133,7 +132,6 @@ export default {
           pageSize_: "10"
         }
       }).then(res => {
-        console.log(res);
         if (res.code === 0) {
           self.messageList = res.data
         }
@@ -152,7 +150,6 @@ export default {
           message: message
         }
       }).then(res => {
-        console.log(res);
         self.inputMessage = ""
       })
     },
@@ -166,7 +163,6 @@ export default {
           message: '加入了行程'
         }
       }).then(res => {
-        console.log(res)
       })
     }
   }

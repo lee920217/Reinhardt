@@ -583,12 +583,12 @@ $designWidth: 750;
     .map-data-container {
       width: 100%;
       height: px2rem(816);
-      // div[data-highcharts-chart] {
-      //   height: px2rem(816) !important;
-      // }
-      // #highcharts-nhagfnv-0 {
-      //   height: px2rem(816) !important;
-      // }
+      div[data-highcharts-chart] {
+        height: px2rem(816) !important;
+      }
+      #highcharts-nhagfnv-0 {
+        height: px2rem(816) !important;
+      }
     }
   }
   .news-display-container {

@@ -39,16 +39,12 @@
             class="gender-male gender-ct"
             :class="[registerParams.gender == 1 ? 'active' : '']"
             v-on:touchstart="clickChangeGender(1)"
-          >
-            先生
-          </div>
+          >先生</div>
           <div
             class="gender-female gender-ct"
             :class="[registerParams.gender == 0 ? 'active' : '']"
             v-on:touchstart="clickChangeGender(0)"
-          >
-            女士
-          </div>
+          >女士</div>
         </div>
       </div>
     </div>
@@ -63,9 +59,7 @@
         class="register-button"
         :class="[clickStatus ? 'active' : 'disable']"
         v-on:touchstart="confirmRegister"
-      >
-        注册Lmena
-      </div>
+      >注册Lmena</div>
     </div>
   </div>
 </template>
@@ -87,7 +81,7 @@ export default {
   components: {
     backPage
   },
-  data() {
+  data () {
     return {
       registerParams: {
         gender: -1,
@@ -103,21 +97,20 @@ export default {
   },
   methods: {
     //TODO
-    confirtTest() {
+    confirtTest () {
       const self = this;
       const a = Object.assign(self.registerParams, self.transferData);
-      console.log(a);
     },
-    clickChangeGender(gender) {
+    clickChangeGender (gender) {
       const self = this;
       self.registerParams.gender = gender;
       self.checkInputStatus();
     },
-    transfer(target) {
+    transfer (target) {
       const self = this;
       self.$emit("transfer", target);
     },
-    confirmRegister() {
+    confirmRegister () {
       const self = this;
       if (self.registerParams.uname && self.registerParams.uid && self.registerParams.gender) {
         let finalParams = Object.assign(self.registerParams, self.transferData);
@@ -133,9 +126,8 @@ export default {
           path: "/"
         });
       }
-      console.log(self.registerParams);
     },
-    handleRequest(res) {
+    handleRequest (res) {
       const self = this;
       if (res.code === 0) {
         self.$emit("handleError", {
@@ -157,7 +149,7 @@ export default {
         }
       }
     },
-    checkInputStatus() {
+    checkInputStatus () {
       const self = this;
       if (
         self.registerParams.uname &&
