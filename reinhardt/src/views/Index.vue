@@ -161,10 +161,9 @@ export default {
       },
       newsList: {
         0: {
-          title:
-            "London 25 人感染, North Est Yorkshire 10 人感染, North West & South East 均为17 人感染",
-          source: "Evening Standard",
-          time: "2020, Mar 5th, 16:13"
+          title: "伦敦Barnet确诊3人",
+          source: "My London",
+          time: "2020, Mar 6th, 10:34"
         },
         1: {
           title: "利物浦增加两例确诊病例, 一人为曾与感染者接触, 另一人是刚刚从意大利北部回来",
@@ -172,7 +171,7 @@ export default {
           time: "2020, Mar 5th, 16:23"
         },
         2: {
-          title: "英国累计确诊打到116例, 并出现首例死亡病例",
+          title: "英国累计确诊达到116例, 并出现首例死亡病例",
           source: "DHS",
           time: "2020, Mar 5th, 19:25"
         }
