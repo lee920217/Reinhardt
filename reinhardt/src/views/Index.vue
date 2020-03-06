@@ -86,7 +86,7 @@
       </div>
       <div class="text-data-container">
         <div class="text-data-detail">
-          <div class="num red-font">119</div>
+          <div class="num red-font">163</div>
           <div class="desc">肺炎疫情</div>
         </div>
         <div class="text-data-detail">
@@ -94,7 +94,7 @@
           <div class="desc">累计治愈</div>
         </div>
         <div class="text-data-detail">
-          <div class="num blue-font">1</div>
+          <div class="num blue-font">2</div>
           <div class="desc">累计死亡</div>
         </div>
         <!-- <div class="text-data-detail">
@@ -138,7 +138,7 @@ export default {
     // AddTask,
     NewsPanel
   },
-  data() {
+  data () {
     return {
       UKMapSettings: UKMapSettings,
       /**
@@ -179,15 +179,15 @@ export default {
       addTaskStatus: false
     };
   },
-  mounted() {
+  mounted () {
     this.statusCheck();
   },
   methods: {
-    touchChange() {
+    touchChange () {
       const self = this;
       self.touchChangeType = "datetime-local";
     },
-    changeRouteType(t) {
+    changeRouteType (t) {
       const self = this;
       self.routeType = t;
       if (t == 1) {
@@ -201,7 +201,7 @@ export default {
         }
       }
     },
-    getRoute(t = 1) {
+    getRoute (t = 1) {
       const self = this;
 
       Post(`${exportAddress.task}/page`, {
@@ -216,7 +216,7 @@ export default {
         self.handleRequest(res);
       });
     },
-    handleRequest(res) {
+    handleRequest (res) {
       const self = this;
       if (res) {
         if (res.code !== 0) {
@@ -252,7 +252,7 @@ export default {
         return false;
       }
     },
-    getRouteDtl(t) {
+    getRouteDtl (t) {
       const self = this;
       Post(`${exportAddress.task}/partners`, {
         query: {
@@ -266,7 +266,7 @@ export default {
         }
       });
     },
-    handleRouteDtl(d, t) {
+    handleRouteDtl (d, t) {
       const self = this;
       let currentNum = d.length;
       let userIn = false;
@@ -285,7 +285,7 @@ export default {
         self.indivTaskList[t].userIn = userIn;
       }
     },
-    timeFormat(d) {
+    timeFormat (d) {
       /**
        * @type 0 => return 年月日 时:分
        * @type 1 => return 时:分
@@ -306,7 +306,7 @@ export default {
       };
       return formatTime;
     },
-    statusCheck(s = 0) {
+    statusCheck (s = 0) {
       const self = this;
       let geoGet = setInterval(() => {
         if (self.$currentCity) {
@@ -315,15 +315,15 @@ export default {
         }
       }, 100);
     },
-    createNewTask() {
+    createNewTask () {
       const self = this;
       self.addTaskStatus = true;
     },
-    cancelNewTask() {
+    cancelNewTask () {
       const self = this;
       self.addTaskStatus = false;
     },
-    routerDirect(t) {
+    routerDirect (t) {
       const self = this;
       self.$router.push(t);
     }
