@@ -82,11 +82,11 @@
           <div class="text-header">疫情数量及区域统计</div>
           <div class="text-detail">我们需要了解，我们需要面对的是什么</div>
         </div>
-        <div class="update-time">截止 2020-03-04 22:29</div>
+        <div class="update-time">截止 2020-03-06 10:55</div>
       </div>
       <div class="text-data-container">
         <div class="text-data-detail">
-          <div class="num red-font">116</div>
+          <div class="num red-font">119</div>
           <div class="desc">肺炎疫情</div>
         </div>
         <div class="text-data-detail">
