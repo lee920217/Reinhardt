@@ -2,6 +2,7 @@ package uk.co.cnoversea.api.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.co.cnoversea.api.dao.mapper.UserMapper;
@@ -9,19 +10,28 @@ import uk.co.cnoversea.api.dao.model.User;
 import uk.co.cnoversea.api.dao.model.UserExample;
 import uk.co.cnoversea.api.exception.UserNotExistException;
 import uk.co.cnoversea.api.service.IUserService;
+import uk.co.cnoversea.common.JavaMail;
 import uk.co.cnoversea.common.security.MD5Util;
 import uk.co.cnoversea.common.string.Simple;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements InitializingBean,IUserService {
 
     private final static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private UserMapper userMapper;
+
+    private JavaMail mail;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        mail = new JavaMail();
+    }
 
     @Override
     public User regist(User user) throws Exception {
@@ -33,13 +43,46 @@ public class UserServiceImpl implements IUserService {
         user.setModifyTime(null);
 
         user.setUuid(Simple.genUUID32());
-        String pass = user.getPass();
-        pass = MD5Util.queryMD5(pass);
-        user.setPass(pass);
+        String newPass = user.getPass();
+        newPass = MD5Util.queryMD5(newPass);
+        user.setPass(newPass);
+        user.setStatus(null);//数据库表中此字段默认值是注册状态
+
         if (userMapper.insertSelective(user) == 1) {
+            try {
+                mail.send(mail.getTitle(), mail.getContent() + user.getUuid(), Arrays.asList(user.getEmail()), null);
+            }catch(Exception e){
+                logger.error("send mail fail", e);
+                return null;
+            }
             user.setPass(null);
             return user;
         }
+        return null;
+    }
+
+    @Override
+    public User active(User user) throws Exception {
+        if (Simple.StringNull(user.getUuid()) || user.getUuid().length() != 32) {
+            throw new Exception("invalid uuid : " + user.getUuid());
+        }
+
+        User record = userMapper.selectByPrimaryKey(user.getUuid());
+        if(record == null){
+            throw new Exception("UUID not exists(" + user.getUuid() + ")");
+        }
+        if(record.getStatus().intValue() != User.STATUS_REG.intValue()){
+            throw new Exception("invalid status(" + user.getUuid() + ")");
+        }
+
+        User newUser = new User();
+        newUser.setUuid(user.getUuid());
+        newUser.setStatus(User.STATUS_ACTIVE);
+        if(userMapper.updateByPrimaryKeySelective(newUser) == 1){
+            newUser.setPass(null);
+            return newUser;
+        }
+
         return null;
     }
 
@@ -64,7 +107,7 @@ public class UserServiceImpl implements IUserService {
         if (list != null && list.size() == 1) {
             User dbUser = list.get(0);
             String securityPass = MD5Util.queryMD5(user.getPass());
-            if (securityPass.equals(dbUser.getPass())) {
+            if (securityPass.equals(dbUser.getPass()) && dbUser.getStatus().intValue() == User.STATUS_ACTIVE.intValue()) {
                 user.setPass(null);
                 user.setUuid(dbUser.getUuid());
                 user.setUid(dbUser.getUid());
@@ -77,10 +120,11 @@ public class UserServiceImpl implements IUserService {
                 user.setModifyTime(dbUser.getModifyTime());
                 return true;
             } else {
-                throw new Exception("incorrect pass");
+                throw new Exception("incorrect pass or status invalid");
             }
         }else{
             throw new UserNotExistException("unexists user : uid = " + user.getUid() + ", email = " + user.getEmail());
         }
     }
+
 }

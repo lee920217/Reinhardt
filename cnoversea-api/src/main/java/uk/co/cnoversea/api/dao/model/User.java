@@ -5,6 +5,11 @@ import uk.co.cnoversea.web.vo.WebVO;
 import java.util.Date;
 
 public class User extends WebVO {
+
+    public static final Byte STATUS_REG = Byte.valueOf("-1");
+    public static final Byte STATUS_INACTIVE = Byte.valueOf("0");
+    public static final Byte STATUS_ACTIVE = Byte.valueOf("1");
+
     private String uuid;
 
     private String uid;

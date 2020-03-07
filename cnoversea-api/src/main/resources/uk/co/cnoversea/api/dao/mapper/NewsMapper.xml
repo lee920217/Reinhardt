@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="uk.co.cnoversea.api.dao.mapper.NewsMapper">
+  <resultMap id="BaseResultMap" type="uk.co.cnoversea.api.dao.model.News">
+    <id column="nid" jdbcType="BIGINT" property="nid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="auchor" jdbcType="VARCHAR" property="auchor" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="keywords" jdbcType="VARCHAR" property="keywords" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="uk.co.cnoversea.api.dao.model.News">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    nid, title, auchor, location, keywords, status, create_time, modify_time
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="uk.co.cnoversea.api.dao.model.NewsExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cnos_news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="uk.co.cnoversea.api.dao.model.NewsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cnos_news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cnos_news
+    where nid = #{nid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cnos_news
+    where nid = #{nid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="uk.co.cnoversea.api.dao.model.NewsExample">
+    delete from cnos_news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="uk.co.cnoversea.api.dao.model.News" useGeneratedKeys="true" keyProperty="nid">
+    insert into cnos_news (nid, title, auchor, 
+      location, keywords, status, 
+      create_time, modify_time, content
+      )
+    values (#{nid,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{auchor,jdbcType=VARCHAR}, 
+      #{location,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="uk.co.cnoversea.api.dao.model.News" useGeneratedKeys="true" keyProperty="nid">
+    insert into cnos_news
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="nid != null">
+        nid,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="auchor != null">
+        auchor,
+      </if>
+      <if test="location != null">
+        location,
+      </if>
+      <if test="keywords != null">
+        keywords,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="nid != null">
+        #{nid,jdbcType=BIGINT},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="auchor != null">
+        #{auchor,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null">
+        #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="uk.co.cnoversea.api.dao.model.NewsExample" resultType="java.lang.Long">
+    select count(*) from cnos_news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cnos_news
+    <set>
+      <if test="record.nid != null">
+        nid = #{record.nid,jdbcType=BIGINT},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auchor != null">
+        auchor = #{record.auchor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.location != null">
+        location = #{record.location,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keywords != null">
+        keywords = #{record.keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifyTime != null">
+        modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update cnos_news
+    set nid = #{record.nid,jdbcType=BIGINT},
+      title = #{record.title,jdbcType=VARCHAR},
+      auchor = #{record.auchor,jdbcType=VARCHAR},
+      location = #{record.location,jdbcType=VARCHAR},
+      keywords = #{record.keywords,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cnos_news
+    set nid = #{record.nid,jdbcType=BIGINT},
+      title = #{record.title,jdbcType=VARCHAR},
+      auchor = #{record.auchor,jdbcType=VARCHAR},
+      location = #{record.location,jdbcType=VARCHAR},
+      keywords = #{record.keywords,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="uk.co.cnoversea.api.dao.model.News">
+    update cnos_news
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="auchor != null">
+        auchor = #{auchor,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null">
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null">
+        keywords = #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where nid = #{nid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="uk.co.cnoversea.api.dao.model.News">
+    update cnos_news
+    set title = #{title,jdbcType=VARCHAR},
+      auchor = #{auchor,jdbcType=VARCHAR},
+      location = #{location,jdbcType=VARCHAR},
+      keywords = #{keywords,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where nid = #{nid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="uk.co.cnoversea.api.dao.model.News">
+    update cnos_news
+    set title = #{title,jdbcType=VARCHAR},
+      auchor = #{auchor,jdbcType=VARCHAR},
+      location = #{location,jdbcType=VARCHAR},
+      keywords = #{keywords,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+    where nid = #{nid,jdbcType=BIGINT}
+  </update>
+
+  <sql id="SelectiveAndPreEqListWithoutId">
+    <if test="keywords != null">and keywords like '%${keywords}%'</if>
+  </sql>
+  <select id="selectPage" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cnos_news
+    where 1 = 1
+    <include refid="SelectiveAndPreEqListWithoutId" />
+    order by ${order_} ${sort_}
+    limit ${limitStart_}, ${limitSize_}
+  </select>
+  <select id="pageCount" resultType="int">
+    select count(1)
+    from cnos_news
+    where 1 = 1
+    <include refid="SelectiveAndPreEqListWithoutId" />
+  </select>
+
+</mapper>

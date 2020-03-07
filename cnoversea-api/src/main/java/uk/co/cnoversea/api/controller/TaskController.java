@@ -45,7 +45,7 @@ public class TaskController extends AbstractController {
         }
     }
 
-    //查询行程
+    //分页查询行程
     @RequestMapping(value = "/page", method = RequestMethod.POST)
     public @ResponseBody
     ResponseVO<Page<TaskExt>> page(@RequestBody RequestVO<TaskWithBLOBs> param) {
@@ -55,8 +55,8 @@ public class TaskController extends AbstractController {
             page = taskService.page(task);
             return genResponse(page);
         } catch (Exception e) {
-            logger.error("declare task fail", e);
-            return genResponse(ResponseVO.CODE_ERR, "declare task fail, " + e.getMessage() , page);
+            logger.error("page query task fail", e);
+            return genResponse(ResponseVO.CODE_ERR, "page query task fail, " + e.getMessage() , page);
         }
     }
 

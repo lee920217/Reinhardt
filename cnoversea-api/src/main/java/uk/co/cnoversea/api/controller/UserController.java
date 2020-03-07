@@ -40,6 +40,21 @@ public class UserController extends AbstractController {
         }
     }
 
+    //激活
+    @RequestMapping(value = "/active", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseVO<User> active(@RequestBody RequestVO<User> param) {
+        User user = param.getQuery();
+        User userRet = null;
+        try {
+            userRet = userService.active(user);
+            return genResponse(userRet);
+        } catch (Exception e) {
+            logger.error("active user fail", e);
+            return genResponse(ResponseVO.CODE_ERR, "active fail, " + e.getMessage() , user);
+        }
+    }
+
     //登录
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public @ResponseBody

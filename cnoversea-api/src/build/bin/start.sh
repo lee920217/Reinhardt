@@ -15,6 +15,7 @@ CONF_DIR=$ROOT_DIR/conf
 LOG_DIR=$ROOT_DIR/log
 LIB_DIR=$ROOT_DIR/lib
 DATA_DIR=$ROOT_DIR/data
+CA_DIR=$ROOT_DIR/ca
 
 source $BIN_DIR/env.sh
 
@@ -41,10 +42,11 @@ nohup $JAVA \
 -server \
 -cp $CLASSPATH \
 -Dlog4j.configuration=file:$CONF_DIR/log4j.properties \
+-Djavax.net.ssl.trustStore=$CA_DIR/jssecacerts \
 $JMX_OPTS \
 $MAIN_CLASS \
 $MAIN_CLASS_ARGS \
---spring.config.location=file:///$CONF_DIR/application.properties \
 -jar $JAR_FILE \
+--spring.config.location=file:///$CONF_DIR/application.properties \
 > $LOG_DIR/nohup.out 2>&1 &
 

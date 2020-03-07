@@ -4,7 +4,7 @@ import uk.co.cnoversea.web.vo.PageAble;
 
 import java.util.Date;
 
-public class Task  extends PageAble {
+public class Task extends PageAble {
     private Long tid;
 
     private String uuid;

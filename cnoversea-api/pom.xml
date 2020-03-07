@@ -25,6 +25,7 @@
         <mybatis.spring.boot.starter.version>2.1.1</mybatis.spring.boot.starter.version>
         <slf4j.version>1.7.26</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
+        <common.mail.version>1.5</common.mail.version>
     </properties>
 
     <profiles>
@@ -74,6 +75,11 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-email</artifactId>
         </dependency>
     </dependencies>
 
@@ -152,6 +158,12 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-email</artifactId>
+                <version>${common.mail.version}</version>
             </dependency>
 
         </dependencies>

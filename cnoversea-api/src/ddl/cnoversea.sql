@@ -13,7 +13,7 @@ CREATE TABLE `cnos_user` (
   `gender`       tinyint(4)                                                                 COMMENT '用户性别 1:male, 0:female',
   `mobile`       varchar(32)                                                                COMMENT '用户手机号',
   `pass`         varchar(32) NOT NULL                                                       COMMENT '用户密码',
-  `status`       tinyint(4)  NOT NULL DEFAULT '1'                                           COMMENT '是否生效 1:生效 0:无效',
+  `status`       tinyint(4)  NOT NULL DEFAULT '-1'                                          COMMENT '是否生效 1:生效 0:无效 -1:未激活',
   `create_time`  datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP                             COMMENT '创建时间',
   `modify_time`  timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`uuid`),
@@ -96,4 +96,19 @@ CREATE TABLE `cnos_postcode_lnglat_map` (
   UNIQUE KEY (`postcode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='邮编和经纬度映射表';
 
-￿￿￿
+DROP TABLE IF EXISTS `cnos_news`;
+CREATE TABLE `cnos_news` (
+  `nid`          bigint(20)   NOT NULL AUTO_INCREMENT                                        COMMENT '新闻ID',
+
+  `title`        varchar(128) NOT NULL                                                       COMMENT '标题',
+  `auchor`       varchar(32)  NOT NULL                                                       COMMENT '作者',
+  `location`     varchar(128) NOT NULL                                                       COMMENT '地点',
+  `keywords`     varchar(256) NOT NULL                                                       COMMENT '关键字 分号分割',
+
+  `content`      mediumtext                                                                  COMMENT '新闻内容',
+
+  `status`       tinyint(4)   NOT NULL DEFAULT '1'                                           COMMENT '是否生效 1:生效 0:无效',
+  `create_time`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP                             COMMENT '创建时间',
+  `modify_time`  timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`nid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='新闻表';
