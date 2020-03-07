@@ -90,7 +90,7 @@
           <div class="desc">肺炎疫情</div>
         </div>
         <div class="text-data-detail">
-          <div class="num yellow-font">9</div>
+          <div class="num yellow-font">18</div>
           <div class="desc">累计治愈</div>
         </div>
         <div class="text-data-detail">
@@ -161,8 +161,8 @@ export default {
       },
       newsList: {
         0: {
-          title: "英国累计确诊211例新冠肺炎，并有两例死亡，新增的5例为苏格兰确诊病例",
-          source: "Business Insider",
+          title: "因今日利物浦医院确诊一名新冠肺炎患者，利物浦医院寻找今日去就诊的115名市民",
+          source: "Echo",
           time: "2020, Mar 7th, 14:46"
         },
         1: {
