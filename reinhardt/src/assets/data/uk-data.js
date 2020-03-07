@@ -220,7 +220,7 @@ const data = [
   ["gb-el", 0],
   ["gb-sm", 1],
   ["gb-ci", 0],
-  ["gb-hl", 0],
+  ["gb-hl", 5],
   ["gb-co", 2],
   ["gb-cw", 0],
   ["gb-nd", 0],
