@@ -340,7 +340,6 @@ $designWidth: 750;
   background-color: #e5e5e5;
   overflow: scroll;
   //TODO
-  margin-top: px2rem(88);
   .rendering {
     color: #999999;
     background-color: #999999;
