@@ -6,26 +6,34 @@
         class="route-bar offical-route"
         :class="[routeType == 0 ? 'active' : '']"
         v-on:touchstart="changeRouteType(0)"
-      >全部</div>
+      >
+        全部
+      </div>
       <div
         class="route-bar offical-route"
         :class="[routeType == 1 ? 'active' : '']"
         v-on:touchstart="changeRouteType(1)"
-      >合作路线</div>
+      >
+        合作路线
+      </div>
       <div
         class="route-bar individual-route"
         :class="[routeType == 2 ? 'active' : '']"
         v-on:touchstart="changeRouteType(2)"
-      >个人路线</div>
+      >
+        个人路线
+      </div>
     </div>
-    <perfect-scrollbar ref="iscroll" class="route-scroll-container" :options="scrollOptions">
-      <RoutePanel
-        v-for="i in allTaskList"
-        v-bind:key="`official-${i.tid}`"
-        :panelData="i"
-        :renderStatus="renderStatus"
-      />
-    </perfect-scrollbar>
+    <div ref="iscroll" class="route-scroll-container">
+      <div>
+        <RoutePanel
+          v-for="i in allTaskList"
+          v-bind:key="`official-${i.tid}`"
+          :panelData="i"
+          :renderStatus="renderStatus"
+        />
+      </div>
+    </div>
 
     <!-- <div class="route-scroll-container">
       <RoutePanel
@@ -43,13 +51,15 @@ import RoutePanel from "@/components/common/RoutePanel.vue";
 import TopSearch from "@/components/common/TopSearch.vue";
 import { Post, Get } from "@/assets/api/api.js";
 import { exportAddress } from "@/assets/api/setting.js";
+import BScroll from "better-scroll";
+
 export default {
   name: "List",
   components: {
     RoutePanel,
     TopSearch
   },
-  data () {
+  data() {
     return {
       cityList: [
         "London",
@@ -82,27 +92,40 @@ export default {
       routeType: 0,
       allTaskList: [],
       officialTaskList: [],
-      indivTaskList: []
+      indivTaskList: [],
+      scroll: null,
+      totalCount: 0,
+      currentCount: 0,
+      currPage: 0,
+      pageCt: 4
     };
   },
-  mounted () {
+  created() {},
+  destroyed() {},
+  mounted() {
     this.getRoute();
   },
   methods: {
-    refreshSroll () {
+    refreshSroll() {
       const self = this;
       const el = self.$refs.iscroll;
       el.refresh();
     },
-    changeRouteType (t) {
+    changeRouteType(t) {
       const self = this;
       self.routeType = t;
     },
-    getRoute (t = 0) {
+    getRoute() {
       const self = this;
+      if (self.currentCount >= self.totalCount && self.currentCount != 0) {
+        return;
+      }
+      let pageNum = self.currPage + 1;
       Post(`${exportAddress.task}/page`, {
         query: {
           order_: "start",
+          pageSize_: 4,
+          pageNum_: pageNum == 0 ? 1 : pageNum,
           start: self.$currentCity
         }
       }).then(res => {
@@ -110,7 +133,7 @@ export default {
         self.handleRequest(res);
       });
     },
-    timeFormat (d) {
+    timeFormat(d) {
       /**
        * @type 0 => return 年月日 时:分
        * @type 1 => return 时:分
@@ -131,8 +154,9 @@ export default {
       };
       return formatTime;
     },
-    handleRequest (res) {
+    handleRequest(res) {
       const self = this;
+
       if (res) {
         if (res.code !== 0) {
           self.errorData = {
@@ -142,6 +166,9 @@ export default {
             path: "/"
           };
         } else {
+          self.totalCount = res.data.records;
+          self.currentCount = self.currentCount + res.data.rows.length;
+          self.currPage = self.currPage + 1;
           for (let j = 0; j < res.data.rows.length; j++) {
             let dataJ = res.data.rows[j];
             dataJ.startCode = dataJ.startCode.split(",");
@@ -158,10 +185,31 @@ export default {
             // }
             self.allTaskList.push(dataJ);
           }
+          self.registerScrollCt();
         }
       } else {
         return false;
       }
+    },
+    registerScrollCt() {
+      const self = this;
+      self.$nextTick(() => {
+        self.scroll = new BScroll(this.$refs.iscroll, {
+          probeType: 3
+          // scrollY: true
+        });
+        self.scroll.on("scrollEnd", () => {
+          // 滚动到底部
+          if (self.scroll.y <= self.scroll.maxScrollY + 50) {
+            console.log("滚到底啦！！！！");
+            self.reachEnd();
+          }
+        });
+      });
+    },
+    reachEnd() {
+      const self = this;
+      self.getRoute();
     }
   }
 };
@@ -193,15 +241,8 @@ $designWidth: 750;
 
   .route-scroll-container {
     touch-action: none;
-    /* -- Attention-- */
-    // flex-grow: 1;
-    // overflow-y: auto;
+    flex: 1;
     overflow: hidden;
-    // padding-top: px2rem(20);
-    // margin: px2rem(20) 0 0 0;
-    .ps__rail-y {
-      display: none;
-    }
   }
 }
 </style>

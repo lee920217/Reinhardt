@@ -1,12 +1,12 @@
 <template>
   <div class="index-main-container">
     <Header />
-    <!-- <AddTask
+    <AddTask
       v-if="addTaskStatus"
       @cancelAddTaskDialog="cancelNewTask"
       :basicTravelData="basicTravelData"
-    />-->
-    <!-- <div class="slider-container">
+    />
+    <div class="slider-container">
       <img src="@/assets/img/slider.png" />
     </div>
     <div class="create-task-container">
@@ -75,18 +75,18 @@
         :panelData="i"
       />
       <div class="route-more" v-on:touchstart="routerDirect('/list')">查看更多 ></div>
-    </div>-->
+    </div>
     <div class="data-display-container">
       <div class="base-header">
         <div class="create-text-container">
           <div class="text-header">疫情数量及区域统计</div>
-          <div class="text-detail">勤洗手，减少出门</div>
+          <div class="text-detail">我们需要了解，我们需要面对的是什么</div>
         </div>
-        <div class="update-time">截止 2020-03-07 21:41</div>
+        <div class="update-time">截止 2020-03-06 10:55</div>
       </div>
       <div class="text-data-container">
         <div class="text-data-detail">
-          <div class="num red-font">211</div>
+          <div class="num red-font">163</div>
           <div class="desc">肺炎疫情</div>
         </div>
         <div class="text-data-detail">
@@ -97,10 +97,10 @@
           <div class="num blue-font">2</div>
           <div class="desc">累计死亡</div>
         </div>
-        <div class="text-data-detail">
-          <div class="num green-font">+48</div>
-          <div class="desc">当日增长</div>
-        </div>
+        <!-- <div class="text-data-detail">
+          <div class="num purple-font">51+</div>
+          <div class="desc">事件统计</div>
+        </div>-->
       </div>
       <div class="map-data-container">
         <highcharts :constructor-type="'mapChart'" :options="UKMapSettings"></highcharts>
@@ -134,8 +134,8 @@ export default {
   name: "Index",
   components: {
     Header,
-    // RoutePanel,
-    // AddTask,
+    RoutePanel,
+    AddTask,
     NewsPanel
   },
   data () {
@@ -161,19 +161,19 @@ export default {
       },
       newsList: {
         0: {
-          title: "英国累计确诊211例新冠肺炎，并有两例死亡，新增的5例为苏格兰确诊病例",
-          source: "Business Insider",
-          time: "2020, Mar 7th, 14:46"
+          title: "伦敦Barnet确诊3人",
+          source: "My London",
+          time: "2020, Mar 6th, 10:34"
         },
         1: {
-          title: "今天，新冠肺炎在全球确诊病例超过105,000，死亡病例达到3558人",
-          source: "telegraph",
-          time: "2020, Mar 7th, 21:47"
+          title: "利物浦增加两例确诊病例, 一人为曾与感染者接触, 另一人是刚刚从意大利北部回来",
+          source: "Echo",
+          time: "2020, Mar 5th, 16:23"
         },
         2: {
-          title: "迄今为止，英国已经测试21,460名患者，其中21,254人为阴性，206人为阳性",
-          source: "edition",
-          time: "2020, Mar 5th, 21:40"
+          title: "英国累计确诊达到116例, 并出现首例死亡病例",
+          source: "DHS",
+          time: "2020, Mar 5th, 19:25"
         }
       },
       addTaskStatus: false
@@ -340,7 +340,6 @@ $designWidth: 750;
   background-color: #e5e5e5;
   overflow: scroll;
   //TODO
-  margin-top: px2rem(88);
   .rendering {
     color: #999999;
     background-color: #999999;
@@ -592,9 +591,6 @@ $designWidth: 750;
           }
           &.purple-font {
             color: #656eb0;
-          }
-          &.green-font {
-            color: green;
           }
         }
         .desc {

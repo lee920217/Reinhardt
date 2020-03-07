@@ -438,6 +438,7 @@ $designWidth: 750;
           height: px2rem(96);
           line-height: px2rem(96);
           font-size: px2rem(28);
+          -webkit-appearance: none;
           .default {
             color: #cccccc;
           }
