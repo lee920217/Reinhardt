@@ -34,4 +34,10 @@ public class NewsServiceImpl implements INewsService {
     public Page<News> page(News record) throws Exception {
         return newsManager.pageQuery(record);
     }
+
+    @Override
+    public News get(News record) throws Exception {
+        return newsMapper.selectByPrimaryKey(record.getNid());
+    }
+
 }

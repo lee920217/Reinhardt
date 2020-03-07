@@ -49,4 +49,17 @@ public class NewsController extends AbstractController {
             return genResponse(ResponseVO.CODE_ERR, "page query news fail, " + e.getMessage() , page);
         }
     }
+
+    //分页查询新闻
+    @RequestMapping(value = "/get", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseVO<News> get(@RequestBody RequestVO<News> param) {
+        News news = param.getQuery();
+        try {
+            return genResponse(newsService.get(news));
+        } catch (Exception e) {
+            logger.error("get news fail", e);
+            return genResponse(ResponseVO.CODE_ERR, "get news fail, " + e.getMessage() , news);
+        }
+    }
 }

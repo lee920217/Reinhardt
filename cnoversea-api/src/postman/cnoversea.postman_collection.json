@@ -19,7 +19,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "    {\n        \"query\":{\n            \"uid\" : \"benson2\",\n            \"uname\" : \"benson2\",\n            \"email\" : \"benson1@163.com\",\n            \"gender\" : \"1\",\n            \"mobile\" : \"15912345678\",\n            \"pass\" : \"benson\"\n        }\n    }"
+					"raw": "    {\n        \"query\":{\n            \"uid\" : \"benson2\",\n            \"uname\" : \"benson2\",\n            \"email\" : \"benson1@163.com\",\n            \"gender\" : \"1\",\n            \"mobile\" : \"15912345678\",\n            \"pass\" : \"password\"\n        }\n    }"
 				},
 				"url": {
 					"raw": "localhost:8360/api/user/regist",
@@ -31,6 +31,37 @@
 						"api",
 						"user",
 						"regist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "激活账号",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"query\":{\n            \"uuid\" : \"6f39a99aab514cbdab8fad3298482853\"\n        }\n    }"
+				},
+				"url": {
+					"raw": "localhost:8360/api/user/active",
+					"host": [
+						"localhost"
+					],
+					"port": "8360",
+					"path": [
+						"api",
+						"user",
+						"active"
 					]
 				}
 			},
@@ -310,6 +341,99 @@
 						"api",
 						"task",
 						"secede"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "发布新闻",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"query\":{\n            \"title\" : \"去李嘉琦家蹦迪\",\n            \"auchor\" : \"lee\",\n            \"location\" : \"Liverpool\",\n            \"keywords\" : \"keyword1;keyword2\",\n            \"content\" : \"去李嘉琦家蹦迪\"\n        },\n        \"auth\":{\n    \t    \"userKey\":\"benson\",\n    \t    \"timestamp\":1580800079489,\n    \t    \"verifyKey\":\"375256bdc3cb847a97c3a3690306fdb7\"\n        }\n    }"
+				},
+				"url": {
+					"raw": "localhost:8360/api/news/pub",
+					"host": [
+						"localhost"
+					],
+					"port": "8360",
+					"path": [
+						"api",
+						"news",
+						"pub"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "分页查询新闻",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"query\":{\n            \"keywords\" : \"keyword1\",\n            \n            \"order_\" : \"create_time\",\n            \"sort_\" : \"desc\",\n            \"pageNum_\" : \"1\",\n            \"pageSize_\" : \"10\"\n        },\n        \"auth\":{\n    \t    \"userKey\":\"benson\",\n    \t    \"timestamp\":1580800079489,\n    \t    \"verifyKey\":\"375256bdc3cb847a97c3a3690306fdb7\"\n        }\n    }"
+				},
+				"url": {
+					"raw": "localhost:8360/api/news/page",
+					"host": [
+						"localhost"
+					],
+					"port": "8360",
+					"path": [
+						"api",
+						"news",
+						"page"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "按照ID提取完整新闻",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"query\":{\n            \"nid\" : \"1\"\n        },\n        \"auth\":{\n    \t    \"userKey\":\"benson\",\n    \t    \"timestamp\":1580800079489,\n    \t    \"verifyKey\":\"375256bdc3cb847a97c3a3690306fdb7\"\n        }\n    }"
+				},
+				"url": {
+					"raw": "localhost:8360/api/news/get",
+					"host": [
+						"localhost"
+					],
+					"port": "8360",
+					"path": [
+						"api",
+						"news",
+						"get"
 					]
 				}
 			},
