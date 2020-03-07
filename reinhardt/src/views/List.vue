@@ -6,23 +6,17 @@
         class="route-bar offical-route"
         :class="[routeType == 0 ? 'active' : '']"
         v-on:touchstart="changeRouteType(0)"
-      >
-        全部
-      </div>
+      >全部</div>
       <div
         class="route-bar offical-route"
         :class="[routeType == 1 ? 'active' : '']"
         v-on:touchstart="changeRouteType(1)"
-      >
-        合作路线
-      </div>
+      >合作路线</div>
       <div
         class="route-bar individual-route"
         :class="[routeType == 2 ? 'active' : '']"
         v-on:touchstart="changeRouteType(2)"
-      >
-        个人路线
-      </div>
+      >个人路线</div>
     </div>
     <div ref="iscroll" class="route-scroll-container">
       <div>
@@ -59,7 +53,7 @@ export default {
     RoutePanel,
     TopSearch
   },
-  data() {
+  data () {
     return {
       cityList: [
         "London",
@@ -100,22 +94,22 @@ export default {
       pageCt: 4
     };
   },
-  created() {},
-  destroyed() {},
-  mounted() {
+  created () { },
+  destroyed () { },
+  mounted () {
     this.getRoute();
   },
   methods: {
-    refreshSroll() {
+    refreshSroll () {
       const self = this;
       const el = self.$refs.iscroll;
       el.refresh();
     },
-    changeRouteType(t) {
+    changeRouteType (t) {
       const self = this;
       self.routeType = t;
     },
-    getRoute() {
+    getRoute () {
       const self = this;
       if (self.currentCount >= self.totalCount && self.currentCount != 0) {
         return;
@@ -133,7 +127,7 @@ export default {
         self.handleRequest(res);
       });
     },
-    timeFormat(d) {
+    timeFormat (d) {
       /**
        * @type 0 => return 年月日 时:分
        * @type 1 => return 时:分
@@ -154,7 +148,7 @@ export default {
       };
       return formatTime;
     },
-    handleRequest(res) {
+    handleRequest (res) {
       const self = this;
 
       if (res) {
@@ -191,7 +185,7 @@ export default {
         return false;
       }
     },
-    registerScrollCt() {
+    registerScrollCt () {
       const self = this;
       self.$nextTick(() => {
         self.scroll = new BScroll(this.$refs.iscroll, {
@@ -201,13 +195,12 @@ export default {
         self.scroll.on("scrollEnd", () => {
           // 滚动到底部
           if (self.scroll.y <= self.scroll.maxScrollY + 50) {
-            console.log("滚到底啦！！！！");
             self.reachEnd();
           }
         });
       });
     },
-    reachEnd() {
+    reachEnd () {
       const self = this;
       self.getRoute();
     }
