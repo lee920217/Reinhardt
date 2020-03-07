@@ -6,10 +6,10 @@
       @cancelAddTaskDialog="cancelNewTask"
       :basicTravelData="basicTravelData"
     />-->
-    <!-- <div class="slider-container">
+    <div class="slider-container">
       <img src="@/assets/img/slider.png" />
     </div>
-    <div class="create-task-container">
+    <!-- <div class="create-task-container">
       <div class="base-header">
         <div class="create-text-container">
           <div class="text-header">组团出行</div>
