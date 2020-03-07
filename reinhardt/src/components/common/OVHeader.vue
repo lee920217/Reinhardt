@@ -1,25 +1,25 @@
 <template>
   <div class="ov-header-container">
-    <div class="app-header">Lumna</div>
+    <div class="app-header">Lemna</div>
   </div>
 </template>
 
 <script>
 export default {
   name: "OVHeader",
-  data() {
+  data () {
     return {
       showList: false
     };
   },
-  created: function() {
+  created: function () {
     // const self = this;
     // self.username = self.$userName;
     // if (self.$userId == -1) {
     //   self.$router.push({ path: "/taskList" });
     // }
   },
-  mounted: function() {
+  mounted: function () {
     // this.$addUser(11, "cao");
   },
   methods: {}
