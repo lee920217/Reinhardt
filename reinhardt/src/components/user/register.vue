@@ -1,137 +1,119 @@
 <template>
   <div class="ov-register-container">
-    <div class="logo">Oversea</div>
-    <div>
-      <input
-        class="register-input register-username"
-        type="text"
-        placeholder="输入邮箱"
-        v-model="registerParams.email"
-      />
+    <backPage :path="'user'" @transfer="transfer" />
+    <div class="logo">
+      补全信息
+      <div class="desc">该邮箱未注册，请补全您的信息</div>
+    </div>
+    <div class="register-avatar-container">
+      <div class="avatar-ct">
+        <img :src="avatar['1-1']" />
+      </div>
+      <div class="text-ct">修改头像</div>
+      <div class="arrow-ct">></div>
+    </div>
+    <div class="register-common-container">
+      <div class="title">用户名</div>
+      <div class="mobile">
+        <input
+          type="text"
+          v-model="registerParams.uid"
+          placeholder="Nick name"
+          v-on:input="checkInputStatus"
+        />
+      </div>
+    </div>
+    <div class="register-info-container">
+      <div class="title">联系人</div>
+      <div class="info-ct">
+        <div class="username-ct">
+          <input
+            type="text"
+            v-model="registerParams.uname"
+            placeholder="姓名"
+            v-on:input="checkInputStatus"
+          />
+        </div>
+        <div class="gender-selector">
+          <div
+            class="gender-male gender-ct"
+            :class="[registerParams.gender == 1 ? 'active' : '']"
+            v-on:touchstart="clickChangeGender(1)"
+          >先生</div>
+          <div
+            class="gender-female gender-ct"
+            :class="[registerParams.gender == 0 ? 'active' : '']"
+            v-on:touchstart="clickChangeGender(0)"
+          >女士</div>
+        </div>
+      </div>
+    </div>
+    <div class="register-common-container">
+      <div class="title">电话</div>
+      <div class="mobile">
+        <input type="number" v-model="registerParams.mobile" placeholder="手机号码（选填）" />
+      </div>
     </div>
     <div>
-      <input
-        class="register-input register-nickname"
-        type="text"
-        placeholder="输入用户名"
-        v-model="registerParams.uid"
-      />
-    </div>
-    <div>
-      <input
-        class="register-input register-password"
-        type="password"
-        placeholder="输入密码"
-        v-model="registerParams.pass"
-      />
-    </div>
-    <div>
-      <input
-        class="register-input register-password"
-        type="password"
-        placeholder="再次输入密码"
-        v-model="registerParams.repass"
-      />
-    </div>
-    <div class="register-gender">
       <div
-        class="gender-male"
-        :class="[registerParams.gender == 1 ? 'active' : '']"
-        v-on:touchstart="clickChangeGender(1)"
-      ></div>
-      <div
-        class="gender-female"
-        :class="[registerParams.gender == 0 ? 'active' : '']"
-        v-on:touchstart="clickChangeGender(0)"
-      ></div>
-    </div>
-    <div>
-      <div class="register-button" v-on:touchstart="confirmRegister">注册</div>
-    </div>
-    <div>
-      <div class="transfer" v-on:touchstart="transfer('login')">已有账号？点击登录</div>
+        class="register-button"
+        :class="[clickStatus ? 'active' : 'disable']"
+        v-on:touchstart="confirmRegister"
+      >注册Lmena</div>
     </div>
   </div>
 </template>
 
 <script>
 import { Post } from "@/assets/api/api.js";
+import backPage from "@/components/common/BackPage.vue";
 export default {
   name: "register",
   props: {
     userKey: {
       type: String,
       default: "register"
+    },
+    transferData: {
+      type: Object
     }
   },
-  data() {
+  components: {
+    backPage
+  },
+  data () {
     return {
       registerParams: {
         gender: -1,
-        email: "",
         uname: "",
         uid: "",
-        mobile: "000",
-        pass: "",
-        repass: ""
+        mobile: ""
+      },
+      clickStatus: false,
+      avatar: {
+        "1-1": require("@/assets/img/avatar-1-1.png")
       }
     };
   },
   methods: {
-    clickChangeGender(gender) {
+    //TODO
+    confirtTest () {
+      const self = this;
+      const a = Object.assign(self.registerParams, self.transferData);
+    },
+    clickChangeGender (gender) {
       const self = this;
       self.registerParams.gender = gender;
+      self.checkInputStatus();
     },
-    transfer(target) {
+    transfer (target) {
       const self = this;
       self.$emit("transfer", target);
     },
-    emailCheck(email) {
-      const regExp = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
-      if (!regExp.test(email)) {
-        return false;
-      }
-      return true;
-    },
-    confirmRegister() {
+    confirmRegister () {
       const self = this;
-      self.registerParams.uname = self.registerParams.uid;
-      if (!self.emailCheck(self.registerParams.email)) {
-        self.$emit("handleError", {
-          errno: 1,
-          errmsg: "邮箱地址非法",
-          redirect: 0,
-          path: "/"
-        });
-        return;
-      }
-      if (self.registerParams.pass.length <= 8) {
-        self.$emit("handleError", {
-          errno: 1,
-          errmsg: "密码长度需大于8位",
-          redirect: 0,
-          path: "/"
-        });
-        return;
-      }
-      if (self.registerParams.pass !== self.registerParams.repass) {
-        self.$emit("handleError", {
-          errno: 1,
-          errmsg: "两次输入密码不一致",
-          redirect: 0,
-          path: "/"
-        });
-        return;
-      }
-      if (
-        self.registerParams.pass === self.registerParams.repass &&
-        self.registerParams.email &&
-        self.registerParams.uname &&
-        self.registerParams.uid &&
-        self.registerParams.mobile &&
-        self.registerParams.pass
-      ) {
-        let finalParams = self.registerParams;
+      if (self.registerParams.uname && self.registerParams.uid && self.registerParams.gender) {
+        let finalParams = Object.assign(self.registerParams, self.transferData);
         delete finalParams.repass;
         Post("http://localhost:8360/api/user/regist", { query: self.registerParams }).then(res => {
           self.handleRequest(res);
@@ -144,9 +126,8 @@ export default {
           path: "/"
         });
       }
-      console.log(self.registerParams);
     },
-    handleRequest(res) {
+    handleRequest (res) {
       const self = this;
       if (res.code === 0) {
         self.$emit("handleError", {
@@ -156,7 +137,7 @@ export default {
           path: "/"
         });
         self.$addUser(res.data.uid, res.data.uname, res.data.uuid, res.data.gender, res.data.email);
-        self.$router.push({ path: "/taskList" });
+        self.$router.push({ path: "/" });
       } else {
         if ("repeat uid".indexOf(res.msg) >= 0) {
           self.$emit("handleError", {
@@ -166,6 +147,16 @@ export default {
             path: "/"
           });
         }
+      }
+    },
+    checkInputStatus () {
+      const self = this;
+      if (
+        self.registerParams.uname &&
+        self.registerParams.gender != -1 &&
+        self.registerParams.uid
+      ) {
+        self.clickStatus = true;
       }
     }
   }
@@ -181,59 +172,132 @@ $designWidth: 750;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  .register-input {
-    width: px2rem(280);
-    height: px2rem(60);
-    padding: 0 px2rem(10);
-    font-size: px2rem(20);
-    border: px2rem(2) solid #000;
-    border-radius: px2rem(10);
-    margin: px2rem(20) 0;
-    &select {
-      font-size: px2rem(20);
-    }
-    option {
-      font-size: px2rem(20);
+  .logo {
+    width: px2rem(622);
+    text-align: left;
+    margin-top: px2rem(300);
+    margin-bottom: px2rem(74);
+    font-weight: 500;
+    font-size: px2rem(40);
+    .desc {
+      font-size: px2rem(26);
+      color: rgba(22, 24, 35, 0.5);
     }
   }
-  .register-gender {
-    width: px2rem(280);
-    height: px2rem(60);
+  .register-avatar-container {
+    position: relative;
+    width: px2rem(622);
+    height: px2rem(96);
     display: flex;
-    justify-content: space-between;
-    .gender-male {
-      width: px2rem(60);
-      height: px2rem(60);
-      background-image: url("../../assets/img/boy.png");
-      background-size: contain;
-      opacity: 0.5;
-      &.active {
-        opacity: 1;
+    align-items: center;
+    border-bottom: px2rem(2) solid #eeeeee;
+    box-sizing: border-box;
+    .avatar-ct {
+      width: px2rem(80);
+      height: px2rem(80);
+      img {
+        width: 100%;
+        height: 100%;
       }
     }
-    .gender-female {
-      width: px2rem(60);
-      height: px2rem(60);
-      background-image: url("../../assets/img/girl.png");
-      background-size: contain;
-      opacity: 0.5;
-      &.active {
-        opacity: 1;
+    .text-ct {
+      font-size: px2rem(28);
+      color: #cccccc;
+      margin-left: px2rem(74);
+    }
+    .arrow-ct {
+      position: absolute;
+      right: 0;
+      font-size: px2rem(30);
+      color: #cccccc;
+    }
+  }
+  .register-info-container {
+    display: flex;
+    .title {
+      width: px2rem(90);
+      margin-right: px2rem(56);
+      margin-top: px2rem(30);
+      font-size: px2rem(28);
+      text-align: left;
+      font-weight: 500;
+    }
+    .info-ct {
+      width: px2rem(476);
+      .username-ct {
+        height: px2rem(96);
+        border-bottom: px2rem(2) solid #eeeeee;
+      }
+      input {
+        width: 100%;
+        height: px2rem(96);
+        box-sizing: border-box;
+        font-size: px2rem(28);
+        &::placeholder {
+          color: #cccccc;
+        }
+      }
+    }
+    .gender-selector {
+      display: flex;
+      align-items: center;
+      height: px2rem(96);
+      border-bottom: px2rem(2) solid #eeeeee;
+      .gender-ct {
+        width: px2rem(120);
+        height: px2rem(48);
+        border: px2rem(2) solid #eeeeee;
+        margin-right: px2rem(24);
+        font-size: px2rem(26);
+        line-height: px2rem(48);
+        border-radius: px2rem(4);
+        &.active {
+          color: #2b44ff;
+          border: px2rem(2) solid #2b44ff;
+        }
+      }
+    }
+  }
+  .register-common-container {
+    display: flex;
+    align-items: center;
+    width: px2rem(622);
+    height: px2rem(96);
+    border-bottom: px2rem(2) solid #eeeeee;
+    .title {
+      width: px2rem(140);
+      font-size: px2rem(28);
+      font-weight: 500;
+      text-align: left;
+    }
+    input {
+      height: px2rem(96);
+      //margin-left: px2rem(94);
+      font-size: px2rem(28);
+      box-sizing: border-box;
+      &::placeholder {
+        font-size: px2rem(28);
+        color: #cccccc;
       }
     }
   }
   .register-button {
-    width: px2rem(300);
-    height: px2rem(60);
-    margin: px2rem(20) 0;
-    background-color: #000;
-    border-radius: px2rem(10);
+    width: px2rem(622);
+    height: px2rem(88);
+    margin: px2rem(64) 0;
+    border-radius: px2rem(60);
     box-sizing: border-box;
     color: #f2f2f2;
-    font-size: px2rem(20);
-    line-height: px2rem(60);
-    font-weight: 600;
+    font-size: px2rem(30);
+    line-height: px2rem(88);
+    &.active {
+      background-color: #2b44ff;
+      color: #ffffff;
+    }
+    &.disable {
+      background-color: #eeeeee;
+      color: #bbbbbb;
+    }
   }
   .transfer {
     font-size: px2rem(26);

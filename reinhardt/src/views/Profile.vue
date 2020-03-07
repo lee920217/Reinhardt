@@ -17,20 +17,20 @@
         class="task-item"
         v-for="i in taskList"
         v-bind:key="i.tid"
-        v-on:touchstart="redirectToTaskDtl(i)"
-        :class="[i.type == 1 ? 'active': 'dangerous']"
+        v-on:click="redirectToTaskDtl(i)"
+        :class="[i.type == 1 ? 'active' : 'dangerous']"
       >
         <div class="task-item-dtl">
           <div class="dtl-item current-location">
-            <div class="location-name">{{i.startCode[0]}}</div>
-            <div class="location-postcode">{{i.startCode[1]}}</div>
-            <div class="time-info">{{i.Date}}</div>
-            <div class="time-info">{{i.Time}}</div>
+            <div class="location-name">{{ i.startCode[0] }}</div>
+            <div class="location-postcode">{{ i.startCode[1] }}</div>
+            <div class="time-info">{{ i.Date }}</div>
+            <div class="time-info">{{ i.Time }}</div>
           </div>
           <div class="arrow" v-if="i.type == 1"></div>
           <div class="dtl-item target-location" v-if="i.type == 1">
-            <div class="location-name">{{i.targetCode[0]}}</div>
-            <div class="location-postcode">{{i.targetCode[1]}}</div>
+            <div class="location-name">{{ i.targetCode[0] }}</div>
+            <div class="location-postcode">{{ i.targetCode[1] }}</div>
           </div>
         </div>
       </div>
@@ -44,13 +44,50 @@ export default {
   name: "Profile",
   data () {
     return {
-      taskList: []
+      taskList: [],
+      clickStatus: false
+    };
+  },
+  // beforeCreate () {
+  //   const self = this;
+  //   if (!self.$userId || !self.$uuid || !self.$userName || !self.$gender || !self.$email) {
+  //     self.$router.push({ path: '/user' })
+  //     return
+  //   }
+  // },
+  created () {
+    const self = this;
+    if (!self.$userId || !self.$uuid || !self.$userName || !self.$gender || !self.$email) {
+      self.$router.push("/user");
+      return;
     }
   },
   mounted () {
-    this.getTaskList()
+    this.initClickStatus();
+    this.getTaskList();
   },
   methods: {
+    checkUserStatus () {
+      const self = this;
+      if (!self.$userId || !self.$uuid || !self.$userName || !self.$gender || !self.$email) {
+        self.$router.push("/user");
+      }
+    },
+    redirectToTaskDtl (info) {
+      const self = this;
+      info.id = info.tid;
+      if (!self.clickStatus) {
+        return;
+      }
+      self.$router.push({ name: "Task", params: info });
+    },
+    initClickStatus () {
+      const self = this;
+      self.clickStatus = false;
+      setTimeout(() => {
+        self.clickStatus = true;
+      }, 1000);
+    },
     refreshSroll () {
       const self = this;
       const el = self.$refs.iscroll;
@@ -58,45 +95,44 @@ export default {
     },
     redirectTask () {
       const self = this;
-      self.$router.push({ path: "/taskList" });
+      self.$router.push("/taskList");
     },
     getTaskList (v = {}) {
       const self = this;
-      if (v = {}) {
+      if ((v = {})) {
         v = {
           order_: "start",
           start: self.currentCity
-        }
+        };
       }
-      Post('http://localhost:8360/api/task/page', { query: v })
-        .then(res => {
-          if (res.code !== 0) {
-            self.errorData = {
-              errno: 1,
-              errmsg: "获取列表失败",
-              redirect: 0,
-              path: "/"
-            }
-          } else {
-            for (let j = 0; j < res.data.rows.length; j++) {
-              res.data.rows[j].startCode = res.data.rows[j].startCode.split(',')
-              res.data.rows[j].targetCode = res.data.rows[j].targetCode.split(',')
-              let newTime = new Date(res.data.rows[j].startTime)
-              let year = newTime.getFullYear();
-              let month = newTime.getMonth() + 1;
-              let days = newTime.getDate();
-              let hours = newTime.getHours();
-              let minutes = newTime.getMinutes();
-              let seconds = newTime.getSeconds();
-              res.data.rows[j].startTime = `${year}-${month}-${days} ${hours}:${minutes}`
-              res.data.rows[j].Time = `${hours}:${minutes}`
-              res.data.rows[j].Date = `${year}-${month}-${days}`
-            }
-            self.taskList = res.data.rows
-            self.refreshSroll();
+      Post("http://localhost:8360/api/task/page", { query: v }).then(res => {
+        if (res.code !== 0) {
+          self.errorData = {
+            errno: 1,
+            errmsg: "获取列表失败",
+            redirect: 0,
+            path: "/"
+          };
+        } else {
+          for (let j = 0; j < res.data.rows.length; j++) {
+            res.data.rows[j].startCode = res.data.rows[j].startCode.split(",");
+            res.data.rows[j].targetCode = res.data.rows[j].targetCode.split(",");
+            let newTime = new Date(res.data.rows[j].startTime);
+            let year = newTime.getFullYear();
+            let month = newTime.getMonth() + 1;
+            let days = newTime.getDate();
+            let hours = newTime.getHours();
+            let minutes = newTime.getMinutes();
+            let seconds = newTime.getSeconds();
+            res.data.rows[j].startTime = `${year}-${month}-${days} ${hours}:${minutes}`;
+            res.data.rows[j].Time = `${hours}:${minutes}`;
+            res.data.rows[j].Date = `${year}-${month}-${days}`;
           }
-        })
-    },
+          self.taskList = res.data.rows;
+          self.refreshSroll();
+        }
+      });
+    }
   }
 };
 </script>
