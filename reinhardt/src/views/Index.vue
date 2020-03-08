@@ -84,7 +84,7 @@
           <div class="text-header">Cases of coronavirus in UK</div>
           <div class="text-detail">勤洗手，减少出门</div>
         </div>
-        <div class="update-time">Updated 2020-03-07 21:41</div>
+        <div class="update-time">Updated 2020-03-08 15:58</div>
       </div>
       <div class="text-data-container">
         <div class="text-data-detail">
@@ -632,7 +632,7 @@ $designWidth: 750;
         font-size: px2rem(20);
         background-color: #eeeeee;
         color: #999999;
-        line-height: px2rem(32);
+        line-height: px2rem(34);
         border-top-left-radius: px2rem(16);
         border-bottom-left-radius: px2rem(16);
       }
