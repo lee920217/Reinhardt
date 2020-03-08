@@ -88,12 +88,13 @@ var chartSettings = {
       name: "Total Increase",
       type: "column",
       yAxis: 1,
-      color: "#d02c2c",
+      color: "rgb(124, 181, 236)",
       data: [2, 1, 4, 0, 1, 4, 3, 5, 1, 14, 4, 12, 34, 31, 47, 48, 67]
     },
     {
       name: "Total Patients",
       type: "spline",
+      color: "#d02c2c",
       data: [2, 3, 7, 7, 8, 12, 15, 20, 21, 35, 39, 51, 85, 116, 163, 211, 263]
     }
   ]

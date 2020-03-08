@@ -240,7 +240,7 @@ export default {
         frameHandler = requestAnimationFrame(animate);
       };
       const myTween = new TWEEN.Tween({ tweeningValue: start })
-        .to({ tweeningValue: end }, 500)
+        .to({ tweeningValue: end }, 1000)
         .onUpdate(() => {
           self.dataSet[key] = myTween._object.tweeningValue.toFixed(0);
         })
