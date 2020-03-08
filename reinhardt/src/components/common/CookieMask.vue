@@ -44,7 +44,7 @@ $designWidth: 750;
 @import "@/assets/library/px2rem.scss";
 .cookie-mask-container {
   position: fixed;
-  top: px2rem(700);
+  /// top: px2rem(700);
   left: 0;
   right: 0;
   bottom: 0;
@@ -52,6 +52,7 @@ $designWidth: 750;
   flex-direction: column;
   justify-content: space-around;
   background-color: #ffffff;
+  padding: px2rem(32) 0;
   .content-header {
     font-size: px2rem(50);
     text-align: left;
