@@ -201,7 +201,6 @@ export default {
   },
   mounted() {
     this.showMask();
-    this.tweenJS(0, 272, "total");
     this.showNumAnimation();
     this.statusCheck();
   },
@@ -223,7 +222,7 @@ export default {
       const self = this;
       const targetValue = {
         total: 273,
-        death: 2,
+        death: 3,
         cured: 18,
         increase: 67
       };

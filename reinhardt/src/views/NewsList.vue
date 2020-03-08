@@ -2,40 +2,7 @@
   <div class="newlist-main-container">
     <TopSearch />
     <perfect-scrollbar ref="iscroll" class="news-scroll-container" :options="scrollOptions">
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
-      <NewsPanel />
+      <NewsPanel v-for="(i, v) in newsList" v-bind:key="v" :Newsdata="i" />
     </perfect-scrollbar>
   </div>
 </template>
@@ -51,7 +18,26 @@ export default {
   },
   data() {
     return {
-      scrollOptions: {}
+      scrollOptions: {},
+      newsList: {
+        0: {
+          title:
+            "Coronavirus warning for 115 people as patient tests positive after attending Liverpool Hospital",
+          source: "Echo",
+          time: "2020, Mar 7th, 10:23"
+        },
+        1: {
+          title: "Coronavirus latest news: 209 people test positive as UK case count surges",
+          source: "telegraph",
+          time: "2020, Mar 7th, 22:59"
+        },
+        2: {
+          title:
+            "FIVE more cases of the deadly virus have been recorded in Scotland bringing the number of infected in the country to 16 , authorities said.",
+          source: "edition",
+          time: "2020, Mar 5th, 23:20"
+        }
+      }
     };
   }
 };
