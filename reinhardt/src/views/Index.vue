@@ -108,6 +108,9 @@
         <highcharts :constructor-type="'mapChart'" :options="UKMapSettings"></highcharts>
       </div>
     </div>
+    <div class="chart-display-container">
+      <highcharts :constructor-type="'mapChart'" :options="ChartSettings"></highcharts>
+    </div>
     <div class="news-display-container">
       <div class="base-header">
         <div class="create-text-container">
@@ -131,6 +134,7 @@ import CookieMask from "@/components/common/CookieMask.vue";
 import LMask from "@/components/common/Mask.vue";
 import NewsPanel from "@/components/common/NewsPanel.vue";
 import UKMapSettings from "@/assets/data/uk-map.js";
+import ChartSettings from "@/assets/data/uk-ncov2019-chart.js";
 import { Post } from "@/assets/api/api.js";
 import { exportAddress } from "@/assets/api/setting.js";
 export default {
@@ -146,6 +150,7 @@ export default {
   data () {
     return {
       UKMapSettings: UKMapSettings,
+      ChartSettings: ChartSettings,
       /**
        * @routeType
        * @ 1 => 个人路线
@@ -631,6 +636,13 @@ $designWidth: 750;
         height: px2rem(816) !important;
       }
     }
+  }
+  .chart-display-container {
+    width: 100%;
+    //height: px2rem(400);
+    background-color: #ffffff;
+    margin-top: px2rem(16);
+    overflow: hidden;
   }
   .news-display-container {
     width: 100%;
