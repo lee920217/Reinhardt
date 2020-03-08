@@ -88,19 +88,19 @@
       </div>
       <div class="text-data-container">
         <div class="text-data-detail">
-          <div class="num red-font">211</div>
+          <div class="num red-font">{{ dataSet.total }}</div>
           <div class="desc">CONFIRMED</div>
         </div>
         <div class="text-data-detail">
-          <div class="num yellow-font">18</div>
+          <div class="num yellow-font">{{ dataSet.cured }}</div>
           <div class="desc">CURED</div>
         </div>
         <div class="text-data-detail">
-          <div class="num blue-font">2</div>
+          <div class="num blue-font">{{ dataSet.death }}</div>
           <div class="desc">DEATH</div>
         </div>
         <div class="text-data-detail">
-          <div class="num green-font">+48</div>
+          <div class="num green-font">+{{ dataSet.increase }}</div>
           <div class="desc">Daily Increase</div>
         </div>
       </div>
@@ -135,6 +135,7 @@ import LMask from "@/components/common/Mask.vue";
 import NewsPanel from "@/components/common/NewsPanel.vue";
 import UKMapSettings from "@/assets/data/uk-map.js";
 import ChartSettings from "@/assets/data/uk-ncov2019-chart.js";
+import TWEEN from "@tweenjs/tween.js";
 import { Post } from "@/assets/api/api.js";
 import { exportAddress } from "@/assets/api/setting.js";
 export default {
@@ -147,7 +148,7 @@ export default {
     CookieMask,
     LMask
   },
-  data () {
+  data() {
     return {
       UKMapSettings: UKMapSettings,
       ChartSettings: ChartSettings,
@@ -172,7 +173,8 @@ export default {
       },
       newsList: {
         0: {
-          title: "Coronavirus warning for 115 people as patient tests positive after attending Liverpool Hospital",
+          title:
+            "Coronavirus warning for 115 people as patient tests positive after attending Liverpool Hospital",
           source: "Echo",
           time: "2020, Mar 7th, 10:23"
         },
@@ -182,37 +184,78 @@ export default {
           time: "2020, Mar 7th, 22:59"
         },
         2: {
-          title: "FIVE more cases of the deadly virus have been recorded in Scotland bringing the number of infected in the country to 16 , authorities said.",
+          title:
+            "FIVE more cases of the deadly virus have been recorded in Scotland bringing the number of infected in the country to 16 , authorities said.",
           source: "edition",
           time: "2020, Mar 5th, 23:20"
         }
       },
+      dataSet: {
+        total: 0,
+        death: 0,
+        cured: 0,
+        increase: 0
+      },
       addTaskStatus: false
     };
   },
-  mounted () {
-    this.showMask()
+  mounted() {
+    this.showMask();
+    this.tweenJS(0, 272, "total");
+    this.showNumAnimation();
     this.statusCheck();
   },
   methods: {
-    showMask () {
+    showMask() {
       const self = this;
       if (self.$cookieConfirm) {
-        self.maskStatus = false
+        self.maskStatus = false;
       } else {
-        self.maskStatus = true
+        self.maskStatus = true;
       }
     },
-    hideMask () {
+    hideMask() {
       const self = this;
       self.maskStatus = false;
       self.$acceptCookie();
     },
-    touchChange () {
+    showNumAnimation() {
+      const self = this;
+      const targetValue = {
+        total: 273,
+        death: 2,
+        cured: 18,
+        increase: 67
+      };
+      const objKey = Object.keys(self.dataSet);
+      for (let i = 0; i < objKey.length; i++) {
+        self.tweenJS(0, targetValue[objKey[i]], objKey[i]);
+      }
+    },
+    tweenJS(start, end, key) {
+      let frameHandler;
+      const self = this;
+      const animate = function(currentTime) {
+        TWEEN.update(currentTime);
+        frameHandler = requestAnimationFrame(animate);
+      };
+      const myTween = new TWEEN.Tween({ tweeningValue: start })
+        .to({ tweeningValue: end }, 500)
+        .onUpdate(() => {
+          self.dataSet[key] = myTween._object.tweeningValue.toFixed(0);
+        })
+        .onComplete(() => {
+          // Make sure to clean up after ourselves.
+          cancelAnimationFrame(frameHandler);
+        })
+        .start();
+      frameHandler = requestAnimationFrame(animate);
+    },
+    touchChange() {
       const self = this;
       self.touchChangeType = "datetime-local";
     },
-    changeRouteType (t) {
+    changeRouteType(t) {
       const self = this;
       self.routeType = t;
       if (t == 1) {
@@ -226,7 +269,7 @@ export default {
         }
       }
     },
-    getRoute (t = 1) {
+    getRoute(t = 1) {
       const self = this;
 
       Post(`${exportAddress.task}/page`, {
@@ -241,7 +284,7 @@ export default {
         self.handleRequest(res);
       });
     },
-    handleRequest (res) {
+    handleRequest(res) {
       const self = this;
       if (res) {
         if (res.code !== 0) {
@@ -277,7 +320,7 @@ export default {
         return false;
       }
     },
-    getRouteDtl (t) {
+    getRouteDtl(t) {
       const self = this;
       Post(`${exportAddress.task}/partners`, {
         query: {
@@ -291,7 +334,7 @@ export default {
         }
       });
     },
-    handleRouteDtl (d, t) {
+    handleRouteDtl(d, t) {
       const self = this;
       let currentNum = d.length;
       let userIn = false;
@@ -310,7 +353,7 @@ export default {
         self.indivTaskList[t].userIn = userIn;
       }
     },
-    timeFormat (d) {
+    timeFormat(d) {
       /**
        * @type 0 => return 年月日 时:分
        * @type 1 => return 时:分
@@ -331,7 +374,7 @@ export default {
       };
       return formatTime;
     },
-    statusCheck (s = 0) {
+    statusCheck(s = 0) {
       const self = this;
       let geoGet = setInterval(() => {
         if (self.$currentCity) {
@@ -340,15 +383,15 @@ export default {
         }
       }, 100);
     },
-    createNewTask () {
+    createNewTask() {
       const self = this;
       self.addTaskStatus = true;
     },
-    cancelNewTask () {
+    cancelNewTask() {
       const self = this;
       self.addTaskStatus = false;
     },
-    routerDirect (t) {
+    routerDirect(t) {
       const self = this;
       self.$router.push(t);
     }
