@@ -14,6 +14,6 @@ export default {};
   left: 0;
   right: 0;
   background-color: #5f5959ba;
-  z-index: 12;
+  z-index: 25;
 }
 </style>

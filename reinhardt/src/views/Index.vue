@@ -1,5 +1,7 @@
 <template>
   <div class="index-main-container">
+    <CookieMask v-if="maskStatus" @hideMask="hideMask" />
+    <LMask v-if="maskStatus" />
     <Header />
     <!-- <AddTask
       v-if="addTaskStatus"
@@ -79,27 +81,27 @@
     <div class="data-display-container">
       <div class="base-header">
         <div class="create-text-container">
-          <div class="text-header">疫情数量及区域统计</div>
+          <div class="text-header">Cases of coronavirus in UK</div>
           <div class="text-detail">勤洗手，减少出门</div>
         </div>
-        <div class="update-time">截止 2020-03-07 21:41</div>
+        <div class="update-time">Updated 2020-03-07 21:41</div>
       </div>
       <div class="text-data-container">
         <div class="text-data-detail">
           <div class="num red-font">211</div>
-          <div class="desc">肺炎疫情</div>
+          <div class="desc">CONFIRMED</div>
         </div>
         <div class="text-data-detail">
           <div class="num yellow-font">18</div>
-          <div class="desc">累计治愈</div>
+          <div class="desc">CURED</div>
         </div>
         <div class="text-data-detail">
           <div class="num blue-font">2</div>
-          <div class="desc">累计死亡</div>
+          <div class="desc">DEATH</div>
         </div>
         <div class="text-data-detail">
           <div class="num green-font">+48</div>
-          <div class="desc">当日增长</div>
+          <div class="desc">Daily Increase</div>
         </div>
       </div>
       <div class="map-data-container">
@@ -109,7 +111,7 @@
     <div class="news-display-container">
       <div class="base-header">
         <div class="create-text-container">
-          <div class="text-header">事件实时播报</div>
+          <div class="text-header">Break News</div>
         </div>
       </div>
       <div class="news-body">
@@ -125,18 +127,21 @@
 import Header from "@/components/common/OVHeader.vue";
 import RoutePanel from "@/components/common/RoutePanel.vue";
 import AddTask from "@/components/common/AddTask.vue";
+import CookieMask from "@/components/common/CookieMask.vue";
+import LMask from "@/components/common/Mask.vue";
 import NewsPanel from "@/components/common/NewsPanel.vue";
 import UKMapSettings from "@/assets/data/uk-map.js";
 import { Post } from "@/assets/api/api.js";
 import { exportAddress } from "@/assets/api/setting.js";
-
 export default {
   name: "Index",
   components: {
     Header,
     // RoutePanel,
     // AddTask,
-    NewsPanel
+    NewsPanel,
+    CookieMask,
+    LMask
   },
   data () {
     return {
@@ -151,6 +156,7 @@ export default {
       renderStatus: false,
       officialTaskList: {},
       indivTaskList: {},
+      maskStatus: false,
       renderingTaskList: [
         { startCode: [0, 1], targetCode: [2, 3], Date: "rendering", time: "rendering" }
       ],
@@ -161,28 +167,42 @@ export default {
       },
       newsList: {
         0: {
-          title: "因今日利物浦医院确诊一名新冠肺炎患者，利物浦医院寻找今日去就诊的115名市民",
+          title: "Coronavirus warning for 115 people as patient tests positive after attending Liverpool Hospital",
           source: "Echo",
-          time: "2020, Mar 7th, 14:46"
+          time: "2020, Mar 7th, 10:23"
         },
         1: {
-          title: "今天，新冠肺炎在全球确诊病例超过105,000，死亡病例达到3558人",
+          title: "Coronavirus latest news: 209 people test positive as UK case count surges",
           source: "telegraph",
-          time: "2020, Mar 7th, 21:47"
+          time: "2020, Mar 7th, 22:59"
         },
         2: {
-          title: "迄今为止，英国已经测试21,460名患者，其中21,254人为阴性，206人为阳性",
+          title: "FIVE more cases of the deadly virus have been recorded in Scotland bringing the number of infected in the country to 16 , authorities said.",
           source: "edition",
-          time: "2020, Mar 5th, 21:40"
+          time: "2020, Mar 5th, 23:20"
         }
       },
       addTaskStatus: false
     };
   },
   mounted () {
+    this.showMask()
     this.statusCheck();
   },
   methods: {
+    showMask () {
+      const self = this;
+      if (self.$cookieConfirm) {
+        self.maskStatus = false
+      } else {
+        self.maskStatus = true
+      }
+    },
+    hideMask () {
+      const self = this;
+      self.maskStatus = false;
+      self.$acceptCookie();
+    },
     touchChange () {
       const self = this;
       self.touchChangeType = "datetime-local";
@@ -559,7 +579,7 @@ $designWidth: 750;
     .base-header {
       height: px2rem(100);
       .update-time {
-        width: px2rem(294);
+        width: px2rem(320);
         height: px2rem(32);
         font-size: px2rem(20);
         background-color: #eeeeee;
