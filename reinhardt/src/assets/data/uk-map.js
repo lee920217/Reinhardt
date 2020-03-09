@@ -4,8 +4,22 @@
 
 // Create the chart
 import data from "./uk-data.js";
+// import data1 from "./uk-data1.js";
+// import data2 from "./uk-data2.js";
+// import data3 from "./uk-data3.js";
+// import data4 from "./uk-data4.js";
+// import data5 from "./uk-data5.js";
 import UKJsonData from "./ukgeo.json";
-
+// let tmpList = [data1, data2, data3, data4, data5];
+// let tmpdata = data;
+// let i = 0;
+// let redr = setInterval(() => {
+//   tmpdata = tmpList[i];
+//   i++;
+//   if (i > tmpList.length) {
+//     clearInterval(redr);
+//   }
+// }, 1000);
 var settings = {
   chart: {
     map: "countries/gb/gb-all"
