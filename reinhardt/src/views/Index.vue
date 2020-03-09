@@ -84,7 +84,7 @@
           <div class="text-header">Cases of coronavirus in UK</div>
           <div class="text-detail">勤洗手，减少出门</div>
         </div>
-        <div class="update-time">Updated 2020-03-08 15:58</div>
+        <div class="update-time">Updated 2020-03-09 17:58</div>
       </div>
       <div class="text-data-container">
         <div class="text-data-detail">
@@ -174,20 +174,20 @@ export default {
       newsList: {
         0: {
           title:
-            "Coronavirus warning for 115 people as patient tests positive after attending Liverpool Hospital",
-          source: "Echo",
-          time: "2020, Mar 7th, 10:23"
+            "Coronavirus latest news: people with mild symptoms to be told to stay home, as number of cases in UK rises to 319",
+          source: "telegraph",
+          time: "2020, Mar 9th, 17:34"
         },
         1: {
-          title: "Coronavirus latest news: 209 people test positive as UK case count surges",
+          title:
+            "Coronavirus farce as dozens of planes fly to UK from Italy's quarantine zones with no checks",
           source: "telegraph",
-          time: "2020, Mar 7th, 22:59"
+          time: "2020, Mar 9th, 12:38"
         },
         2: {
-          title:
-            "FIVE more cases of the deadly virus have been recorded in Scotland bringing the number of infected in the country to 16 , authorities said.",
-          source: "edition",
-          time: "2020, Mar 5th, 23:20"
+          title: "Coronavirus: UK to remain in 'containment' phase of response",
+          source: "BBC News",
+          time: "2020, Mar 9th, 16:47"
         }
       },
       dataSet: {
