@@ -84,7 +84,7 @@
           <div class="text-header">Cases of coronavirus in UK</div>
           <div class="text-detail">勤洗手，减少出门</div>
         </div>
-        <div class="update-time">Updated 2020-03-09 17:58</div>
+        <div class="update-time">Updated 2020-03-09 20:01</div>
       </div>
       <div class="text-data-container">
         <div class="text-data-detail">

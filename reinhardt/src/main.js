@@ -38,22 +38,22 @@ Vue.prototype.$qs = qs;
  * 根据经纬度，计算出城市
  * 预选定义CurrentCity 避免在请求过程中取不到报错
  */
-Vue.prototype.$currentCity = "";
-getLocation().then(res => {
-  Vue.prototype.$latitude = res.coords.latitude;
-  Vue.prototype.$longtitude = res.coords.longitude;
+// Vue.prototype.$currentCity = "";
+// getLocation().then(res => {
+//   Vue.prototype.$latitude = res.coords.latitude;
+//   Vue.prototype.$longtitude = res.coords.longitude;
 
-  Get(`${exportAddress.postcodesio}postcodes`, {
-    params: {
-      lon: res.coords.longitude,
-      lat: res.coords.latitude
-    }
-  }).then(res => {
-    if (res.status == 200 && res.result) {
-      Vue.prototype.$currentCity = res.result[0].nuts;
-    }
-  });
-});
+//   Get(`${exportAddress.postcodesio}postcodes`, {
+//     params: {
+//       lon: res.coords.longitude,
+//       lat: res.coords.latitude
+//     }
+//   }).then(res => {
+//     if (res.status == 200 && res.result) {
+//       Vue.prototype.$currentCity = res.result[0].nuts;
+//     }
+//   });
+// });
 Vue.prototype.$cookieConfirm = true;
 let cookieConfirm = getCookies("confirmCookie");
 if (cookieConfirm == "None") {
