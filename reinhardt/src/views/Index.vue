@@ -221,10 +221,10 @@ export default {
     showNumAnimation() {
       const self = this;
       const targetValue = {
-        total: 273,
+        total: 319,
         death: 3,
         cured: 18,
-        increase: 67
+        increase: 46
       };
       const objKey = Object.keys(self.dataSet);
       for (let i = 0; i < objKey.length; i++) {
