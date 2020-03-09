@@ -71,6 +71,7 @@ $designWidth: 750;
       height: px2rem(50);
       font-size: px2rem(22);
       color: #666666;
+      -webkit-appearance: none;
     }
   }
   .lemna-search {

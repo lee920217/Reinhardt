@@ -9,6 +9,7 @@ import Index from "../views/Index.vue";
 import List from "../views/List.vue";
 import NewsList from "../views/NewsList.vue";
 import News from "../views/News.vue";
+import Temp from "../views/Temp.vue";
 
 Vue.use(VueRouter);
 
@@ -52,6 +53,11 @@ const routes = [
     path: "/profile",
     name: "Profile",
     component: Profile
+  },
+  {
+    path: "/Temp",
+    name: "Temp",
+    component: Temp
   }
 ];
 const VueRouterPush = VueRouter.prototype.push;
