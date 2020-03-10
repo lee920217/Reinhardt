@@ -1170,11 +1170,11 @@ export default {
         total: 373,
         death: 6,
         cured: 18,
-        test: 25888,
+        test: 26261,
         totalInc: 60,
         deathInc: 2,
         curedInc: 0,
-        testInc: 1247
+        testInc: 1301
       };
       const objKey = Object.keys(self.dataSet);
       for (let i = 0; i < objKey.length; i++) {
