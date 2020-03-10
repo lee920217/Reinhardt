@@ -105,7 +105,7 @@
         <div class="text-data-detail">
           <div class="num green-font">{{ dataSet.test }}</div>
           <div class="num-add green-font">+{{ dataSet.testInc }}</div>
-          <div class="desc">Daily Increase</div>
+          <div class="desc">Test</div>
         </div>
       </div>
       <div class="map-data-container">
