@@ -84,23 +84,27 @@
           <div class="text-header">Cases of coronavirus in UK</div>
           <div class="text-detail">勤洗手，减少出门</div>
         </div>
-        <div class="update-time">Updated 2020-03-09 22:55</div>
+        <div class="update-time">Updated 2020-03-10 14:33</div>
       </div>
       <div class="text-data-container">
         <div class="text-data-detail">
           <div class="num red-font">{{ dataSet.total }}</div>
+          <div class="num-add red-font">+{{ dataSet.totalInc }}</div>
           <div class="desc">CONFIRMED</div>
         </div>
         <div class="text-data-detail">
           <div class="num yellow-font">{{ dataSet.cured }}</div>
+          <div class="num-add yellow-font">+{{ dataSet.curedInc }}</div>
           <div class="desc">CURED</div>
         </div>
         <div class="text-data-detail">
           <div class="num blue-font">{{ dataSet.death }}</div>
+          <div class="num-add blue-font">+{{ dataSet.deathInc }}</div>
           <div class="desc">DEATH</div>
         </div>
         <div class="text-data-detail">
-          <div class="num green-font">+{{ dataSet.increase }}</div>
+          <div class="num green-font">{{ dataSet.test }}</div>
+          <div class="num-add green-font">+{{ dataSet.testInc }}</div>
           <div class="desc">Daily Increase</div>
         </div>
       </div>
@@ -1130,7 +1134,11 @@ export default {
         total: 0,
         death: 0,
         cured: 0,
-        increase: 0
+        test: 0,
+        totalInc: 0,
+        deathInc: 0,
+        curedInc: 0,
+        testInc: 0
       },
       animationList: {},
       addTaskStatus: false
@@ -1159,10 +1167,14 @@ export default {
     showNumAnimation () {
       const self = this;
       const targetValue = {
-        total: 319,
-        death: 5,
+        total: 373,
+        death: 6,
         cured: 18,
-        increase: 46
+        test: 25888,
+        totalInc: 60,
+        deathInc: 2,
+        curedInc: 0,
+        testInc: 1247
       };
       const objKey = Object.keys(self.dataSet);
       for (let i = 0; i < objKey.length; i++) {
@@ -1579,9 +1591,30 @@ $designWidth: 750;
       // justify-content: space-around;
       .text-data-detail {
         width: px2rem(176);
-        height: px2rem(88);
+        height: px2rem(128);
         .num {
           font-size: px2rem(36);
+          font-family: PingFang SC;
+          font-style: normal;
+          font-weight: 600;
+          &.red-font {
+            color: #ef3d3d;
+          }
+          &.yellow-font {
+            color: #ef723d;
+          }
+          &.blue-font {
+            color: #2b44ff;
+          }
+          &.purple-font {
+            color: #656eb0;
+          }
+          &.green-font {
+            color: green;
+          }
+        }
+        .num-add {
+          font-size: px2rem(32);
           font-family: PingFang SC;
           font-style: normal;
           font-weight: 600;
