@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="uk.co.cnoversea.api.dao.model.News">
     <id column="nid" jdbcType="BIGINT" property="nid" />
     <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="auchor" jdbcType="VARCHAR" property="auchor" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
     <result column="location" jdbcType="VARCHAR" property="location" />
     <result column="keywords" jdbcType="VARCHAR" property="keywords" />
     <result column="status" jdbcType="TINYINT" property="status" />
@@ -73,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    nid, title, auchor, location, keywords, status, create_time, modify_time
+    nid, title, author, location, keywords, status, create_time, modify_time
   </sql>
   <sql id="Blob_Column_List">
     content
@@ -127,11 +127,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="uk.co.cnoversea.api.dao.model.News" useGeneratedKeys="true" keyProperty="nid">
-    insert into cnos_news (nid, title, auchor, 
+    insert into cnos_news (nid, title, author,
       location, keywords, status, 
       create_time, modify_time, content
       )
-    values (#{nid,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{auchor,jdbcType=VARCHAR}, 
+    values (#{nid,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR},
       #{location,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR}
       )
@@ -145,8 +145,8 @@
       <if test="title != null">
         title,
       </if>
-      <if test="auchor != null">
-        auchor,
+      <if test="author != null">
+        author,
       </if>
       <if test="location != null">
         location,
@@ -174,8 +174,8 @@
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="auchor != null">
-        #{auchor,jdbcType=VARCHAR},
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
       </if>
       <if test="location != null">
         #{location,jdbcType=VARCHAR},
@@ -212,8 +212,8 @@
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
       </if>
-      <if test="record.auchor != null">
-        auchor = #{record.auchor,jdbcType=VARCHAR},
+      <if test="record.author != null">
+        author = #{record.author,jdbcType=VARCHAR},
       </if>
       <if test="record.location != null">
         location = #{record.location,jdbcType=VARCHAR},
@@ -242,7 +242,7 @@
     update cnos_news
     set nid = #{record.nid,jdbcType=BIGINT},
       title = #{record.title,jdbcType=VARCHAR},
-      auchor = #{record.auchor,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
       location = #{record.location,jdbcType=VARCHAR},
       keywords = #{record.keywords,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
@@ -257,7 +257,7 @@
     update cnos_news
     set nid = #{record.nid,jdbcType=BIGINT},
       title = #{record.title,jdbcType=VARCHAR},
-      auchor = #{record.auchor,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
       location = #{record.location,jdbcType=VARCHAR},
       keywords = #{record.keywords,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
@@ -273,8 +273,8 @@
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="auchor != null">
-        auchor = #{auchor,jdbcType=VARCHAR},
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
       </if>
       <if test="location != null">
         location = #{location,jdbcType=VARCHAR},
@@ -300,7 +300,7 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="uk.co.cnoversea.api.dao.model.News">
     update cnos_news
     set title = #{title,jdbcType=VARCHAR},
-      auchor = #{auchor,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
       location = #{location,jdbcType=VARCHAR},
       keywords = #{keywords,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
@@ -312,7 +312,7 @@
   <update id="updateByPrimaryKey" parameterType="uk.co.cnoversea.api.dao.model.News">
     update cnos_news
     set title = #{title,jdbcType=VARCHAR},
-      auchor = #{auchor,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
       location = #{location,jdbcType=VARCHAR},
       keywords = #{keywords,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},

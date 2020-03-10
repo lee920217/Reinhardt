@@ -235,73 +235,73 @@ public class NewsExample {
             return (Criteria) this;
         }
 
-        public Criteria andAuchorIsNull() {
-            addCriterion("auchor is null");
+        public Criteria andAuthorIsNull() {
+            addCriterion("author is null");
             return (Criteria) this;
         }
 
-        public Criteria andAuchorIsNotNull() {
-            addCriterion("auchor is not null");
+        public Criteria andAuthorIsNotNull() {
+            addCriterion("author is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAuchorEqualTo(String value) {
-            addCriterion("auchor =", value, "auchor");
+        public Criteria andAuthorEqualTo(String value) {
+            addCriterion("author =", value, "author");
             return (Criteria) this;
         }
 
-        public Criteria andAuchorNotEqualTo(String value) {
-            addCriterion("auchor <>", value, "auchor");
+        public Criteria andAuthorNotEqualTo(String value) {
+            addCriterion("author <>", value, "author");
             return (Criteria) this;
         }
 
-        public Criteria andAuchorGreaterThan(String value) {
-            addCriterion("auchor >", value, "auchor");
+        public Criteria andAuthorGreaterThan(String value) {
+            addCriterion("author >", value, "author");
             return (Criteria) this;
         }
 
-        public Criteria andAuchorGreaterThanOrEqualTo(String value) {
-            addCriterion("auchor >=", value, "auchor");
+        public Criteria andAuthorGreaterThanOrEqualTo(String value) {
+            addCriterion("author >=", value, "author");
             return (Criteria) this;
         }
 
-        public Criteria andAuchorLessThan(String value) {
-            addCriterion("auchor <", value, "auchor");
+        public Criteria andAuthorLessThan(String value) {
+            addCriterion("author <", value, "author");
             return (Criteria) this;
         }
 
-        public Criteria andAuchorLessThanOrEqualTo(String value) {
-            addCriterion("auchor <=", value, "auchor");
+        public Criteria andAuthorLessThanOrEqualTo(String value) {
+            addCriterion("author <=", value, "author");
             return (Criteria) this;
         }
 
-        public Criteria andAuchorLike(String value) {
-            addCriterion("auchor like", value, "auchor");
+        public Criteria andAuthorLike(String value) {
+            addCriterion("author like", value, "author");
             return (Criteria) this;
         }
 
-        public Criteria andAuchorNotLike(String value) {
-            addCriterion("auchor not like", value, "auchor");
+        public Criteria andAuthorNotLike(String value) {
+            addCriterion("author not like", value, "author");
             return (Criteria) this;
         }
 
-        public Criteria andAuchorIn(List<String> values) {
-            addCriterion("auchor in", values, "auchor");
+        public Criteria andAuthorIn(List<String> values) {
+            addCriterion("author in", values, "author");
             return (Criteria) this;
         }
 
-        public Criteria andAuchorNotIn(List<String> values) {
-            addCriterion("auchor not in", values, "auchor");
+        public Criteria andAuthorNotIn(List<String> values) {
+            addCriterion("author not in", values, "author");
             return (Criteria) this;
         }
 
-        public Criteria andAuchorBetween(String value1, String value2) {
-            addCriterion("auchor between", value1, value2, "auchor");
+        public Criteria andAuthorBetween(String value1, String value2) {
+            addCriterion("author between", value1, value2, "author");
             return (Criteria) this;
         }
 
-        public Criteria andAuchorNotBetween(String value1, String value2) {
-            addCriterion("auchor not between", value1, value2, "auchor");
+        public Criteria andAuthorNotBetween(String value1, String value2) {
+            addCriterion("author not between", value1, value2, "author");
             return (Criteria) this;
         }
 

@@ -9,7 +9,7 @@ public class News extends PageAble {
 
     private String title;
 
-    private String auchor;
+    private String author;
 
     private String location;
 
@@ -39,12 +39,12 @@ public class News extends PageAble {
         this.title = title == null ? null : title.trim();
     }
 
-    public String getAuchor() {
-        return auchor;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAuchor(String auchor) {
-        this.auchor = auchor == null ? null : auchor.trim();
+    public void setAuthor(String author) {
+        this.author = author == null ? null : author.trim();
     }
 
     public String getLocation() {

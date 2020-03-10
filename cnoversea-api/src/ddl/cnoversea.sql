@@ -101,7 +101,7 @@ CREATE TABLE `cnos_news` (
   `nid`          bigint(20)   NOT NULL AUTO_INCREMENT                                        COMMENT '新闻ID',
 
   `title`        varchar(128) NOT NULL                                                       COMMENT '标题',
-  `auchor`       varchar(32)  NOT NULL                                                       COMMENT '作者',
+  `author`       varchar(32)  NOT NULL                                                       COMMENT '作者',
   `location`     varchar(128) NOT NULL                                                       COMMENT '地点',
   `keywords`     varchar(256) NOT NULL                                                       COMMENT '关键字 分号分割',
 

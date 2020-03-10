@@ -1614,10 +1614,9 @@ $designWidth: 750;
           }
         }
         .num-add {
-          font-size: px2rem(32);
+          font-size: px2rem(28);
           font-family: PingFang SC;
           font-style: normal;
-          font-weight: 600;
           &.red-font {
             color: #ef3d3d;
           }
