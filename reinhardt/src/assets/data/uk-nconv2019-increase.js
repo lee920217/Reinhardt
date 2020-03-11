@@ -6,10 +6,10 @@
 
 var chartSettings = {
   chart: {
-    type: "area"
+    type: "column"
   },
   title: {
-    text: "Increase Cases of coronavirus"
+    text: "Increasing Cases of coronavirus"
   },
   subtitle: {
     text: "United Kingdom"
@@ -53,7 +53,7 @@ var chartSettings = {
   },
   series: [
     {
-      name: "Increase patients",
+      name: "The number of daily increasing",
       data: [2, 1, 4, 0, 1, 4, 3, 5, 3, 12, 5, 11, 34, 30, 48, 43, 67, 46, 54, 83]
     }
   ]

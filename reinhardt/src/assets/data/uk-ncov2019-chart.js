@@ -53,7 +53,7 @@ var chartSettings = {
   },
   series: [
     {
-      name: "Total patients",
+      name: "The number of total patients",
       data: [2, 3, 7, 7, 8, 12, 15, 20, 23, 35, 40, 51, 85, 115, 163, 206, 273, 319, 373, 456]
     }
   ]
