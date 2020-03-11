@@ -9,7 +9,7 @@ var chartSettings = {
     type: "area"
   },
   title: {
-    text: "Total Cases of coronavirus"
+    text: "Increase Cases of coronavirus"
   },
   subtitle: {
     text: "United Kingdom"
@@ -53,8 +53,8 @@ var chartSettings = {
   },
   series: [
     {
-      name: "Total patients",
-      data: [2, 3, 7, 7, 8, 12, 15, 20, 23, 35, 40, 51, 85, 115, 163, 206, 273, 319, 373, 456]
+      name: "Increase patients",
+      data: [2, 1, 4, 0, 1, 4, 3, 5, 3, 12, 5, 11, 34, 30, 48, 43, 67, 46, 54, 83]
     }
   ]
 };
