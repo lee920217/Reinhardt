@@ -109,11 +109,7 @@
         </div>
       </div>
       <div class="map-data-container">
-        <highcharts
-          :constructor-type="'mapChart'"
-          :options="UKMapSettings"
-          ref="ukmap"
-        ></highcharts>
+        <highcharts :constructor-type="'mapChart'" :options="UKMapSettings" ref="ukmap"></highcharts>
       </div>
     </div>
     <div class="chart-display-container">
@@ -165,7 +161,7 @@ export default {
     CookieMask,
     LMask
   },
-  data() {
+  data () {
     return {
       UKMapSettings: UKMapSettings,
       ChartSettings: ChartSettings,
@@ -223,13 +219,13 @@ export default {
       addTaskStatus: false
     };
   },
-  mounted() {
+  mounted () {
     this.showMask();
     this.showNumAnimation();
     this.statusCheck();
   },
   methods: {
-    showMask() {
+    showMask () {
       const self = this;
       if (self.$cookieConfirm) {
         self.maskStatus = false;
@@ -237,20 +233,20 @@ export default {
         self.maskStatus = true;
       }
     },
-    hideMask() {
+    hideMask () {
       const self = this;
       self.maskStatus = false;
       self.$acceptCookie();
     },
-    showNumAnimation() {
+    showNumAnimation () {
       const self = this;
       const targetValue = {
         total: 456,
-        death: 6,
+        death: 8,
         cured: 18,
         test: 27476,
         totalInc: 83,
-        deathInc: 0,
+        deathInc: 2,
         curedInc: 0,
         testInc: 1215
       };
@@ -259,10 +255,10 @@ export default {
         self.tweenJS(0, targetValue[objKey[i]], objKey[i]);
       }
     },
-    tweenJS(start, end, key) {
+    tweenJS (start, end, key) {
       let frameHandler;
       const self = this;
-      const animate = function(currentTime) {
+      const animate = function (currentTime) {
         TWEEN.update(currentTime);
         frameHandler = requestAnimationFrame(animate);
       };
@@ -278,11 +274,11 @@ export default {
         .start();
       frameHandler = requestAnimationFrame(animate);
     },
-    touchChange() {
+    touchChange () {
       const self = this;
       self.touchChangeType = "datetime-local";
     },
-    changeRouteType(t) {
+    changeRouteType (t) {
       const self = this;
       self.routeType = t;
       if (t == 1) {
@@ -296,7 +292,7 @@ export default {
         }
       }
     },
-    getRoute(t = 1) {
+    getRoute (t = 1) {
       const self = this;
 
       Post(`${exportAddress.task}/page`, {
@@ -311,7 +307,7 @@ export default {
         self.handleRequest(res);
       });
     },
-    handleRequest(res) {
+    handleRequest (res) {
       const self = this;
       if (res) {
         if (res.code !== 0) {
@@ -347,7 +343,7 @@ export default {
         return false;
       }
     },
-    getRouteDtl(t) {
+    getRouteDtl (t) {
       const self = this;
       Post(`${exportAddress.task}/partners`, {
         query: {
@@ -361,7 +357,7 @@ export default {
         }
       });
     },
-    handleRouteDtl(d, t) {
+    handleRouteDtl (d, t) {
       const self = this;
       let currentNum = d.length;
       let userIn = false;
@@ -380,7 +376,7 @@ export default {
         self.indivTaskList[t].userIn = userIn;
       }
     },
-    timeFormat(d) {
+    timeFormat (d) {
       /**
        * @type 0 => return 年月日 时:分
        * @type 1 => return 时:分
@@ -401,7 +397,7 @@ export default {
       };
       return formatTime;
     },
-    statusCheck(s = 0) {
+    statusCheck (s = 0) {
       const self = this;
       let geoGet = setInterval(() => {
         if (self.$currentCity) {
@@ -410,15 +406,15 @@ export default {
         }
       }, 100);
     },
-    createNewTask() {
+    createNewTask () {
       const self = this;
       self.addTaskStatus = true;
     },
-    cancelNewTask() {
+    cancelNewTask () {
       const self = this;
       self.addTaskStatus = false;
     },
-    routerDirect(t) {
+    routerDirect (t) {
       const self = this;
       self.$router.push(t);
     }
