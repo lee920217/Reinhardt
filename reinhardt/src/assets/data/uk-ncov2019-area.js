@@ -46,31 +46,31 @@ var chartSettings = {
         },
         {
           name: "London",
-          y: 104
+          y: 136
         },
         {
           name: "Midlands",
-          y: 42
-        },
-        {
-          name: "North East and Yorkshire",
-          y: 32
-        },
-        {
-          name: "North West",
-          y: 43
-        },
-        {
-          name: "South East",
-          y: 60
-        },
-        {
-          name: "South West",
           y: 44
         },
         {
+          name: "North East and Yorkshire",
+          y: 44
+        },
+        {
+          name: "North West",
+          y: 53
+        },
+        {
+          name: "South East",
+          y: 83
+        },
+        {
+          name: "South West",
+          y: 42
+        },
+        {
           name: "To be determined",
-          y: 30
+          y: 57
         }
       ]
     }
