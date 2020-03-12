@@ -244,11 +244,11 @@ export default {
         total: 590,
         death: 8,
         cured: 18,
-        test: 29174,
+        test: 29764,
         totalInc: 134,
         deathInc: 0,
         curedInc: 0,
-        testInc: 1698
+        testInc: 2288
       };
       const objKey = Object.keys(self.dataSet);
       for (let i = 0; i < objKey.length; i++) {
