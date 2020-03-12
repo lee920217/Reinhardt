@@ -246,7 +246,7 @@ export default {
         cured: 18,
         test: 29174,
         totalInc: 134,
-        deathInc: 2,
+        deathInc: 0,
         curedInc: 0,
         testInc: 1698
       };
