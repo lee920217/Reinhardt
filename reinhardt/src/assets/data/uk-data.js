@@ -230,7 +230,7 @@ const data = [
   ["gb-mw", 2],
   ["gb-lu", 2],
   ["gb-wl", 4],
-  ["gb-3271", 6]
+  ["gb-3271", 0]
 ];
 
 export default data;
