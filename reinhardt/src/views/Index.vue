@@ -84,7 +84,7 @@
           <div class="text-header">Cases of coronavirus in UK</div>
           <div class="text-detail">勤洗手，减少出门</div>
         </div>
-        <div class="update-time">Updated 2020-03-11 22:48</div>
+        <div class="update-time">Updated 2020-03-12 14:29</div>
       </div>
       <div class="text-data-container">
         <div class="text-data-detail">
@@ -241,14 +241,14 @@ export default {
     showNumAnimation () {
       const self = this;
       const targetValue = {
-        total: 456,
+        total: 590,
         death: 8,
         cured: 18,
-        test: 27476,
-        totalInc: 83,
+        test: 29174,
+        totalInc: 134,
         deathInc: 2,
         curedInc: 0,
-        testInc: 1215
+        testInc: 1698
       };
       const objKey = Object.keys(self.dataSet);
       for (let i = 0; i < objKey.length; i++) {
