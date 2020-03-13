@@ -1,25 +1,22 @@
 <template>
   <div class="cookie-mask-container">
     <div class="content">
-      <div class="content-header">
-        Cookie
-      </div>
-      We use cookies to give you the best online experience. Please let us know if you agree to all
-      of these cookies.
+      <div class="content-header">Cookie</div>我们会使用Cookie来完善您的使用体验，请确认您了解我们收集了这些Cookie
     </div>
     <div class="notice-main-ct">
-      <div class="notice-header">
-        Notice
-      </div>
+      <div class="notice-header">Notice</div>
       <div class="notice-body">
-        <div class="notice-item">· All these data and news may <b>NOT</b> accurate and updated</div>
         <div class="notice-item">
-          · The developers will work hard on data updated, but they are <b>NOT</b> responsible for
-          any data accuracy
+          · 这些数据和新闻都是权威的数据，但可能
+          <b>不是</b> 准确及时的
         </div>
         <div class="notice-item">
-          · These data on the website can <b>NOT</b> be reference, please use the data on GOV.UK
-          directly
+          · 开发者们正努力致力于数据的更新, 但开发者们
+          <b>不会</b>创造数据，所以无法对数据的准确性负责
+        </div>
+        <div class="notice-item">
+          ·
+          <b>不</b>要直接引用该数据，如果需要，可以去GOV.UK获取
         </div>
       </div>
     </div>
@@ -31,7 +28,7 @@
 export default {
   name: "CookieMask",
   methods: {
-    hideBtn() {
+    hideBtn () {
       const self = this;
       self.$emit("hideMask", "");
     }
@@ -53,6 +50,7 @@ $designWidth: 750;
   justify-content: space-around;
   background-color: #ffffff;
   padding: px2rem(32) 0;
+  font-size: pxrem(24);
   .content-header {
     font-size: px2rem(50);
     text-align: left;
@@ -63,7 +61,8 @@ $designWidth: 750;
   .content {
     text-align: left;
     padding: 0 px2rem(32) px2rem(32) px2rem(32);
-    font-size: px2rem(30);
+    font-size: px2rem(24);
+    font-weight: 300;
   }
   .notice-main-ct {
     padding: 0 px2rem(32);
@@ -78,6 +77,7 @@ $designWidth: 750;
       font-size: px2rem(30);
       .notice-item {
         margin-bottom: px2rem(20);
+        font-size: px2rem(24);
       }
     }
   }
