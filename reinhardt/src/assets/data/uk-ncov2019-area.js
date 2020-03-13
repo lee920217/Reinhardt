@@ -12,7 +12,7 @@ var chartSettings = {
     type: "pie"
   },
   title: {
-    text: "Areas of Corona Virus"
+    text: "确诊区域"
   },
   subtitle: {
     text: "United Kingdom"
@@ -41,35 +41,35 @@ var chartSettings = {
       colorByPoint: true,
       data: [
         {
-          name: "East of England",
+          name: "英格兰东部",
           y: 32
         },
         {
-          name: "London",
+          name: "伦敦",
           y: 136
         },
         {
-          name: "Midlands",
+          name: "中部地区",
           y: 44
         },
         {
-          name: "North East and Yorkshire",
+          name: "东北约克郡",
           y: 44
         },
         {
-          name: "North West",
+          name: "西北地区",
           y: 53
         },
         {
-          name: "South East",
+          name: "东南地区",
           y: 83
         },
         {
-          name: "South West",
+          name: "西南地区",
           y: 42
         },
         {
-          name: "To be determined",
+          name: "待确认",
           y: 57
         }
       ]

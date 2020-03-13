@@ -81,31 +81,31 @@
     <div class="data-display-container">
       <div class="base-header">
         <div class="create-text-container">
-          <div class="text-header">Cases of coronavirus in UK</div>
+          <div class="text-header">英国确诊人数</div>
           <div class="text-detail">勤洗手，减少出门</div>
         </div>
-        <div class="update-time">Updated 2020-03-12 14:29</div>
+        <div class="update-time">更新于 2020-03-12 14:29</div>
       </div>
       <div class="text-data-container">
         <div class="text-data-detail">
           <div class="num red-font">{{ dataSet.total }}</div>
           <div class="num-add red-font">+{{ dataSet.totalInc }}</div>
-          <div class="desc">CONFIRMED</div>
+          <div class="desc">确诊</div>
         </div>
         <div class="text-data-detail">
           <div class="num yellow-font">{{ dataSet.cured }}</div>
           <div class="num-add yellow-font">+{{ dataSet.curedInc }}</div>
-          <div class="desc">RECOVERD</div>
+          <div class="desc">康复</div>
         </div>
         <div class="text-data-detail">
           <div class="num blue-font">{{ dataSet.death }}</div>
           <div class="num-add blue-font">+{{ dataSet.deathInc }}</div>
-          <div class="desc">DEATH</div>
+          <div class="desc">死亡</div>
         </div>
         <div class="text-data-detail">
           <div class="num green-font">{{ dataSet.test }}</div>
           <div class="num-add green-font">+{{ dataSet.testInc }}</div>
-          <div class="desc">Test</div>
+          <div class="desc">测试</div>
         </div>
       </div>
       <div class="map-data-container">
@@ -124,7 +124,7 @@
     <div class="news-display-container">
       <div class="base-header">
         <div class="create-text-container">
-          <div class="text-header">Break News</div>
+          <div class="text-header">疫情相关新闻</div>
         </div>
       </div>
       <div class="news-body">
@@ -188,21 +188,21 @@ export default {
       },
       newsList: {
         0: {
-          title: "Coronavirus confirmed as pandemic",
+          title: "世卫组织已经确认病情为流行病",
           source: "BBC News",
           time: "2020, Mar 10th, 17:00"
         },
         1: {
           title:
-            "Coronavirus latest news: UK cases rise to 456, as British woman dies in Bali after contracting virus",
+            "英国确诊798例新冠肺炎，过去24小时内增加208例，为新高",
           source: "telegraph",
-          time: "2020, Mar 11th, 14:19"
+          time: "2020, Mar 13th, 14:01"
         },
         2: {
           title:
-            "Experts warn 70% of population to be infected as UK braces for surge in cases and death toll soars in ‘terrorised’ Italy",
-          source: "independent",
-          time: "2020, Mar 11th, 14:13"
+            "英国进入对抗疫情第二阶段，”Delay”阶段，但并不会封闭学校，停止聚集",
+          source: "BBC News",
+          time: "2020, Mar 12th"
         }
       },
       dataSet: {

@@ -9,7 +9,7 @@ var chartSettings = {
     type: "column"
   },
   title: {
-    text: "Increasing Cases of coronavirus"
+    text: "每日增长总数"
   },
   subtitle: {
     text: "United Kingdom"

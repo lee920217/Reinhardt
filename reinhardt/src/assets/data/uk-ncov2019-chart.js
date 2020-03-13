@@ -9,7 +9,7 @@ var chartSettings = {
     type: "area"
   },
   title: {
-    text: "Total Cases of coronavirus"
+    text: "总计确诊病例"
   },
   subtitle: {
     text: "United Kingdom"
