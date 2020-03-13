@@ -95,7 +95,7 @@
         <div class="text-data-detail">
           <div class="num yellow-font">{{ dataSet.cured }}</div>
           <div class="num-add yellow-font">+{{ dataSet.curedInc }}</div>
-          <div class="desc">CURED</div>
+          <div class="desc">RECOVERD</div>
         </div>
         <div class="text-data-detail">
           <div class="num blue-font">{{ dataSet.death }}</div>
@@ -241,14 +241,14 @@ export default {
     showNumAnimation () {
       const self = this;
       const targetValue = {
-        total: 590,
+        total: 798,
         death: 8,
         cured: 18,
-        test: 29764,
-        totalInc: 134,
+        test: 32771,
+        totalInc: 208,
         deathInc: 0,
         curedInc: 0,
-        testInc: 2288
+        testInc: 3007
       };
       const objKey = Object.keys(self.dataSet);
       for (let i = 0; i < objKey.length; i++) {
