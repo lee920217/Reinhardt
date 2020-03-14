@@ -98,7 +98,7 @@ export default {
       if ((v = {})) {
         v = {
           //uuid: self.$uuid,
-          uuid: 'be36a8f546cd4cadb73af5e2be84b44e'
+          uuid: self.$uuid
         };
       }
       Post(`${exportAddress.task}/joinedTask`, { query: v }).then(res => {

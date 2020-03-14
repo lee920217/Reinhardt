@@ -170,7 +170,7 @@ export default {
             redirect: 0,
             path: "/"
           });
-          self.$router.push({ path: "/taskList" });
+          self.$router.push({ path: "/" });
         }, 500);
       }
     },
