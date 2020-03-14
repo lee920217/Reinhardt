@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import uk.co.cnoversea.api.dao.mapper.UserMapper;
 import uk.co.cnoversea.api.dao.model.User;
@@ -28,6 +29,10 @@ public class UserServiceImpl implements InitializingBean,IUserService {
 
     private JavaMail mail;
 
+    @Value("${user.regist.mail.validate}")
+    private String registMailValidate;
+    private static final String NEED_MAIL_VALIDATE = "1";
+
     @Override
     public void afterPropertiesSet() throws Exception {
         mail = new JavaMail();
@@ -46,11 +51,17 @@ public class UserServiceImpl implements InitializingBean,IUserService {
         String newPass = user.getPass();
         newPass = MD5Util.queryMD5(newPass);
         user.setPass(newPass);
-        user.setStatus(null);//数据库表中此字段默认值是注册状态
+        if(NEED_MAIL_VALIDATE.equals(registMailValidate)){
+            user.setStatus(null);//数据库表中此字段默认值是注册状态
+        }else{
+            user.setStatus(User.STATUS_ACTIVE);
+        }
 
         if (userMapper.insertSelective(user) == 1) {
             try {
-                mail.send(mail.getTitle(), mail.getContent() + user.getUuid(), Arrays.asList(user.getEmail()), null);
+                if(NEED_MAIL_VALIDATE.equals(registMailValidate)){
+                    mail.send(mail.getTitle(), mail.getContent() + user.getUuid(), Arrays.asList(user.getEmail()), null);
+                }
             }catch(Exception e){
                 logger.error("send mail fail", e);
                 return null;
