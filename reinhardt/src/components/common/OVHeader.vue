@@ -1,7 +1,7 @@
 <template>
   <div class="ov-header-container">
     <div class="app-header" @touchstart="toHome">Lemna</div>
-    <div class="login-btn" v-if="this.$uuid == ''" @touchstart="redirect">{{this.$userName}}</div>
+    <div class="login-btn" v-if="this.$uuid != ''" @touchstart="redirect">{{this.$userName}}</div>
     <div class="login-btn" v-else @touchstart="redirect">登录 / 注册</div>
   </div>
 </template>
