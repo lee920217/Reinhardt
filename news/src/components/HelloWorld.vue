@@ -13,12 +13,7 @@
       <el-input v-model="form.keywords"></el-input>
     </el-form-item>
     <el-form-item label="内容">
-      <quill-editor
-        v-model="form.content"
-        ref="myQuillEditor"
-        :options="editorOption"
-      >
-      </quill-editor>
+      <quill-editor v-model="form.content" ref="myQuillEditor" :options="editorOption"></quill-editor>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -43,7 +38,7 @@ const toolbarOptions = [
 ]
 import { Post } from '@/assets/js/api.js'
 export default {
-  data() {
+  data () {
     return {
       form: {
         title: '',
@@ -65,13 +60,12 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
+    onSubmit () {
       const self = this
       let postData = {
         query: self.form,
       }
       Post('http://localhost:8360/api/news/pub', postData).then(res => {
-        console.log(res)
       })
     },
   },

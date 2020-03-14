@@ -1,6 +1,7 @@
 <template>
   <div class="ov-login-container">
     <backPage :path="'/'" />
+    <vMask v-if="maskkk" />
     <div class="logo">
       登录
       <div class="desc">未注册邮箱会自动创建账号</div>
@@ -49,6 +50,8 @@
 <script>
 import { Post } from "@/assets/api/api.js";
 import backPage from "@/components/common/BackPage.vue";
+import vMask from "@/components/common/Mask.vue";
+import { exportAddress } from "@/assets/api/setting.js";
 
 export default {
   name: "login",
@@ -62,11 +65,13 @@ export default {
     }
   },
   components: {
-    backPage
+    backPage,
+    vMask
   },
   data () {
     return {
       clickStatus: false,
+      maskkk: false,
       loginParams: {
         email: "",
         pass: ""
@@ -129,7 +134,7 @@ export default {
         });
         return;
       }
-      Post("http://localhost:8360/api/user/login", { query: self.loginParams }).then(res => {
+      Post(`${exportAddress.user}/login`, { query: self.loginParams }).then(res => {
         self.handleRequest(res);
       });
     },

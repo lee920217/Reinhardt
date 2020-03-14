@@ -67,6 +67,7 @@
 <script>
 import { Post } from "@/assets/api/api.js";
 import backPage from "@/components/common/BackPage.vue";
+import { exportAddress } from "@/assets/api/setting.js";
 export default {
   name: "register",
   props: {
@@ -115,7 +116,7 @@ export default {
       if (self.registerParams.uname && self.registerParams.uid && self.registerParams.gender) {
         let finalParams = Object.assign(self.registerParams, self.transferData);
         delete finalParams.repass;
-        Post("http://localhost:8360/api/user/regist", { query: self.registerParams }).then(res => {
+        Post(`${exportAddress.user}/regist`, { query: self.registerParams }).then(res => {
           self.handleRequest(res);
         });
       } else {
