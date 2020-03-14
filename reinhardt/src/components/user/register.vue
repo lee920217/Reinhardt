@@ -113,7 +113,7 @@ export default {
     },
     confirmRegister () {
       const self = this;
-      if (self.registerParams.uname && self.registerParams.uid && self.registerParams.gender) {
+      if (self.registerParams.uname && self.registerParams.uid && self.registerParams.gender != -1) {
         let finalParams = Object.assign(self.registerParams, self.transferData);
         delete finalParams.repass;
         Post(`${exportAddress.user}/regist`, { query: self.registerParams }).then(res => {
