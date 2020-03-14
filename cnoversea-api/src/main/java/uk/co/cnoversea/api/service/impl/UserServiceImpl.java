@@ -30,7 +30,7 @@ public class UserServiceImpl implements InitializingBean,IUserService {
     private JavaMail mail;
 
     @Value("${user.regist.mail.validate}")
-    private String registMailValidate;
+    private String registMailValidate = "0";
     private static final String NEED_MAIL_VALIDATE = "1";
 
     @Override
