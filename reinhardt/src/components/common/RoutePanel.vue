@@ -99,7 +99,7 @@ export default {
     joinRoute () {
       const self = this;
       const uuid = self.$uuid;
-      Post("http://localhost:8360/api/task/join", {
+      Post(`${exportAddress.task}/join`, {
         query: {
           tid: self.panelData.tid,
           partnerUuid: self.$uuid,
@@ -113,7 +113,7 @@ export default {
     },
     quitRoute () {
       const self = this;
-      Post("http://localhost:8360/api/task/secede", {
+      Post(`${exportAddress.task}/secede`, {
         query: {
           tid: self.panelData.tid,
           partnerUuid: self.$uuid,
