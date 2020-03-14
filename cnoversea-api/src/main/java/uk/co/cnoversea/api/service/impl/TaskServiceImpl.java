@@ -82,10 +82,13 @@ public class TaskServiceImpl implements ITaskService {
         }
         PartnerExample pe = new PartnerExample();
         pe.createCriteria().andTidEqualTo(partner.getTid()).andPartnerUuidEqualTo(partner.getPartnerUuid());
-        Partner param = new Partner();
-        param.setStatus(Byte.valueOf("0"));
-        if(partnerMapper.updateByExampleSelective(param, pe) == 1){
-            partner.setStatus(Byte.valueOf("0"));
+//        Partner param = new Partner();
+//        param.setStatus(Byte.valueOf("0"));
+//        if(partnerMapper.updateByExampleSelective(param, pe) == 1){
+//            partner.setStatus(Byte.valueOf("0"));
+//            return partner;
+//        }
+        if(partnerMapper.deleteByExample(pe) == 1){
             return partner;
         }
         return null;
