@@ -5,6 +5,7 @@
       class="route-panel"
       :panelData="taskDtl"
       :renderStatus="true"
+      :pageType="1"
       @updateTeamStauts="updateTeamStauts"
     />
     <div class="chat-dialog">

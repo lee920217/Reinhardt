@@ -1,5 +1,5 @@
 <template>
-  <div class="route-panel" :class="[renderStatus ? '' : 'rendering']" @touchstart="directToDtl">
+  <div class="route-panel" :class="[renderStatus ? '' : 'rendering']">
     <div class="route-client-info">
       <div class="client-name"></div>
       <div class="client-tag-container">
@@ -44,7 +44,7 @@
         class="apply-btn"
         :class="[panelData.currentNum < panelData.scaleLimit && !panelData.userIn ? 'active' : 'disable']"
         v-if="panelData.dtlStatus"
-        @touchstart="joinRoute"
+        @touchstart.prevent="joinRoute"
       >
         {{panelData.currentNum == panelData.scaleLimit ? '路线已满': ''}}
         {{panelData.userIn ? '已加入': '申请加入'}}
@@ -66,6 +66,10 @@ export default {
     },
     renderStatus: {
       type: Boolean
+    },
+    pageType: {
+      type: Number,
+      default: 0
     }
   },
   data () {
@@ -96,20 +100,50 @@ export default {
         }
       });
     },
+    GoToPage () {
+      /**
+       * 1为执行操作
+       * 2为调回登录
+       */
+      const self = this;
+      if (self.pageType == 1) {
+        return true
+      } else {
+        return false
+      }
+    },
     joinRoute () {
       const self = this;
       const uuid = self.$uuid;
-      Post(`${exportAddress.task}/join`, {
-        query: {
-          tid: self.panelData.tid,
-          partnerUuid: self.$uuid,
-          message: '加入了行程'
+      const pageRlt = self.GoToPage();
+      if (!pageRlt) {
+        if (self.$userId == -1) {
+          self.$router.push('/user');
+          return
+        } else {
+          self.$router.push({ name: "Task", params: self.panelData })
+          return
         }
-      }).then(res => {
-        if (res.code == 0) {
-          self.$emit('updateTeamStauts', { userIn: true });
+      }
+      if (self.$userId == -1) {
+        self.$router.push('/user');
+        return
+      } else {
+        if (self.panelData.userIn) {
+          return
         }
-      })
+        Post(`${exportAddress.task}/join`, {
+          query: {
+            tid: self.panelData.tid,
+            partnerUuid: self.$uuid,
+            message: '加入了行程'
+          }
+        }).then(res => {
+          if (res.code == 0) {
+            self.$emit('updateTeamStauts', { userIn: true });
+          }
+        })
+      }
     },
     quitRoute () {
       const self = this;
