@@ -1,60 +1,14 @@
 <template>
   <div class="task-view-container">
-    <div class="panel-item">
-      <div class="back-item" v-on:touchstart="redirectToList"></div>
-      <div class="item">
-        <div class="title">Task ID:</div>
-        <div class="content">{{ $route.params.id }}</div>
-      </div>
-      <div class="item">
-        <div class="title">From:</div>
-        <div class="content">{{taskDtl.startCode[1]}} / {{taskDtl.startCode[0]}}</div>
-      </div>
-      <div class="item" v-if="taskDtl.type == 1">
-        <div class="title">To:</div>
-        <div class="content">{{taskDtl.targetCode[1]}} / {{taskDtl.targetCode[0]}}</div>
-      </div>
-      <div class="item">
-        <div class="title">Time:</div>
-        <div class="content">{{taskDtl.startTime}}</div>
-      </div>
-      <div class="item">
-        <div class="title">Note:</div>
-        <div class="content">{{taskDtl.description}}</div>
-      </div>
-      <div class="item">
-        <div class="title">Team:</div>
-        <div class="team-info">
-          <div class="team-item">
-            <div class="avatar">
-              <img src="@/assets/img/female.png" />
-            </div>
-            <div class="user-name">LutrAAA</div>
-          </div>
-          <div class="team-item">
-            <div class="avatar">
-              <img src="@/assets/img/female.png" />
-            </div>
-            <div class="user-name">LutrAAA</div>
-          </div>
-          <div class="team-item">
-            <div class="avatar">
-              <img src="@/assets/img/female.png" />
-            </div>
-            <div class="user-name">LutrAAA</div>
-          </div>
-          <div class="team-item">
-            <div class="avatar">
-              <img src="@/assets/img/female.png" />
-            </div>
-            <div class="user-name">LutrAAA</div>
-          </div>
-        </div>
-      </div>
-      <div class="travel-plan-icon"></div>
-    </div>
+    <Header />
+    <RoutePanel
+      class="route-panel"
+      :panelData="taskDtl"
+      :renderStatus="true"
+      @updateTeamStauts="updateTeamStauts"
+    />
     <div class="chat-dialog">
-      <div class="unteammate-mask" v-if="!isIn">
+      <div class="unteammate-mask" v-if="!taskDtl.userIn">
         <div class="join-btn" v-on:touchstart="joinTask">加入Task</div>
       </div>
       <iscroll-view class="chat-scroll-view">
@@ -73,29 +27,58 @@
 
 <script>
 import { Post } from "@/assets/api/api.js";
-
+import RoutePanel from "@/components/common/RoutePanel.vue";
+import Header from "@/components/common/OVHeader.vue";
+import { exportAddress } from "@/assets/api/setting.js";
 export default {
   name: "taskView",
+  components: {
+    RoutePanel,
+    Header
+  },
   data () {
     return {
+      tid: null,
       taskDtl: {
         targetCode: [],
         startCode: [],
       },
       messageList: [],
       isIn: false,
-      inputMessage: ''
+      inputMessage: '',
+      msgloop: ''
     }
   },
   mounted: function () {
     this.getTaskDtl();
-    this.getMember();
+    this.loopMessage();
+    //this.getMember();
+  },
+  beforeDestroy () {
+    const self = this;
+    clearInterval(self.msgloop)
+  },
+  destroyed () {
+    const self = this;
+    clearInterval(self.msgloop)
   },
   methods: {
+    updateTeamStauts (data) {
+      const self = this;
+      self.taskDtl.userIn = data.userIn;
+    },
+    loopMessage () {
+      const self = this;
+      self.msgloop = setInterval(() => {
+        self.getMessage()
+      }, 2000)
+    },
     getTaskDtl () {
       const self = this;
       const taskInfo = self.$route.params;
       self.taskDtl = taskInfo;
+      console.log(self.taskDtl);
+      self.tid = parseInt(self.taskDtl.tid);
     },
     redirectToList () {
       const self = this;
@@ -103,8 +86,8 @@ export default {
     },
     getMember () {
       const self = this;
-      const tid = self.taskDtl.tid;
-      Post("http://localhost:8360/api/task/partners", {
+      const tid = self.tid;
+      Post(`${exportAddress.message}/partners`, {
         query: {
           tid: tid
         }
@@ -122,8 +105,8 @@ export default {
     },
     getMessage () {
       const self = this;
-      const tid = self.taskDtl.tid;
-      Post("http://localhost:8360/api/message/fetch", {
+      const tid = self.tid;
+      Post(`${exportAddress.message}/fetch`, {
         query: {
           tid: tid,
           mid: "0",
@@ -139,11 +122,11 @@ export default {
     },
     postMessage () {
       const self = this;
-      const tid = self.taskDtl.tid;
+      const tid = self.tid;
       const uuid = self.$uuid;
       const message = self.inputMessage;
 
-      Post("http://localhost:8360/api/message/send", {
+      Post(`${exportAddress.message}/send`, {
         query: {
           tid: tid,
           uuid: uuid,
@@ -151,6 +134,7 @@ export default {
         }
       }).then(res => {
         self.inputMessage = ""
+        self.getMessage();
       })
     },
     joinTask () {
@@ -177,83 +161,10 @@ $designWidth: 750;
   display: flex;
   flex-direction: column;
   text-align: left;
-  padding: px2rem(20) px2rem(20) px2rem(20) px2rem(20);
+  //padding: px2rem(20) px2rem(20) px2rem(20) px2rem(20);
   box-sizing: border-box;
-  .panel-item {
-    position: relative;
-    padding: px2rem(20) px2rem(20) 0 px2rem(20);
-    box-sizing: border-box;
-    background-image: url("../assets/img/travel-plan-panel.png");
-    border-radius: px2rem(10);
-    margin-bottom: px2rem(20);
-    .back-item {
-      width: px2rem(50);
-      height: px2rem(50);
-      position: absolute;
-      bottom: px2rem(40);
-      right: px2rem(40);
-      background-image: url("../assets/img/quit.png");
-      background-size: contain;
-      background-repeat: no-repeat;
-    }
-    .item {
-      padding-bottom: px2rem(20);
-      .title {
-        font-size: px2rem(24);
-        color: #cc3366;
-        font-weight: bolder;
-      }
-      .content {
-        font-size: px2rem(36);
-      }
-      .team-info {
-        display: flex;
-        .team-item {
-          position: relative;
-          display: flex;
-          margin-right: px2rem(20);
-          .avatar {
-            width: px2rem(60);
-            height: px2rem(60);
-            background-color: #ab3074;
-            border-radius: 50%;
-            text-align: center;
-            img {
-              width: px2rem(50);
-              height: px2rem(50);
-            }
-          }
-          .user-name {
-            display: none;
-            position: absolute;
-            height: px2rem(40);
-            top: px2rem(-50);
-            left: px2rem(-30);
-            padding: 0 px2rem(20);
-            background-color: #f2f2f2;
-            border: px2rem(2) solid #000;
-            font-size: px2rem(20);
-            line-height: px2rem(40);
-          }
-          &:hover {
-            .user-name {
-              display: block;
-            }
-          }
-        }
-      }
-    }
-    .travel-plan-icon {
-      position: absolute;
-      width: px2rem(178);
-      height: px2rem(232);
-      top: 0;
-      right: 0;
-      background-image: url("../assets/img/travel-plan-icon.png");
-      background-repeat: no-repeat;
-      background-size: contain;
-      background-position: bottom right;
-    }
+  .route-panel {
+    margin-top: px2rem(100);
   }
   .chat-dialog {
     position: relative;
@@ -261,8 +172,8 @@ $designWidth: 750;
     display: flex;
     border: px2rem(2) solid #b5b3b3;
     border-radius: px2rem(10);
-    box-sizing: border-box;
     overflow: hidden;
+    margin: px2rem(20) px2rem(10) px2rem(20) px2rem(10);
     .unteammate-mask {
       position: absolute;
       top: 0;

@@ -12,41 +12,37 @@
       </div>
     </div>
     <div class="spilt-line"></div>
-    <iscroll-view ref="iscroll" class="scroll-view">
-      <div
-        class="task-item"
-        v-for="i in taskList"
-        v-bind:key="i.tid"
-        v-on:click="redirectToTaskDtl(i)"
-        :class="[i.type == 1 ? 'active' : 'dangerous']"
-      >
-        <div class="task-item-dtl">
-          <div class="dtl-item current-location">
-            <div class="location-name">{{ i.startCode[0] }}</div>
-            <div class="location-postcode">{{ i.startCode[1] }}</div>
-            <div class="time-info">{{ i.Date }}</div>
-            <div class="time-info">{{ i.Time }}</div>
-          </div>
-          <div class="arrow" v-if="i.type == 1"></div>
-          <div class="dtl-item target-location" v-if="i.type == 1">
-            <div class="location-name">{{ i.targetCode[0] }}</div>
-            <div class="location-postcode">{{ i.targetCode[1] }}</div>
-          </div>
-        </div>
+    <div ref="iscroll" class="route-scroll-container">
+      <div>
+        <RoutePanel
+          v-for="i in taskList"
+          v-bind:key="`all-${i.tid}`"
+          :panelData="i"
+          :renderStatus="renderStatus"
+        />
       </div>
-    </iscroll-view>
+    </div>
   </div>
 </template>
 
 <script>
 import { Post } from "@/assets/api/api.js";
+
+import RoutePanel from "@/components/common/RoutePanel.vue";
+import BScroll from "better-scroll";
+import { exportAddress } from "@/assets/api/setting.js";
 export default {
   name: "Profile",
   data () {
     return {
-      taskList: [],
-      clickStatus: false
+      taskList: {},
+      clickStatus: false,
+      scroll: null,
+      renderStatus: false
     };
+  },
+  components: {
+    RoutePanel,
   },
   // beforeCreate () {
   //   const self = this;
@@ -67,6 +63,11 @@ export default {
     this.getTaskList();
   },
   methods: {
+    refreshSroll () {
+      const self = this;
+      const el = self.$refs.iscroll;
+      el.refresh();
+    },
     checkUserStatus () {
       const self = this;
       if (!self.$userId || !self.$uuid || !self.$userName || !self.$gender || !self.$email) {
@@ -88,24 +89,19 @@ export default {
         self.clickStatus = true;
       }, 1000);
     },
-    refreshSroll () {
-      const self = this;
-      const el = self.$refs.iscroll;
-      el.refresh();
-    },
     redirectTask () {
       const self = this;
-      self.$router.push("/taskList");
+      self.$router.push("/");
     },
     getTaskList (v = {}) {
       const self = this;
       if ((v = {})) {
         v = {
-          order_: "start",
-          start: self.currentCity
+          //uuid: self.$uuid,
+          uuid: 'be36a8f546cd4cadb73af5e2be84b44e'
         };
       }
-      Post("http://localhost:8360/api/task/page", { query: v }).then(res => {
+      Post(`${exportAddress.task}/joinedTask`, { query: v }).then(res => {
         if (res.code !== 0) {
           self.errorData = {
             errno: 1,
@@ -114,25 +110,73 @@ export default {
             path: "/"
           };
         } else {
-          for (let j = 0; j < res.data.rows.length; j++) {
-            res.data.rows[j].startCode = res.data.rows[j].startCode.split(",");
-            res.data.rows[j].targetCode = res.data.rows[j].targetCode.split(",");
-            let newTime = new Date(res.data.rows[j].startTime);
+          let newObj = {};
+          for (let j = 0; j < res.data.length; j++) {
+            let dataJ = res.data[j]
+            self.getRouteDtl(dataJ.tid)
+            dataJ.startCode = dataJ.startCode.split(",");
+            dataJ.targetCode = dataJ.targetCode.split(",");
+            let newTime = new Date(dataJ.startTime);
             let year = newTime.getFullYear();
             let month = newTime.getMonth() + 1;
             let days = newTime.getDate();
             let hours = newTime.getHours();
             let minutes = newTime.getMinutes();
             let seconds = newTime.getSeconds();
-            res.data.rows[j].startTime = `${year}-${month}-${days} ${hours}:${minutes}`;
-            res.data.rows[j].Time = `${hours}:${minutes}`;
-            res.data.rows[j].Date = `${year}-${month}-${days}`;
+            dataJ.startTime = `${year}-${month}-${days} ${hours}:${minutes}`;
+            dataJ.Time = `${hours}:${minutes}`;
+            dataJ.Date = `${year}-${month}-${days}`;
+            newObj[dataJ.tid] = dataJ
           }
-          self.taskList = res.data.rows;
-          self.refreshSroll();
+          self.taskList = newObj;
+          self.renderStatus = true;
+          self.registerScrollCt()
         }
       });
-    }
+    },
+    handleRouteDtl (d, t) {
+      const self = this;
+      let currentNum = d.length;
+      let userIn = false;
+      d.forEach(v => {
+        if (v.partnerUuid == self.$uuid) {
+          userIn = true;
+        }
+      });
+      const taskList = self.taskList;
+      self.$set(taskList[t], 'userIn', userIn);
+      self.$set(taskList[t], 'dtlStatus', true);
+      self.$set(taskList[t], 'currentNum', currentNum);
+    },
+    getRouteDtl (t) {
+      const self = this;
+      Post(`${exportAddress.task}/partners`, {
+        query: {
+          tid: t
+        }
+      }).then(res => {
+        if (res.code === 0) {
+          self.handleRouteDtl(res.data, t);
+        } else {
+          //TODO 错误处理
+        }
+      });
+    },
+    registerScrollCt () {
+      const self = this;
+      self.$nextTick(() => {
+        self.scroll = new BScroll(this.$refs.iscroll, {
+          probeType: 3
+          // scrollY: true
+        });
+        self.scroll.on("scrollEnd", () => {
+          // 滚动到底部
+          if (self.scroll.y <= self.scroll.maxScrollY + 50) {
+            self.reachEnd();
+          }
+        });
+      });
+    },
   }
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="route-panel" :class="[renderStatus ? '' : 'rendering']">
+  <div class="route-panel" :class="[renderStatus ? '' : 'rendering']" @touchstart="directToDtl">
     <div class="route-client-info">
       <div class="client-name"></div>
       <div class="client-tag-container">
@@ -21,7 +21,7 @@
         <div class="position-text-container">
           <div class="location">
             {{ panelData.startCode[0] }}
-            <div class="distance">{{ distance }} miles</div>
+            <!-- <div class="distance">{{ distance }} miles</div> -->
           </div>
           <div class="postcode">{{ panelData.start }}, {{ panelData.startCode[1] }}, United Kingdom</div>
         </div>
@@ -39,20 +39,22 @@
     </div>
     <div class="route-status-container">
       <div class="route-time">{{ panelData.Date }} {{ panelData.Time }}</div>
+      <div class="apply-btn quit-route" v-if="panelData.userIn" @touchstart="quitRoute">退出行程</div>
       <div
         class="apply-btn"
         :class="[panelData.currentNum < panelData.scaleLimit && !panelData.userIn ? 'active' : 'disable']"
         v-if="panelData.dtlStatus"
+        @touchstart="joinRoute"
       >
         {{panelData.currentNum == panelData.scaleLimit ? '路线已满': ''}}
-        {{panelData.userIn ? '已加入': ''}}
+        {{panelData.userIn ? '已加入': '申请加入'}}
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { Get } from "@/assets/api/api.js";
+import { Get, Post } from "@/assets/api/api.js";
 import { calDistance } from "@/assets/api/distance.js";
 import { exportAddress } from "@/assets/api/setting.js";
 
@@ -68,26 +70,65 @@ export default {
   },
   data () {
     return {
-      distance: ""
+      distance: "",
+      routeData: {
+        startCode: [],
+        targetCode: []
+      },
     };
   },
   mounted () {
-    // this.handleRendering();
-    if (this.renderStatus) {
-      this.getMilesOfStart();
-    }
+    // this.localiseData();
   },
   methods: {
+    localiseData () {
+      const self = this;
+      self.routeData = self.panelData;
+    },
     getMilesOfStart () {
       const self = this;
       const cLati = self.$latitude;
       const cLont = self.$longtitude;
-      Get(`${exportAddress.postcodesio}/postcodes/${self.panelData.startCode[1]}`).then(res => {
+      Get(`${exportAddress.postcodesio}/postcodes/${self.routeData.startCode[1]}`).then(res => {
         if (res.status == 200 && res.result) {
           const distance = calDistance(cLati, cLont, res.result.latitude, res.result.longitude);
           self.distance = distance;
         }
       });
+    },
+    joinRoute () {
+      const self = this;
+      const uuid = self.$uuid;
+      Post("http://localhost:8360/api/task/join", {
+        query: {
+          tid: self.panelData.tid,
+          partnerUuid: self.$uuid,
+          message: '加入了行程'
+        }
+      }).then(res => {
+        if (res.code == 0) {
+          self.$emit('updateTeamStauts', { userIn: true });
+        }
+      })
+    },
+    quitRoute () {
+      const self = this;
+      Post("http://localhost:8360/api/task/secede", {
+        query: {
+          tid: self.panelData.tid,
+          partnerUuid: self.$uuid,
+        }
+      }).then(res => {
+        if (res.code == 0) {
+          self.$emit('updateTeamStauts', { userIn: false });
+        }
+      })
+    },
+    directToDtl (t) {
+      const self = this;
+      if (self.renderStatus && self.panelData.dtlStatus) {
+        self.$router.push({ name: "Task", params: self.panelData })
+      }
     }
   }
 };
@@ -186,6 +227,11 @@ $designWidth: 750;
       border-radius: px2rem(28);
       font-size: px2rem(22);
       line-height: px2rem(56);
+      text-align: center;
+      &.quit-route {
+        color: #ff512b;
+        border: px2rem(2) solid #ff512b;
+      }
       &.active {
         border: px2rem(2) solid #2b44ff;
         color: #2b44ff;

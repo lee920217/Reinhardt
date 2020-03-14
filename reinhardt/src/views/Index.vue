@@ -2,16 +2,17 @@
   <div class="index-main-container">
     <CookieMask v-if="maskStatus" @hideMask="hideMask" />
     <LMask v-if="maskStatus" />
+    <ToastMessage v-if="ToastMsg" :msg="ToastMsg" />
     <Header />
-    <!-- <AddTask
+    <AddTask
       v-if="addTaskStatus"
       @cancelAddTaskDialog="cancelNewTask"
       :basicTravelData="basicTravelData"
-    />-->
+    />
     <div class="slider-container">
       <img src="@/assets/img/slider.png" />
     </div>
-    <!-- <div class="create-task-container">
+    <div class="create-task-container">
       <div class="base-header">
         <div class="create-text-container">
           <div class="text-header">组团出行</div>
@@ -45,11 +46,11 @@
         :class="[routeType == 1 ? 'active' : '']"
         v-on:touchstart="changeRouteType(1)"
       >合作路线</div>
-      <div
+      <!-- <div
         class="route-bar individual-route"
         :class="[routeType == 2 ? 'active' : '']"
         v-on:touchstart="changeRouteType(2)"
-      >个人路线</div>
+      >个人路线</div>-->
     </div>
     <div class="route-display-container" v-if="renderStatus && routeType == 1">
       <RoutePanel
@@ -77,7 +78,7 @@
         :panelData="i"
       />
       <div class="route-more" v-on:touchstart="routerDirect('/list')">查看更多 ></div>
-    </div>-->
+    </div>
     <div class="data-display-container">
       <div class="base-header">
         <div class="create-text-container">
@@ -132,7 +133,7 @@
         <!-- <div class="news-more">查看更多 ></div> -->
       </div>
     </div>
-    <!-- <div class="addnew-task-btn" v-on:touchstart="createNewTask">创建我的路线</div> -->
+    <div class="addnew-task-btn" v-on:touchstart="createNewTask">创建我的路线</div>
   </div>
 </template>
 
@@ -143,6 +144,7 @@ import AddTask from "@/components/common/AddTask.vue";
 import CookieMask from "@/components/common/CookieMask.vue";
 import LMask from "@/components/common/Mask.vue";
 import NewsPanel from "@/components/common/NewsPanel.vue";
+import ToastMessage from "@/components/common/Toast.vue";
 import UKMapSettings from "@/assets/data/uk-map.js";
 import ChartSettings from "@/assets/data/uk-ncov2019-chart.js";
 import IncreaseChartSettings from "@/assets/data/uk-nconv2019-increase.js";
@@ -155,11 +157,12 @@ export default {
   name: "Index",
   components: {
     Header,
-    // RoutePanel,
-    // AddTask,
+    RoutePanel,
+    AddTask,
     NewsPanel,
     CookieMask,
-    LMask
+    LMask,
+    ToastMessage
   },
   data () {
     return {
@@ -173,6 +176,7 @@ export default {
        * @ 2 => 官方路线
        */
       touchChangeType: "text",
+      ToastMsg: '',
       routeType: 1,
       renderStatus: false,
       officialTaskList: {},
@@ -222,7 +226,8 @@ export default {
   mounted () {
     this.showMask();
     this.showNumAnimation();
-    this.statusCheck();
+    // this.statusCheck();
+    this.getRoute();
   },
   methods: {
     showMask () {
@@ -241,14 +246,14 @@ export default {
     showNumAnimation () {
       const self = this;
       const targetValue = {
-        total: 798,
-        death: 8,
+        total: 1140,
+        death: 21,
         cured: 18,
-        test: 32771,
-        totalInc: 208,
-        deathInc: 0,
+        test: 37746,
+        totalInc: 342,
+        deathInc: 13,
         curedInc: 0,
-        testInc: 3007
+        testInc: 4975
       };
       const objKey = Object.keys(self.dataSet);
       for (let i = 0; i < objKey.length; i++) {
@@ -318,6 +323,7 @@ export default {
             path: "/"
           };
         } else {
+          let newTmp = {};
           for (let j = 0; j < res.data.rows.length; j++) {
             let dataJ = res.data.rows[j];
             /**
@@ -332,11 +338,13 @@ export default {
             dataJ.Time = formatTime["hh:mm"];
             dataJ.Date = formatTime["yy-mm-dd"];
             dataJ.dtlStatus = false;
-            if (self.routeType == 1) {
-              self.officialTaskList[dataJ.tid] = dataJ;
-            } else {
-              self.indivTaskList[dataJ.tid] = dataJ;
-            }
+
+            newTmp[dataJ.tid] = dataJ;
+          }
+          if (self.routeType == 1) {
+            self.officialTaskList = newTmp;
+          } else {
+            self.indivTaskList = newTmp;
           }
         }
       } else {
@@ -366,15 +374,20 @@ export default {
           userIn = true;
         }
       });
+      let newList = [];
       if (self.routeType == 1) {
-        self.officialTaskList[t].dtlStatus = true;
-        self.officialTaskList[t].currentNum = currentNum;
-        self.officialTaskList[t].userIn = userIn;
+        newList = self.officialTaskList;
+        newList[t].dtlStatus = true;
+        newList[t].currentNum = currentNum;
+        newList[t].userIn = userIn;
       } else {
-        self.indivTaskList[t].dtlStatus = true;
-        self.indivTaskList[t].currentNum = currentNum;
-        self.indivTaskList[t].userIn = userIn;
+        newList = self.indivTaskList;
+        newList[t].dtlStatus = true;
+        newList[t].currentNum = currentNum;
+        newList[t].userIn = userIn;
       }
+      if (self.routeType == 1) self.officialTaskList = newList;
+      if (self.routeType == 2) self.indivTaskList = newList;
     },
     timeFormat (d) {
       /**
@@ -408,7 +421,11 @@ export default {
     },
     createNewTask () {
       const self = this;
-      self.addTaskStatus = true;
+      self.ToastMsg = '个人创建暂不可用，可加微信360896263添加行程';
+      setTimeout(() => {
+        self.ToastMsg = ""
+      }, 3000);
+      // self.addTaskStatus = true;
     },
     cancelNewTask () {
       const self = this;

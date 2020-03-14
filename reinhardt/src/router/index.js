@@ -45,7 +45,7 @@ const routes = [
     component: NewsList
   },
   {
-    path: "/task/:id",
+    path: "/task",
     name: "Task",
     component: TaskView
   },

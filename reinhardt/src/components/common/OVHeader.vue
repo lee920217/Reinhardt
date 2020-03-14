@@ -1,9 +1,7 @@
 <template>
   <div class="ov-header-container">
-    <div class="app-header">
-      Lemna
-      <div class="desc">- 2019 nCOV in United Kingdom Data Live</div>
-    </div>
+    <div class="app-header" @touchstart="toHome">Lemna</div>
+    <div class="login-btn" @touchstart="redirect">{{this.$uuid ? this.$userName: '登录/注册'}}</div>
   </div>
 </template>
 
@@ -25,7 +23,20 @@ export default {
   mounted: function () {
     // this.$addUser(11, "cao");
   },
-  methods: {}
+  methods: {
+    redirect () {
+      const self = this;
+      if (self.$uuid) {
+        self.$router.push('/profile')
+      } else {
+        self.$router.push('/user')
+      }
+    },
+    toHome () {
+      const self = this;
+      self.$router.push('/')
+    }
+  }
 };
 </script>
 
@@ -39,6 +50,7 @@ $designWidth: 750;
   top: 0;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   padding: 0 px2rem(20);
   box-sizing: border-box;
@@ -56,6 +68,9 @@ $designWidth: 750;
       font-size: px2rem(26);
       font-weight: 300;
     }
+  }
+  .login-btn {
+    font-size: px2rem(28);
   }
 }
 </style>

@@ -24,3 +24,9 @@ input {
   outline-color: transparent;
   box-shadow: none;
 }
+
+select {
+  -webkit-appearance: none;
+  border: none;
+  background-color: transparent;
+}

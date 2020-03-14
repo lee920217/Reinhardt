@@ -1,18 +1,19 @@
 const baseUrl = {
-  dev: "http://localhost:8360/"
+  dev: "http://localhost:8360/",
+  online: "https://4lemna.com/"
 };
 
 const requestAddress = {
   dev: {
     user: `${baseUrl.dev}api/user`,
     task: `${baseUrl.dev}api/task`,
-    message: `${baseUrl}/api/message`,
+    message: `${baseUrl.dev}/api/message`,
     postcodesio: "https://api.postcodes.io/"
   },
   online: {
-    user: `${baseUrl.dev}api/user`,
-    task: `${baseUrl.dev}api/task`,
-    message: `${baseUrl}/api/message`,
+    user: `${baseUrl.online}api/user`,
+    task: `${baseUrl.online}api/task`,
+    message: `${baseUrl.online}/api/message`,
     postcodesio: "https://api.postcodes.io/"
   }
 };

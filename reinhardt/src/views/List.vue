@@ -1,6 +1,7 @@
 <template>
   <div class="list-main-container">
-    <TopSearch />
+    <!-- <TopSearch /> -->
+    <Header />
     <div class="router-selector-container">
       <div
         class="route-bar offical-route"
@@ -22,7 +23,7 @@
       <div>
         <RoutePanel
           v-for="i in allTaskList"
-          v-bind:key="`official-${i.tid}`"
+          v-bind:key="`all-${i.tid}`"
           :panelData="i"
           :renderStatus="renderStatus"
         />
@@ -41,6 +42,7 @@
 </template>
 
 <script>
+import Header from "@/components/common/OVHeader.vue";
 import RoutePanel from "@/components/common/RoutePanel.vue";
 import TopSearch from "@/components/common/TopSearch.vue";
 import { Post, Get } from "@/assets/api/api.js";
@@ -51,7 +53,8 @@ export default {
   name: "List",
   components: {
     RoutePanel,
-    TopSearch
+    // TopSearch,
+    Header
   },
   data () {
     return {
@@ -84,9 +87,9 @@ export default {
       scrollOptions: {},
       renderStatus: false,
       routeType: 0,
-      allTaskList: [],
-      officialTaskList: [],
-      indivTaskList: [],
+      allTaskList: {},
+      officialTaskList: {},
+      indivTaskList: {},
       scroll: null,
       totalCount: 0,
       currentCount: 0,
@@ -163,10 +166,17 @@ export default {
           self.totalCount = res.data.records;
           self.currentCount = self.currentCount + res.data.rows.length;
           self.currPage = self.currPage + 1;
+          let newObj = {};
           for (let j = 0; j < res.data.rows.length; j++) {
             let dataJ = res.data.rows[j];
+            /**
+             * 优先发异步请求具体任务状态
+             */
+            self.getRouteDtl(dataJ.tid);
+
             dataJ.startCode = dataJ.startCode.split(",");
             dataJ.targetCode = dataJ.targetCode.split(",");
+
             let formatTime = self.timeFormat(dataJ.startTime);
             dataJ.startTime = formatTime["yy-mm-dd hh:mm"];
             dataJ.Time = formatTime["hh:mm"];
@@ -177,12 +187,54 @@ export default {
             // } else {
             //   self.indivTaskList.push(dataJ);
             // }
-            self.allTaskList.push(dataJ);
+            newObj[dataJ.tid] = dataJ;
           }
+          if (self.routeType == 0) self.allTaskList = newObj
+          if (self.routeType == 1) self.officialTaskList = newObj;
+          if (self.routeType == 2) self.indivTaskList = newObj;
+
           self.registerScrollCt();
         }
       } else {
         return false;
+      }
+    },
+    getRouteDtl (t) {
+      const self = this;
+      Post(`${exportAddress.task}/partners`, {
+        query: {
+          tid: t
+        }
+      }).then(res => {
+        if (res.code === 0) {
+          self.handleRouteDtl(res.data, t);
+        } else {
+          //TODO 错误处理
+        }
+      });
+    },
+    handleRouteDtl (d, t) {
+      const self = this;
+      let currentNum = d.length;
+      let userIn = false;
+      d.forEach(v => {
+        if (v.partnerUuid == self.$uuid) {
+          userIn = true;
+        }
+      });
+      if (self.routeType == 0) {
+        self.allTaskList[t].dtlStatus = true;
+        self.allTaskList[t].currentNum = currentNum;
+        self.allTaskList[t].userIn = userIn;
+      }
+      else if (self.routeType == 1) {
+        self.officialTaskList[t].dtlStatus = true;
+        self.officialTaskList[t].currentNum = currentNum;
+        self.officialTaskList[t].userIn = userIn;
+      } else if (self.routeType == 2) {
+        self.indivTaskList[t].dtlStatus = true;
+        self.indivTaskList[t].currentNum = currentNum;
+        self.indivTaskList[t].userIn = userIn;
       }
     },
     registerScrollCt () {
@@ -220,6 +272,7 @@ $designWidth: 750;
     width: 100%;
     height: px2rem(80);
     display: flex;
+    margin-top: px2rem(80);
     background-color: #ffffff;
     .route-bar {
       width: px2rem(140);
