@@ -29,20 +29,20 @@
       <div
         class="login-button"
         :class="[clickStatus ? 'active' : 'disable']"
-        v-on:touchstart="confirmLogin"
+        @touchstart="confirmLogin"
       >立即登录</div>
     </div>
     <div>
       <div class="transfer" v-on:touchstart="transfer('register')">还没有账号？点击注册</div>
     </div>
-    <div class="thrid-party-login">
+    <!-- <div class="thrid-party-login">
       <div class="title">第三方账号登录</div>
       <div class="third-party-icon">
         <div class="icon-ct">
           <img src="@/assets/img/wechat.png" />
         </div>
       </div>
-    </div>
+    </div>-->
   </div>
 </template>
 
