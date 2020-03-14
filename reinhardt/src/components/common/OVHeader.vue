@@ -1,6 +1,9 @@
 <template>
   <div class="ov-header-container">
-    <div class="app-header">Lemna</div>
+    <div class="app-header">
+      Lemna
+      <div class="desc">- 2019 nCOV in United Kingdom Data Live</div>
+    </div>
   </div>
 </template>
 
@@ -40,14 +43,19 @@ $designWidth: 750;
   padding: 0 px2rem(20);
   box-sizing: border-box;
   z-index: 20;
-  text-align: center;
   background-color: #ffffff;
   .app-header {
-    margin: 0 auto;
+    display: flex;
+    align-items: center;
     font-family: PingFang SC;
     font-style: normal;
     font-weight: 600;
     font-size: px2rem(34);
+    .desc {
+      margin-left: px2rem(16);
+      font-size: px2rem(26);
+      font-weight: 300;
+    }
   }
 }
 </style>

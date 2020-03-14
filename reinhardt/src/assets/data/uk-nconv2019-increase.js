@@ -6,10 +6,10 @@
 
 var chartSettings = {
   chart: {
-    type: "area"
+    type: "column"
   },
   title: {
-    text: "总计确诊病例"
+    text: "每日增长总数"
   },
   subtitle: {
     text: "United Kingdom"
@@ -55,31 +55,8 @@ var chartSettings = {
   },
   series: [
     {
-      name: "The number of total patients",
-      data: [
-        2,
-        3,
-        7,
-        7,
-        8,
-        12,
-        15,
-        20,
-        23,
-        35,
-        40,
-        51,
-        85,
-        115,
-        163,
-        206,
-        273,
-        319,
-        373,
-        456,
-        590,
-        798
-      ]
+      name: "The number of daily increasing",
+      data: [2, 1, 4, 0, 1, 4, 3, 5, 3, 12, 5, 11, 34, 30, 48, 43, 67, 46, 54, 83, 134, 208]
     }
   ]
 };
