@@ -77,7 +77,6 @@ export default {
       const self = this;
       const taskInfo = self.$route.params;
       self.taskDtl = taskInfo;
-      console.log(self.taskDtl);
       self.tid = parseInt(self.taskDtl.tid);
     },
     redirectToList () {

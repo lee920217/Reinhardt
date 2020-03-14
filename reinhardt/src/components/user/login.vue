@@ -135,8 +135,6 @@ export default {
     },
     checkInputContent () {
       const self = this;
-      console.log(self.loginParams.email);
-      console.log(self.loginParams.pass);
       if (self.loginParams.email && self.loginParams.pass && self.loginParams.pass.length >= 8) {
         self.clickStatus = true;
       } else {
