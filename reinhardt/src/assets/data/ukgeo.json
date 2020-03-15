@@ -4392,7 +4392,7 @@
         "woe-label": null,
         "postal-code": "BS",
         "type": "Unitary Authority",
-        "name": "Bristol"
+        "name": "Bristol, City of"
       },
       "geometry": {
         "type": "Polygon",
@@ -13108,7 +13108,7 @@
         "woe-label": null,
         "postal-code": null,
         "type": "Unitary Authority",
-        "name": "Royal Borough of Windsor and Maidenhead"
+        "name": "Windsor and Maidenhead"
       },
       "geometry": {
         "type": "Polygon",
@@ -13932,7 +13932,7 @@
         "woe-label": null,
         "postal-code": "CO",
         "type": "Unitary Single-Tier County",
-        "name": "Cornwall"
+        "name": "Bristol, City of"
       },
       "geometry": {
         "type": "Polygon",
