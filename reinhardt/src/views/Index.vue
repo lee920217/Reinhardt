@@ -12,6 +12,49 @@
     <div class="slider-container">
       <img src="@/assets/img/slider.png" />
     </div>
+    <div class="data-display-container">
+      <div class="base-header">
+        <div class="create-text-container">
+          <div class="text-header">英国确诊人数</div>
+          <div class="text-detail">勤洗手，减少出门</div>
+        </div>
+        <div class="update-time">更新于 2020-03-16 15:50</div>
+      </div>
+      <div class="text-data-container">
+        <div class="text-data-detail">
+          <div class="num red-font">{{ dataSet.total }}</div>
+          <div class="num-add red-font">+{{ dataSet.totalInc }}</div>
+          <div class="desc">确诊</div>
+        </div>
+        <div class="text-data-detail">
+          <div class="num yellow-font">{{ dataSet.cured }}</div>
+          <div class="num-add yellow-font">+{{ dataSet.curedInc }}</div>
+          <div class="desc">康复</div>
+        </div>
+        <div class="text-data-detail">
+          <div class="num blue-font">{{ dataSet.death }}</div>
+          <div class="num-add blue-font">+{{ dataSet.deathInc }}</div>
+          <div class="desc">死亡</div>
+        </div>
+        <div class="text-data-detail">
+          <div class="num green-font">{{ dataSet.test }}</div>
+          <div class="num-add green-font">+{{ dataSet.testInc }}</div>
+          <div class="desc">测试</div>
+        </div>
+      </div>
+      <div class="map-data-container">
+        <highcharts :constructor-type="'mapChart'" :options="UKMapSettings" ref="ukmap"></highcharts>
+      </div>
+    </div>
+    <div class="chart-display-container">
+      <highcharts :constructor-type="'mapChart'" :options="ChartSettings"></highcharts>
+    </div>
+    <div class="chart-display-container">
+      <highcharts :constructor-type="'mapChart'" :options="IncreaseChartSettings"></highcharts>
+    </div>
+    <div class="chart-display-container">
+      <highcharts :constructor-type="'mapChart'" :options="AreaSettings"></highcharts>
+    </div>
     <div class="create-task-container">
       <div class="base-header">
         <div class="create-text-container">
@@ -78,49 +121,6 @@
         :panelData="i"
       />
       <div class="route-more" v-on:touchstart="routerDirect('/list')">查看更多 ></div>
-    </div>
-    <div class="data-display-container">
-      <div class="base-header">
-        <div class="create-text-container">
-          <div class="text-header">英国确诊人数</div>
-          <div class="text-detail">勤洗手，减少出门</div>
-        </div>
-        <div class="update-time">更新于 2020-03-12 14:29</div>
-      </div>
-      <div class="text-data-container">
-        <div class="text-data-detail">
-          <div class="num red-font">{{ dataSet.total }}</div>
-          <div class="num-add red-font">+{{ dataSet.totalInc }}</div>
-          <div class="desc">确诊</div>
-        </div>
-        <div class="text-data-detail">
-          <div class="num yellow-font">{{ dataSet.cured }}</div>
-          <div class="num-add yellow-font">+{{ dataSet.curedInc }}</div>
-          <div class="desc">康复</div>
-        </div>
-        <div class="text-data-detail">
-          <div class="num blue-font">{{ dataSet.death }}</div>
-          <div class="num-add blue-font">+{{ dataSet.deathInc }}</div>
-          <div class="desc">死亡</div>
-        </div>
-        <div class="text-data-detail">
-          <div class="num green-font">{{ dataSet.test }}</div>
-          <div class="num-add green-font">+{{ dataSet.testInc }}</div>
-          <div class="desc">测试</div>
-        </div>
-      </div>
-      <div class="map-data-container">
-        <highcharts :constructor-type="'mapChart'" :options="UKMapSettings" ref="ukmap"></highcharts>
-      </div>
-    </div>
-    <div class="chart-display-container">
-      <highcharts :constructor-type="'mapChart'" :options="ChartSettings"></highcharts>
-    </div>
-    <div class="chart-display-container">
-      <highcharts :constructor-type="'mapChart'" :options="IncreaseChartSettings"></highcharts>
-    </div>
-    <div class="chart-display-container">
-      <highcharts :constructor-type="'mapChart'" :options="AreaSettings"></highcharts>
     </div>
     <div class="news-display-container">
       <div class="base-header">
@@ -246,14 +246,14 @@ export default {
     showNumAnimation () {
       const self = this;
       const targetValue = {
-        total: 1372,
+        total: 1543,
         death: 35,
         cured: 18,
-        test: 40279,
-        totalInc: 232,
-        deathInc: 14,
+        test: 44105,
+        totalInc: 171,
+        deathInc: 0,
         curedInc: 0,
-        testInc: 2533
+        testInc: 3826
       };
       const objKey = Object.keys(self.dataSet);
       for (let i = 0; i < objKey.length; i++) {
