@@ -12,6 +12,9 @@
     <div class="slider-container">
       <img src="@/assets/img/slider.png" />
     </div>
+    <div class="for-nconv2019">
+      <a target="_blank" href="https://covid-19.alibabacloud.com">阿里 · 新冠肺炎防治手册，点击下载 >>>></a>
+    </div>
     <div class="data-display-container">
       <div class="base-header">
         <div class="create-text-container">
@@ -246,14 +249,14 @@ export default {
     showNumAnimation () {
       const self = this;
       const targetValue = {
-        total: 1543,
-        death: 35,
+        total: 1950,
+        death: 60,
         cured: 18,
-        test: 44105,
-        totalInc: 171,
-        deathInc: 0,
+        test: 50442,
+        totalInc: 407,
+        deathInc: 25,
         curedInc: 0,
-        testInc: 3826
+        testInc: 6337
       };
       const objKey = Object.keys(self.dataSet);
       for (let i = 0; i < objKey.length; i++) {
@@ -481,6 +484,13 @@ $designWidth: 750;
       width: 100%;
       height: 100%;
     }
+  }
+  .for-nconv2019 {
+    margin: px2rem(24) 0;
+    padding: px2rem(24) px2rem(24);
+    background-color: #ffffff;
+    font-size: px2rem(24);
+    text-align: left;
   }
   .create-task-container {
     width: 100%;
