@@ -58,73 +58,6 @@
     <div class="chart-display-container">
       <highcharts :constructor-type="'mapChart'" :options="AreaSettings"></highcharts>
     </div>
-    <div class="create-task-container">
-      <div class="base-header">
-        <div class="create-text-container">
-          <div class="text-header">组团出行</div>
-          <div class="text-detail">我们在一起，对抗这世界的恶意</div>
-        </div>
-      </div>
-      <div class="create-body">
-        <div class="create-input-container had-bottom-line">
-          <div class="point yellow-bg"></div>
-          <div class="input-part">
-            <input type="text" placeholder="从哪里出发" v-model="basicTravelData.from" />
-          </div>
-        </div>
-        <div class="create-input-container had-bottom-line">
-          <div class="point blue-bg"></div>
-          <div class="input-part">
-            <input type="text" placeholder="我要去哪里" v-model="basicTravelData.to" />
-          </div>
-        </div>
-        <div class="create-input-container">
-          <div class="point red-bg"></div>
-          <div class="input-part" v-on:touchstart="touchChange">
-            <input :type="touchChangeType" placeholder="出发时间" v-model="basicTravelData.time" />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="route-selector-container">
-      <div
-        class="route-bar offical-route"
-        :class="[routeType == 1 ? 'active' : '']"
-        v-on:touchstart="changeRouteType(1)"
-      >合作路线</div>
-      <!-- <div
-        class="route-bar individual-route"
-        :class="[routeType == 2 ? 'active' : '']"
-        v-on:touchstart="changeRouteType(2)"
-      >个人路线</div>-->
-    </div>
-    <div class="route-display-container" v-if="renderStatus && routeType == 1">
-      <RoutePanel
-        v-for="i in officialTaskList"
-        v-bind:key="`official-${i.tid}`"
-        :panelData="i"
-        :renderStatus="renderStatus"
-      />
-      <div class="route-more" v-on:touchstart="routerDirect('/list')">查看更多 ></div>
-    </div>
-    <div class="route-display-container" v-if="renderStatus && routeType == 2">
-      <RoutePanel
-        v-for="j in indivTaskList"
-        v-bind:key="`individual-${j.tid}`"
-        :panelData="j"
-        :renderStatus="renderStatus"
-      />
-      <div class="route-more" v-on:touchstart="routerDirect('/list')">查看更多 ></div>
-    </div>
-    <div class="route-display-container" v-if="!renderStatus">
-      <RoutePanel
-        v-for="i in renderingTaskList"
-        :renderStatus="renderStatus"
-        v-bind:key="`individual-${i.tid}`"
-        :panelData="i"
-      />
-      <div class="route-more" v-on:touchstart="routerDirect('/list')">查看更多 ></div>
-    </div>
     <div class="news-display-container">
       <div class="base-header">
         <div class="create-text-container">
@@ -136,7 +69,7 @@
         <!-- <div class="news-more">查看更多 ></div> -->
       </div>
     </div>
-    <div class="addnew-task-btn" v-on:touchstart="createNewTask">创建我的路线</div>
+    <!-- <div class="addnew-task-btn" v-on:touchstart="createNewTask">创建我的路线</div> -->
   </div>
 </template>
 
@@ -160,8 +93,8 @@ export default {
   name: "Index",
   components: {
     Header,
-    RoutePanel,
-    AddTask,
+    // RoutePanel,
+    // AddTask,
     NewsPanel,
     CookieMask,
     LMask,
