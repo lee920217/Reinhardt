@@ -184,7 +184,7 @@ export default {
       const targetValue = {
         total: 3269,
         death: 177,
-        cured: 18,
+        cured: 79,
         test: 66976,
         totalInc: 714,
         deathInc: 43,
