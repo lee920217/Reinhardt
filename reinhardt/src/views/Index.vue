@@ -183,13 +183,13 @@ export default {
       const self = this;
       const targetValue = {
         total: 3269,
-        death: 144,
+        death: 177,
         cured: 18,
-        test: 56221,
-        totalInc: 643,
-        deathInc: 41,
+        test: 66976,
+        totalInc: 714,
+        deathInc: 43,
         curedInc: 0,
-        testInc: 8400
+        testInc: 10775
       };
       const objKey = Object.keys(self.dataSet);
       for (let i = 0; i < objKey.length; i++) {
