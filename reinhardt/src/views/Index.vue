@@ -182,7 +182,7 @@ export default {
     showNumAnimation () {
       const self = this;
       const targetValue = {
-        total: 3269,
+        total: 3983,
         death: 177,
         cured: 79,
         test: 66976,
