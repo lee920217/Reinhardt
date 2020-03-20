@@ -52,8 +52,7 @@ var settings = {
         to: 20
       },
       {
-        from: 21,
-        to: 100
+        from: 21
       }
     ]
   },
