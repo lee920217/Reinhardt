@@ -21,7 +21,7 @@
           <div class="text-header">英国确诊人数</div>
           <div class="text-detail">勤洗手，减少出门</div>
         </div>
-        <div class="update-time">更新于 2020-03-25 14:00</div>
+        <div class="update-time">更新于 2020-03-26 00:00</div>
       </div>
       <div class="text-data-container">
         <div class="text-data-detail">
@@ -182,14 +182,14 @@ export default {
     showNumAnimation () {
       const self = this;
       const targetValue = {
-        total: 8077,
+        total: 9529,
         death: 422,
         cured: 135,
         test: 82359,
-        totalInc: 1427,
+        totalInc: 1542,
         deathInc: 0,
         curedInc: 0,
-        testInc: 0
+        testInc: 14660
       };
       const objKey = Object.keys(self.dataSet);
       for (let i = 0; i < objKey.length; i++) {
