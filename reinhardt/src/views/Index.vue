@@ -13,7 +13,7 @@
       <img src="@/assets/img/slider.png" />
     </div>
     <div class="for-nconv2019">
-      <a target="_blank" href="https://covid-19.alibabacloud.com">阿里 · 新冠肺炎防治手册，点击下载 >>>></a>
+      <a target="_blank" href="https://forms.gle/doSUTnvpmRrhjqu98">留英华人健康包申领 >>>></a>
     </div>
     <div class="data-display-container">
       <div class="base-header">
@@ -21,7 +21,7 @@
           <div class="text-header">英国确诊人数</div>
           <div class="text-detail">勤洗手，减少出门</div>
         </div>
-        <div class="update-time">更新于 2020-03-26 00:00</div>
+        <div class="update-time">更新于 2020-03-26 18:00</div>
       </div>
       <div class="text-data-container">
         <div class="text-data-detail">
@@ -182,14 +182,14 @@ export default {
     showNumAnimation () {
       const self = this;
       const targetValue = {
-        total: 9529,
+        total: 11658,
         death: 422,
         cured: 135,
-        test: 82359,
-        totalInc: 1542,
+        test: 104866,
+        totalInc: 2129,
         deathInc: 0,
         curedInc: 0,
-        testInc: 14660
+        testInc: 22507
       };
       const objKey = Object.keys(self.dataSet);
       for (let i = 0; i < objKey.length; i++) {
