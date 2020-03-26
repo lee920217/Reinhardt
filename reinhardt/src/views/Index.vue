@@ -166,14 +166,14 @@ export default {
     // this.getRoute();
   },
   methods: {
-    showMask () {
-      const self = this;
-      if (self.$cookieConfirm) {
-        self.maskStatus = false;
-      } else {
-        self.maskStatus = true;
-      }
-    },
+    // showMask () {
+    //   const self = this;
+    //   if (self.$cookieConfirm) {
+    //     self.maskStatus = false;
+    //   } else {
+    //     self.maskStatus = true;
+    //   }
+    // },
     hideMask () {
       const self = this;
       self.maskStatus = false;
