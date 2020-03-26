@@ -3,6 +3,7 @@
 // See API docs for 'joinBy' for more info on linking data and map.
 
 // Create the chart
+import dateList from "../api/date.js";
 
 var chartSettings = {
   chart: {
@@ -16,43 +17,7 @@ var chartSettings = {
   },
   xAxis: {
     visible: true,
-    categories: [
-      "01-31",
-      "02-06",
-      "02-10",
-      "02-11",
-      "02-12",
-      "02-23",
-      "02-27",
-      "02-28",
-      "02-29",
-      "03-01",
-      "03-02",
-      "03-03",
-      "03-04",
-      "03-05",
-      "03-06",
-      "03-07",
-      "03-08",
-      "03-09",
-      "03-10",
-      "03-11",
-      "03-12",
-      "03-13",
-      "03-14",
-      "03-15",
-      "03-16",
-      "03-17",
-      "03-18",
-      "03-19",
-      "03-20",
-      "03-21",
-      "03-22",
-      "03-23",
-      "03-24",
-      "03-25",
-      "03-26"
-    ]
+    categories: dateList
   },
   yAxis: {
     title: {

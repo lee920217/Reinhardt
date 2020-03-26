@@ -183,11 +183,11 @@ export default {
       const self = this;
       const targetValue = {
         total: 11658,
-        death: 463,
+        death: 578,
         cured: 135,
         test: 104866,
         totalInc: 2129,
-        deathInc: 0,
+        deathInc: 113,
         curedInc: 0,
         testInc: 22507
       };
