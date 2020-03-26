@@ -128,21 +128,21 @@ export default {
       },
       newsList: {
         0: {
-          title: "世卫组织已经确认病情为流行病",
-          source: "BBC News",
-          time: "2020, Mar 10th, 17:00"
+          title: "国际航班锐减1477班仅剩131班，民航局“4个1”新规29日执行",
+          source: "中国民航局",
+          time: "2020, Mar 26th, 00:00"
         },
         1: {
           title:
-            "英国确诊798例新冠肺炎，过去24小时内增加208例，为新高",
-          source: "telegraph",
-          time: "2020, Mar 13th, 14:01"
+            "英国王储查尔斯王子确诊感染新冠病毒 “症状轻微”",
+          source: "BBC News",
+          time: "2020, Mar 25th, 14:01"
         },
         2: {
           title:
-            "英国进入对抗疫情第二阶段，”Delay”阶段，但并不会封闭学校，停止聚集",
+            "英国新冠肺炎导致死亡人数首次单日突破100人",
           source: "BBC News",
-          time: "2020, Mar 12th"
+          time: "2020, Mar 25th, 18:00"
         }
       },
       dataSet: {
