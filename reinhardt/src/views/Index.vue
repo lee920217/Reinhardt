@@ -161,7 +161,7 @@ export default {
   },
   mounted () {
     // this.showMask();
-    // this.showNumAnimation();
+    this.showNumAnimation();
     // // this.statusCheck();
     // this.getRoute();
   },
