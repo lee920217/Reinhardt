@@ -160,10 +160,10 @@ export default {
     };
   },
   mounted () {
-    this.showMask();
-    this.showNumAnimation();
-    // this.statusCheck();
-    this.getRoute();
+    // this.showMask();
+    // this.showNumAnimation();
+    // // this.statusCheck();
+    // this.getRoute();
   },
   methods: {
     showMask () {
