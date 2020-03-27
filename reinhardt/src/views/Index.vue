@@ -140,9 +140,9 @@ export default {
         },
         2: {
           title:
-            "英国新冠肺炎导致死亡人数首次单日突破100人",
+            "英国首相鲍里斯约翰逊核酸检测呈阳性",
           source: "BBC News",
-          time: "2020, Mar 25th, 18:00"
+          time: "2020, Mar 27th, 18:00"
         }
       },
       dataSet: {
