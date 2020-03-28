@@ -182,14 +182,14 @@ export default {
     showNumAnimation () {
       const self = this;
       const targetValue = {
-        total: 14579,
-        death: 759,
+        total: 17089,
+        death: 1019,
         cured: 135,
-        test: 113777,
-        totalInc: 2894,
-        deathInc: 181,
+        test: 120776,
+        totalInc: 2510,
+        deathInc: 260,
         curedInc: 0,
-        testInc: 8911
+        testInc: 6999
       };
       const objKey = Object.keys(self.dataSet);
       for (let i = 0; i < objKey.length; i++) {
