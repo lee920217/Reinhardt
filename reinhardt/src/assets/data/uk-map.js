@@ -8,7 +8,7 @@ var settings = {
   chart: {
     map: "countries/gb/gb-all"
   },
-  colors: ["#ffffff", "#F88F8F", "#E34E4E", "#860A0A", "#580606", "#400404"],
+  colors: ["#ffffff", "#F88F8F", "#E34E4E", "#860A0A", "#580606", "#400404", "#000"],
   title: {
     style: {
       display: "none"
@@ -46,6 +46,9 @@ var settings = {
       {
         from: 201,
         to: 400
+      },
+      {
+        from: 401
       }
     ]
   },
