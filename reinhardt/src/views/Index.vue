@@ -185,7 +185,7 @@ export default {
         total: 22141,
         death: 1415,
         cured: 135,
-        test: 120776,
+        test: 134946,
         totalInc: 2619,
         deathInc: 187,
         curedInc: 0,
