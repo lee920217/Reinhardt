@@ -7,13 +7,20 @@ import dateList from "../api/date.js";
 
 var chartSettings = {
   chart: {
-    type: "column"
+    type: "column",
+    backgroundColor: "#232322"
   },
   title: {
-    text: "每日增长总数"
+    text: "每日增长总数",
+    style: {
+      color: "#f2f2f2"
+    }
   },
   subtitle: {
-    text: "United Kingdom"
+    text: "United Kingdom",
+    style: {
+      color: "#f2f2f2"
+    }
   },
   xAxis: {
     visible: true,

@@ -9,7 +9,8 @@ var chartSettings = {
     plotBackgroundColor: null,
     plotBorderWidth: null,
     plotShadow: false,
-    type: "pie"
+    type: "pie",
+    backgroundColor: "#232322"
   },
   title: {
     text: "确诊区域"
@@ -33,6 +34,11 @@ var chartSettings = {
         enabled: false
       },
       showInLegend: true
+    }
+  },
+  legend: {
+    itemStyle: {
+      color: "#b3b2b2"
     }
   },
   series: [

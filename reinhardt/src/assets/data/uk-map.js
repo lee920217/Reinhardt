@@ -6,16 +6,17 @@
 import data from "./uk-data.js";
 var settings = {
   chart: {
-    map: "countries/gb/gb-all"
+    map: "countries/gb/gb-all",
+    backgroundColor: "#232322"
   },
-  colors: ["#ffffff", "#F88F8F", "#E34E4E", "#860A0A", "#580606", "#400404", "#000"],
+  colors: ["#b3b2b2", "#F88F8F", "#E34E4E", "#860A0A", "#580606", "#400404", "#000"],
   title: {
     style: {
       display: "none"
     }
   },
   mapNavigation: {
-    enabled: true,
+    enabled: false,
     buttonOptions: {
       verticalAlign: "bottom"
     }
@@ -57,12 +58,12 @@ var settings = {
     verticalAlign: "bottom",
     floating: true,
     layout: "vertical",
+    backgroundColor: "#232322",
     valueDecimals: 0,
-    backgroundColor: "rgba(255,255,255,0.9)",
     symbolRadius: 0,
     symbolHeight: 14,
     itemStyle: {
-      color: "#000000",
+      color: "#b3b2b2",
       fontWeight: "bold"
     }
   },

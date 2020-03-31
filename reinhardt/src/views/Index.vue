@@ -9,9 +9,9 @@
       @cancelAddTaskDialog="cancelNewTask"
       :basicTravelData="basicTravelData"
     />
-    <div class="slider-container">
+    <!-- <div class="slider-container">
       <img src="@/assets/img/slider.png" />
-    </div>
+    </div>-->
     <div class="for-nconv2019">
       <a target="_blank" href="https://forms.gle/doSUTnvpmRrhjqu98">留英华人健康包申领 >>>></a>
     </div>
@@ -43,6 +43,20 @@
           <div class="num green-font">{{ dataSet.test }}</div>
           <div class="num-add green-font">+{{ dataSet.testInc }}</div>
           <div class="desc">测试</div>
+        </div>
+      </div>
+      <div class="text-data-container">
+        <div class="text-data-detail">
+          <div class="num red-font">{{ ((dataSet.totalInc / dataSet.testInc)*100).toFixed(2)}}%</div>
+          <div class="desc">确诊率</div>
+        </div>
+        <div class="text-data-detail">
+          <div class="num yellow-font">{{ ((dataSet.cured / dataSet.total) * 100).toFixed(2) }}%</div>
+          <div class="desc">康复率</div>
+        </div>
+        <div class="text-data-detail">
+          <div class="num blue-font">{{ ((dataSet.death / dataSet.total) * 100).toFixed(2) }}%</div>
+          <div class="desc">死亡率</div>
         </div>
       </div>
       <div class="map-data-container">
@@ -381,7 +395,7 @@ $designWidth: 750;
 .index-main-container {
   width: 100%;
   height: 100%;
-  background-color: #e5e5e5;
+  background-color: #2f2e2e;
   overflow: scroll;
   //TODO
   .rendering {
@@ -419,11 +433,21 @@ $designWidth: 750;
     }
   }
   .for-nconv2019 {
-    margin: px2rem(24) 0;
+    margin: px2rem(112) 0 px2rem(24) 0;
     padding: px2rem(24) px2rem(24);
-    background-color: #ffffff;
+    background-color: #232322;
+    color: #ffffff;
     font-size: px2rem(24);
     text-align: left;
+    a {
+      color: #f2f2f2;
+      &:link {
+        color: #f2f2f2;
+      }
+      &:visited {
+        color: #f2f2f2;
+      }
+    }
   }
   .create-task-container {
     width: 100%;
@@ -606,14 +630,15 @@ $designWidth: 750;
     width: 100%;
     overflow: hidden;
     margin-top: px2rem(16);
-    background-color: #ffffff;
+    background-color: #232322;
     .base-header {
       height: px2rem(100);
+      color: #f2f2f2;
       .update-time {
         width: px2rem(320);
         height: px2rem(32);
         font-size: px2rem(20);
-        background-color: #eeeeee;
+        background-color: #424040;
         color: #999999;
         line-height: px2rem(34);
         border-top-left-radius: px2rem(16);
@@ -626,11 +651,12 @@ $designWidth: 750;
       .text-data-detail {
         width: px2rem(176);
         height: px2rem(128);
+        color: #f2f2f2;
         .num {
           font-size: px2rem(36);
           font-family: PingFang SC;
           font-style: normal;
-          font-weight: 600;
+          font-weight: 900;
           &.red-font {
             color: #ef3d3d;
           }
@@ -692,7 +718,7 @@ $designWidth: 750;
   }
   .news-display-container {
     width: 100%;
-    background-color: #ffffff;
+    background-color: #232322;
     overflow: hidden;
     margin-top: px2rem(16);
     padding-bottom: px2rem(20);

@@ -8,13 +8,20 @@ import dateList from "../api/date.js";
 
 var chartSettings = {
   chart: {
-    type: "area"
+    type: "area",
+    backgroundColor: "#232322"
   },
   title: {
-    text: "总计确诊病例"
+    text: "总计确诊病例",
+    style: {
+      color: "#f2f2f2"
+    }
   },
   subtitle: {
-    text: "United Kingdom"
+    text: "United Kingdom",
+    style: {
+      color: "#f2f2f2"
+    }
   },
   xAxis: {
     visible: true,
@@ -123,7 +130,7 @@ var chartSettings = {
         1415,
         1801
       ],
-      color: "#5d5353ba"
+      color: "#b3b2b2"
     }
   ]
 };

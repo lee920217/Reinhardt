@@ -56,7 +56,8 @@ $designWidth: 750;
   padding: 0 px2rem(20);
   box-sizing: border-box;
   z-index: 20;
-  background-color: #ffffff;
+  background-color: #232322;
+  color: #ffffff;
   .app-header {
     display: flex;
     align-items: center;
