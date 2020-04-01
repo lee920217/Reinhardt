@@ -72,7 +72,27 @@
     <div class="chart-display-container">
       <highcharts :constructor-type="'mapChart'" :options="AreaSettings"></highcharts>
     </div>
-    <div class="news-display-container">
+    <div class="footer">
+      <div class="source-ct">
+        <div class="source-title">数据来源</div>
+        <div class="source-item">
+          <a
+            href="https://www.gov.uk/government/publications/coronavirus-covid-19-number-of-cases-in-england/coronavirus-covid-19-number-of-cases-in-england"
+          >GOVUK -- 英国政府官方数据</a>
+        </div>
+        <div class="source-item">
+          <a
+            href="https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_the_United_Kingdom"
+          >wikipedia - 维基百科</a>
+        </div>
+        <div class="source-item">
+          <a
+            href="https://www.arcgis.com/apps/opsdashboard/index.html#/f94c3c90da5b4e9f9a0b19484dd4bb14"
+          >Arcgis</a>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="news-display-container">
       <div class="base-header">
         <div class="create-text-container">
           <div class="text-header">疫情相关新闻</div>
@@ -80,9 +100,8 @@
       </div>
       <div class="news-body">
         <NewsPanel v-for="(i, v) in newsList" v-bind:key="v" :Newsdata="i" />
-        <!-- <div class="news-more">查看更多 ></div> -->
       </div>
-    </div>
+    </div>-->
     <!-- <div class="addnew-task-btn" v-on:touchstart="createNewTask">创建我的路线</div> -->
   </div>
 </template>
@@ -109,7 +128,7 @@ export default {
     Header,
     // RoutePanel,
     // AddTask,
-    NewsPanel,
+    // NewsPanel,
     CookieMask,
     LMask,
     ToastMessage
@@ -196,14 +215,14 @@ export default {
     showNumAnimation () {
       const self = this;
       const targetValue = {
-        total: 25150,
-        death: 1801,
+        total: 29474,
+        death: 2352,
         cured: 135,
-        test: 143186,
-        totalInc: 3009,
-        deathInc: 386,
+        test: 152979,
+        totalInc: 4324,
+        deathInc: 551,
         curedInc: 0,
-        testInc: 8240
+        testInc: 9793
       };
       const objKey = Object.keys(self.dataSet);
       for (let i = 0; i < objKey.length; i++) {
@@ -715,6 +734,35 @@ $designWidth: 750;
     background-color: #ffffff;
     margin-top: px2rem(16);
     // overflow: hidden;
+  }
+  .footer {
+    background-color: #232322;
+    margin-top: px2rem(24);
+    .source-ct {
+      padding: px2rem(24) px2rem(48);
+      .source-title {
+        font-size: px2rem(28);
+        color: #f2f2f2;
+        text-align: left;
+      }
+      .source-item {
+        margin-top: px2rem(12);
+        font-size: px2rem(24);
+        text-align: left;
+        text-decoration: none;
+        color: #f2f2f2;
+        outline: none;
+        a {
+          color: #f2f2f2;
+          &:link {
+            color: #f2f2f2;
+          }
+          &:visited {
+            color: #f2f2f2;
+          }
+        }
+      }
+    }
   }
   .news-display-container {
     width: 100%;

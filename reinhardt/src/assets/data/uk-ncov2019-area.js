@@ -13,10 +13,16 @@ var chartSettings = {
     backgroundColor: "#232322"
   },
   title: {
-    text: "确诊区域"
+    text: "确诊区域",
+    style: {
+      color: "#f2f2f2"
+    }
   },
   subtitle: {
-    text: "United Kingdom"
+    text: "United Kingdom",
+    style: {
+      color: "#f2f2f2"
+    }
   },
   tooltip: {
     pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>"
