@@ -47,15 +47,19 @@
       </div>
       <div class="text-data-container">
         <div class="text-data-detail">
-          <div class="num red-font">{{ ((dataSet.totalInc / dataSet.testInc)*100).toFixed(2)}}%</div>
+          <div
+            class="num light-yellow-font"
+          >{{ ((dataSet.totalInc / dataSet.testInc)*100).toFixed(2)}}%</div>
           <div class="desc">确诊率</div>
         </div>
         <div class="text-data-detail">
-          <div class="num yellow-font">{{ ((dataSet.cured / dataSet.total) * 100).toFixed(2) }}%</div>
+          <div
+            class="num light-green-font"
+          >{{ ((dataSet.cured / dataSet.total) * 100).toFixed(2) }}%</div>
           <div class="desc">康复率</div>
         </div>
         <div class="text-data-detail">
-          <div class="num blue-font">{{ ((dataSet.death / dataSet.total) * 100).toFixed(2) }}%</div>
+          <div class="num white-font">{{ ((dataSet.death / dataSet.total) * 100).toFixed(2) }}%</div>
           <div class="desc">死亡率</div>
         </div>
       </div>
@@ -217,7 +221,7 @@ export default {
       const targetValue = {
         total: 29474,
         death: 2352,
-        cured: 135,
+        cured: 179,
         test: 152979,
         totalInc: 4324,
         deathInc: 551,
@@ -671,45 +675,56 @@ $designWidth: 750;
         width: px2rem(176);
         height: px2rem(128);
         color: #f2f2f2;
+        font-weight: bolder;
         .num {
           font-size: px2rem(36);
           font-family: PingFang SC;
           font-style: normal;
           font-weight: 900;
           &.red-font {
-            color: #ef3d3d;
+            color: #f35252;
           }
           &.yellow-font {
-            color: #ef723d;
+            color: #ff824d;
           }
           &.blue-font {
-            color: #2b44ff;
+            color: #3599e2;
           }
           &.purple-font {
             color: #656eb0;
           }
           &.green-font {
-            color: green;
+            color: #04e020;
+          }
+          &.light-yellow-font {
+            color: #f7de25;
+          }
+          &.light-green-font {
+            color: #00f2ff;
+          }
+          &.white-font {
+            color: #f2f2f2;
           }
         }
         .num-add {
           font-size: px2rem(28);
           font-family: PingFang SC;
           font-style: normal;
+          font-weight: bolder;
           &.red-font {
-            color: #ef3d3d;
+            color: #f35252;
           }
           &.yellow-font {
-            color: #ef723d;
+            color: #ff824d;
           }
           &.blue-font {
-            color: #2b44ff;
+            color: #3599e2;
           }
           &.purple-font {
             color: #656eb0;
           }
           &.green-font {
-            color: green;
+            color: #04e020;
           }
         }
         .desc {

@@ -9,14 +9,14 @@ var settings = {
     map: "countries/gb/gb-all",
     backgroundColor: "#232322"
   },
-  colors: ["#b3b2b2", "#F88F8F", "#E34E4E", "#860A0A", "#580606", "#400404", "#000"],
+  colors: ["#b3b2b2", "#ffa22c", "#E34E4E", "#860A0A", "#580606", "#400404", "#000"],
   title: {
     style: {
       display: "none"
     }
   },
   mapNavigation: {
-    enabled: false,
+    enabled: true,
     buttonOptions: {
       verticalAlign: "bottom"
     }
