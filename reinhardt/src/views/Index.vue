@@ -222,7 +222,7 @@ export default {
         total: 38168,
         death: 3605,
         cured: 179,
-        test: 163194,
+        test: 173784,
         totalInc: 4450,
         deathInc: 684,
         curedInc: 0,
