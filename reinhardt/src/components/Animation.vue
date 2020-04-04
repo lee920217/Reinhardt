@@ -3,7 +3,11 @@
     <div class="close" v-on:click="closeAnimation">X</div>
     <div class="data-and-num">
       <div class="date">2020-{{date}}</div>
-      <div class="count">{{count}}</div>
+      <div class="count">
+        <span>确诊</span>
+        {{count}}
+        <span>人</span>
+      </div>
     </div>
     <div class="map-ct">
       <highcharts :constructor-type="'mapChart'" :options="UKMapSettings" ref="ukmap"></highcharts>
@@ -22,12 +26,13 @@ export default {
     return {
       UKMapSettings: UKMapSettings,
       date: "03-05",
-      count: "115",
+      count: 0,
       animationCounter: null
     }
   },
   mounted () {
     this.updateAnimation();
+    this.tweenJS(0, 115)
   },
   destroyed () {
     this.date = "03-05";
@@ -119,6 +124,10 @@ $designWidth: 750;
     font-weight: 900;
     .count {
       color: #fc4b4b;
+      span {
+        font-size: px2rem(30);
+        font-weight: 400;
+      }
     }
   }
 }
