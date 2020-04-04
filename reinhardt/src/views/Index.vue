@@ -3,6 +3,7 @@
     <CookieMask v-if="maskStatus" @hideMask="hideMask" />
     <LMask v-if="maskStatus" />
     <ToastMessage v-if="ToastMsg" :msg="ToastMsg" />
+    <AnimationMap v-if="animationStatus" @changeAnimationStatus="changeAnimationStatus" />
     <Header />
     <AddTask
       v-if="addTaskStatus"
@@ -64,6 +65,10 @@
         </div>
       </div>
       <div class="map-data-container">
+        <div class="show-animation" v-on:click="changeAnimationStatus(true)">
+          <div class="button">疫情蔓延动态展示</div>
+          <div class="new">New!</div>
+        </div>
         <highcharts :constructor-type="'mapChart'" :options="UKMapSettings" ref="ukmap"></highcharts>
       </div>
     </div>
@@ -170,6 +175,7 @@
 <script>
 import Header from "@/components/common/OVHeader.vue";
 import RoutePanel from "@/components/common/RoutePanel.vue";
+import AnimationMap from "@/components/Animation.vue";
 import AddTask from "@/components/common/AddTask.vue";
 import CookieMask from "@/components/common/CookieMask.vue";
 import LMask from "@/components/common/Mask.vue";
@@ -194,10 +200,12 @@ export default {
     // NewsPanel,
     CookieMask,
     LMask,
-    ToastMessage
+    ToastMessage,
+    AnimationMap
   },
   data () {
     return {
+      animationStatus: false,
       UKMapSettings: UKMapSettings,
       ChartSettings: ChartSettings,
       IncreaseChartSettings: IncreaseChartSettings,
@@ -273,6 +281,10 @@ export default {
     //     self.maskStatus = true;
     //   }
     // },
+    changeAnimationStatus (status) {
+      const self = this;
+      self.animationStatus = status;
+    },
     limitChange (arr, aim) {
       return arr.slice(aim)
     },
@@ -844,6 +856,28 @@ $designWidth: 750;
     .map-data-container {
       width: 100%;
       height: px2rem(816);
+      .show-animation {
+        display: flex;
+        width: px2rem(300);
+        background-color: #f2f2f2;
+        border-radius: px2rem(10);
+        margin-left: px2rem(30);
+        .button {
+          width: px2rem(200);
+          height: px2rem(60);
+          font-size: px2rem(24);
+          padding: 0 px2rem(8);
+          margin: 0 px2rem(8);
+          line-height: px2rem(60);
+        }
+        .new {
+          height: px2rem(40);
+          font-size: px2rem(24);
+          padding: px2rem(2) px2rem(8);
+          color: red;
+          border-radius: px2rem(10);
+        }
+      }
       div[data-highcharts-chart] {
         height: px2rem(816) !important;
       }
