@@ -205,7 +205,7 @@ export default {
   },
   data () {
     return {
-      animationStatus: false,
+      animationStatus: true,
       UKMapSettings: UKMapSettings,
       ChartSettings: ChartSettings,
       IncreaseChartSettings: IncreaseChartSettings,
