@@ -342,7 +342,7 @@ export default {
       const targetValue = {
         total: totalNum[totalNum.length - 1],
         death: deathNum[deathNum.length - 1],
-        cured: 179,
+        cured: 209,
         test: 183190,
         totalInc: totalNum[totalNum.length - 1] - totalNum[totalNum.length - 2],
         deathInc: deathNum[deathNum.length - 1] - deathNum[deathNum.length - 2],
