@@ -854,9 +854,12 @@ $designWidth: 750;
       }
     }
     .map-data-container {
+      position: relative;
       width: 100%;
       height: px2rem(816);
       .show-animation {
+        position: absolute;
+        z-index: 96;
         display: flex;
         width: px2rem(300);
         background-color: #f2f2f2;
