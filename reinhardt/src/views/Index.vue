@@ -67,11 +67,68 @@
         <highcharts :constructor-type="'mapChart'" :options="UKMapSettings" ref="ukmap"></highcharts>
       </div>
     </div>
-    <div class="chart-display-container">
-      <highcharts :constructor-type="'mapChart'" :options="ChartSettings"></highcharts>
+    <div class="chart-total-container chart-display-header">
+      <div class="header">总确诊数</div>
+      <div class="time-limit">
+        <div
+          class="time-item"
+          :class="[totalChartTime == 0 ? 'active': '']"
+          v-on:click="totoalChartTimeUpdate(0, 1)"
+        >全部</div>
+        <div
+          class="time-item"
+          :class="[totalChartTime == 1 ? 'active': '']"
+          v-on:click="totoalChartTimeUpdate(1, 1)"
+        >30天内</div>
+        <div
+          class="time-item"
+          :class="[totalChartTime == 2 ? 'active': '']"
+          v-on:click="totoalChartTimeUpdate(2, 1)"
+        >15天内</div>
+        <div
+          class="time-item"
+          :class="[totalChartTime == 3 ? 'active': '']"
+          v-on:click="totoalChartTimeUpdate(3, 1)"
+        >一周内</div>
+      </div>
     </div>
     <div class="chart-display-container">
-      <highcharts :constructor-type="'mapChart'" :options="IncreaseChartSettings"></highcharts>
+      <highcharts :constructor-type="'mapChart'" :options="ChartSettings" ref="totalChart"></highcharts>
+    </div>
+    <div class="chart-total-container chart-display-header">
+      <div class="header">增长速度</div>
+      <div class="time-limit">
+        <div
+          class="time-item"
+          :class="[totalChartTime == 0 ? 'active': '']"
+          v-on:click="totoalChartTimeUpdate(0, 2)"
+        >全部</div>
+        <div
+          class="time-item"
+          :class="[totalChartTime == 1 ? 'active': '']"
+          v-on:click="totoalChartTimeUpdate(1, 2)"
+        >30天内</div>
+        <div
+          class="time-item"
+          :class="[totalChartTime == 2 ? 'active': '']"
+          v-on:click="totoalChartTimeUpdate(2, 2)"
+        >15天内</div>
+        <div
+          class="time-item"
+          :class="[totalChartTime == 3 ? 'active': '']"
+          v-on:click="totoalChartTimeUpdate(3, 2)"
+        >一周内</div>
+      </div>
+    </div>
+    <div class="chart-display-container">
+      <highcharts
+        :constructor-type="'mapChart'"
+        :options="IncreaseChartSettings"
+        ref="increaseChart"
+      ></highcharts>
+    </div>
+    <div class="chart-total-container chart-display-header">
+      <div class="header">疫情地区分布</div>
     </div>
     <div class="chart-display-container">
       <highcharts :constructor-type="'mapChart'" :options="AreaSettings"></highcharts>
@@ -125,6 +182,8 @@ import AreaSettings from "@/assets/data/uk-ncov2019-area.js";
 import TWEEN from "@tweenjs/tween.js";
 import { Post } from "@/assets/api/api.js";
 import { exportAddress } from "@/assets/api/setting.js";
+import { dateList, totalNum, deathNum, increaseNum } from "@/assets/api/chartData.js";
+
 
 export default {
   name: "Index",
@@ -192,6 +251,8 @@ export default {
         curedInc: 0,
         testInc: 0
       },
+      totalChartTime: 0,
+      increaseChartTime: 0,
       animationList: {},
       addTaskStatus: false
     };
@@ -201,6 +262,7 @@ export default {
     this.showNumAnimation();
     // // this.statusCheck();
     // this.getRoute();
+    // this.ttt();
   },
   methods: {
     // showMask () {
@@ -211,6 +273,53 @@ export default {
     //     self.maskStatus = true;
     //   }
     // },
+    limitChange (arr, aim) {
+      return arr.slice(aim)
+    },
+    totoalChartTimeUpdate (t, c) {
+      const self = this;
+      self.totalChartTime = t;
+      let limitLength = 0;
+      let timeLimit = dateList;
+      if (t == 0) {
+        limitLength = -timeLimit.length;
+      } else {
+        if (t == 1) {
+          limitLength = -30
+        } else if (t == 2) {
+          limitLength = -15
+        } else if (t == 3) {
+          limitLength = -7
+        }
+      }
+      timeLimit = self.limitChange(timeLimit, limitLength);
+      if (c == 1) {
+        const totalChart = self.$refs.totalChart.chart
+        let totalList = totalNum;
+        let deathList = deathNum;
+        totalList = self.limitChange(totalList, limitLength);
+        deathList = self.limitChange(deathList, limitLength);
+        totalChart.xAxis[0].update({
+          categories: timeLimit
+        });
+        totalChart.series[0].update({
+          data: totalList
+        })
+        totalChart.series[1].update({
+          data: deathList
+        })
+      } else {
+        const increaseChart = self.$refs.increaseChart.chart
+        let increaseList = increaseNum;
+        increaseList = self.limitChange(increaseList, limitLength);
+        increaseChart.xAxis[0].update({
+          categories: timeLimit
+        })
+        increaseChart.series[0].update({
+          data: increaseList
+        })
+      }
+    },
     hideMask () {
       const self = this;
       self.maskStatus = false;
@@ -219,12 +328,12 @@ export default {
     showNumAnimation () {
       const self = this;
       const targetValue = {
-        total: 38168,
-        death: 3605,
+        total: totalNum[totalNum.length - 1],
+        death: deathNum[deathNum.length - 1],
         cured: 179,
         test: 173784,
-        totalInc: 4450,
-        deathInc: 684,
+        totalInc: totalNum[totalNum.length - 1] - totalNum[totalNum.length - 2],
+        deathInc: deathNum[deathNum.length - 1] - deathNum[deathNum.length - 2],
         curedInc: 0,
         testInc: 10590
       };
@@ -743,11 +852,44 @@ $designWidth: 750;
       }
     }
   }
+  .chart-display-header {
+    position: relative;
+    margin-top: px2rem(16);
+    background-color: #222321;
+    .header {
+      padding: px2rem(24) 0;
+      font-size: px2rem(32);
+      color: #f2f2f2;
+    }
+    .time-limit {
+      width: px2rem(400);
+      height: px2rem(50);
+      display: flex;
+      margin-left: px2rem(24);
+      border: px2rem(2) solid #ffffff;
+      justify-content: space-between;
+      border-radius: px2rem(10);
+      overflow: hidden;
+      .time-item {
+        height: px2rem(50);
+        line-height: px2rem(50);
+        padding: 0 px2rem(12);
+        font-size: px2rem(24);
+        color: #f2f2f2;
+        &.active {
+          color: #222321;
+          background-color: #ffffff;
+        }
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
   .chart-display-container {
     width: 100%;
     //height: px2rem(400);
     background-color: #ffffff;
-    margin-top: px2rem(16);
     // overflow: hidden;
   }
   .footer {

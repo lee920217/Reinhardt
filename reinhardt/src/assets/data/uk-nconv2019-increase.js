@@ -3,91 +3,43 @@
 // See API docs for 'joinBy' for more info on linking data and map.
 
 // Create the chart
-import dateList from "../api/date.js";
+// import dateList from "../api/date.js";
+import { dateList, increaseNum } from "../api/chartData.js";
 
 var chartSettings = {
   chart: {
     type: "column",
-    backgroundColor: "#232322"
+    backgroundColor: "#232322",
   },
   title: {
-    text: "每日增长总数",
-    style: {
-      color: "#f2f2f2"
-    }
+    text: undefined,
   },
   subtitle: {
-    text: "United Kingdom",
-    style: {
-      color: "#f2f2f2"
-    }
+    text: undefined,
   },
   xAxis: {
     visible: true,
-    categories: dateList
+    categories: dateList,
   },
   yAxis: {
     title: {
-      text: undefined
+      text: undefined,
     },
     visible: true,
-    reversed: false
+    reversed: false,
+    max: Math.max(...increaseNum) + 100,
   },
   plotOptions: {
     series: {
-      color: "#b32929"
-    }
+      color: "#b32929",
+    },
   },
   series: [
     {
       name: "The number of daily increasing",
-      data: [
-        2,
-        1,
-        4,
-        0,
-        1,
-        4,
-        3,
-        5,
-        3,
-        12,
-        5,
-        11,
-        34,
-        30,
-        48,
-        43,
-        67,
-        46,
-        54,
-        83,
-        134,
-        208,
-        342,
-        232,
-        171,
-        407,
-        676,
-        643,
-        715,
-        1035,
-        665,
-        967,
-        1427,
-        1542,
-        2129,
-        2894,
-        2510,
-        2433,
-        2107,
-        3009,
-        4324,
-        4244,
-        4450
-      ]
-    }
-  ]
+      data: increaseNum,
+    },
+  ],
 };
 
 export default chartSettings;

@@ -7,51 +7,51 @@ import data from "./uk-data.js";
 var settings = {
   chart: {
     map: "countries/gb/gb-all",
-    backgroundColor: "#232322"
+    backgroundColor: "#232322",
   },
   colors: ["#b3b2b2", "#ffa22c", "#E34E4E", "#860A0A", "#580606", "#400404", "#000"],
   title: {
     style: {
-      display: "none"
-    }
+      display: "none",
+    },
   },
   mapNavigation: {
     enabled: true,
     buttonOptions: {
-      verticalAlign: "bottom"
-    }
+      verticalAlign: "bottom",
+    },
   },
 
   colorAxis: {
     dataClassColor: "category",
     dataClasses: [
       {
-        to: 0
+        to: 0,
       },
       {
         from: 1,
-        to: 5
+        to: 5,
       },
       {
         from: 6,
-        to: 20
+        to: 20,
       },
       {
         from: 21,
-        to: 100
+        to: 100,
       },
       {
         from: 101,
-        to: 200
+        to: 200,
       },
       {
         from: 201,
-        to: 400
+        to: 400,
       },
       {
-        from: 401
-      }
-    ]
+        from: 401,
+      },
+    ],
   },
   legend: {
     align: "left",
@@ -64,8 +64,8 @@ var settings = {
     symbolHeight: 14,
     itemStyle: {
       color: "#b3b2b2",
-      fontWeight: "bold"
-    }
+      fontWeight: "bold",
+    },
   },
   series: [
     {
@@ -74,15 +74,15 @@ var settings = {
       itemStyle: {
         color: "#000000",
         fontWeight: "bold",
-        fontSize: "24px"
+        fontSize: "24px",
       },
       states: {
         hover: {
-          color: "#BADA55"
-        }
-      }
-    }
-  ]
+          color: "#BADA55",
+        },
+      },
+    },
+  ],
 };
 
 export default settings;

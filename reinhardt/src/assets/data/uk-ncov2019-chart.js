@@ -4,141 +4,49 @@
 
 // Create the chart
 
-import dateList from "../api/date.js";
+// import dateList from "../api/date.js";
+import { dateList, totalNum, deathNum } from "../api/chartData.js";
 
 var chartSettings = {
   chart: {
     type: "area",
-    backgroundColor: "#232322"
+    backgroundColor: "#232322",
   },
   title: {
-    text: "总计确诊病例",
-    style: {
-      color: "#f2f2f2"
-    }
+    text: undefined,
   },
   subtitle: {
-    text: "United Kingdom",
-    style: {
-      color: "#f2f2f2"
-    }
+    text: undefined,
   },
   xAxis: {
     visible: true,
-    categories: dateList
+    categories: dateList,
   },
   yAxis: {
     title: {
-      text: undefined
+      text: undefined,
     },
     visible: true,
-    reversed: false
+    reversed: false,
+    max: Math.max(...totalNum) + 100,
   },
   plotOptions: {
     series: {
-      color: "#b32929"
-    }
+      color: "#b32929",
+    },
   },
   series: [
     {
       name: "The number of total patients",
-      data: [
-        2,
-        3,
-        7,
-        7,
-        8,
-        12,
-        15,
-        20,
-        23,
-        35,
-        40,
-        51,
-        85,
-        115,
-        163,
-        206,
-        273,
-        319,
-        373,
-        456,
-        590,
-        798,
-        1140,
-        1372,
-        1543,
-        1951,
-        2626,
-        3269,
-        3983,
-        5018,
-        5683,
-        6650,
-        8077,
-        9529,
-        11658,
-        14579,
-        17089,
-        19522,
-        22141,
-        25150,
-        29474,
-        33718,
-        38168
-      ],
-      color: "#b32929"
+      data: totalNum,
+      color: "#b32929",
     },
     {
       name: "The number of total death",
-      data: [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        2,
-        2,
-        3,
-        5,
-        6,
-        8,
-        8,
-        10,
-        21,
-        35,
-        55,
-        71,
-        103,
-        144,
-        177,
-        233,
-        281,
-        335,
-        422,
-        465,
-        578,
-        759,
-        1019,
-        1228,
-        1415,
-        1801,
-        2352,
-        2921,
-        3605
-      ],
-      color: "#b3b2b2"
-    }
-  ]
+      data: deathNum,
+      color: "#b3b2b2",
+    },
+  ],
 };
 
 export default chartSettings;
