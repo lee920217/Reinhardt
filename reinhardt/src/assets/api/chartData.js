@@ -92,6 +92,7 @@ const deathNum = [
   3605,
   4313,
   4932,
+  5914,
 ];
 
 const increaseNum = [
