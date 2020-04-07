@@ -22,7 +22,7 @@
           <div class="text-header">英国确诊人数</div>
           <div class="text-detail">勤洗手，减少出门</div>
         </div>
-        <div class="update-time">更新于 2020-04-05 12:38</div>
+        <div class="update-time">更新于 2020-04-06 12:38</div>
       </div>
       <div class="text-data-container">
         <div class="text-data-detail">
@@ -188,7 +188,7 @@ import AreaSettings from "@/assets/data/uk-ncov2019-area.js";
 import TWEEN from "@tweenjs/tween.js";
 import { Post } from "@/assets/api/api.js";
 import { exportAddress } from "@/assets/api/setting.js";
-import { dateList, totalNum, deathNum, increaseNum } from "@/assets/api/chartData.js";
+import { dateList, totalNum, deathNum, increaseNum, testNum } from "@/assets/api/chartData.js";
 
 
 export default {
@@ -343,11 +343,11 @@ export default {
         total: totalNum[totalNum.length - 1],
         death: deathNum[deathNum.length - 1],
         cured: 209,
-        test: 195524,
+        test: testNum[testNum.length - 1],
         totalInc: totalNum[totalNum.length - 1] - totalNum[totalNum.length - 2],
         deathInc: deathNum[deathNum.length - 1] - deathNum[deathNum.length - 2],
         curedInc: 0,
-        testInc: 12334
+        testInc: testNum[testNum.length - 1] - testNum[testNum.length - 2]
       };
       const objKey = Object.keys(self.dataSet);
       for (let i = 0; i < objKey.length; i++) {
