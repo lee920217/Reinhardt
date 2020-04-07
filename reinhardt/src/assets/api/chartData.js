@@ -46,7 +46,7 @@ const totalNum = [
   47806,
   51608,
 ];
-const testNum = [195524, 252958];
+const testNum = [195524, 208837];
 
 const deathNum = [
   0,
