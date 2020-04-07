@@ -342,11 +342,11 @@ export default {
       const targetValue = {
         total: totalNum[totalNum.length - 1],
         death: deathNum[deathNum.length - 1],
-        cured: 209,
+        cured: 287,
         test: testNum[testNum.length - 1],
         totalInc: totalNum[totalNum.length - 1] - totalNum[totalNum.length - 2],
         deathInc: deathNum[deathNum.length - 1] - deathNum[deathNum.length - 2],
-        curedInc: 0,
+        curedInc: 76,
         testInc: testNum[testNum.length - 1] - testNum[testNum.length - 2]
       };
       const objKey = Object.keys(self.dataSet);
