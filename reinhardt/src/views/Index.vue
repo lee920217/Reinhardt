@@ -22,7 +22,7 @@
           <div class="text-header">英国确诊人数</div>
           <div class="text-detail">勤洗手，减少出门</div>
         </div>
-        <div class="update-time">更新于 2020-04-06 12:38</div>
+        <div class="update-time">更新于 2020-04-07 12:38</div>
       </div>
       <div class="text-data-container">
         <div class="text-data-detail">
