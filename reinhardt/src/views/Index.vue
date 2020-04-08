@@ -22,7 +22,7 @@
           <div class="text-header">英国确诊人数</div>
           <div class="text-detail">勤洗手，减少出门</div>
         </div>
-        <div class="update-time">更新于 2020-04-07 12:38</div>
+        <div class="update-time">更新于 2020-04-08 17:00</div>
       </div>
       <div class="text-data-container">
         <div class="text-data-detail">
@@ -346,7 +346,7 @@ export default {
         test: testNum[testNum.length - 1],
         totalInc: totalNum[totalNum.length - 1] - totalNum[totalNum.length - 2],
         deathInc: deathNum[deathNum.length - 1] - deathNum[deathNum.length - 2],
-        curedInc: 76,
+        curedInc: 0,
         testInc: testNum[testNum.length - 1] - testNum[testNum.length - 2]
       };
       const objKey = Object.keys(self.dataSet);
