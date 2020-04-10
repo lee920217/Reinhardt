@@ -47,8 +47,9 @@ const totalNum = [
   51608,
   55242,
   60733,
+  65077
 ];
-const testNum = [195524, 208837, 213181, 232708];
+const testNum = [195524, 208837, 213181, 232708, 243421];
 
 const deathNum = [
   0,
@@ -99,6 +100,7 @@ const deathNum = [
   5373,
   6519,
   7097,
+  7978
 ];
 
 const increaseNum = [
@@ -150,6 +152,7 @@ const increaseNum = [
   3802,
   3634,
   5491,
+  4344
 ];
 
 const dateList = [
@@ -201,6 +204,7 @@ const dateList = [
   "04-06",
   "04-07",
   "04-08",
+  "04-09"
 ];
 
 export { totalNum, deathNum, increaseNum, dateList, testNum };
