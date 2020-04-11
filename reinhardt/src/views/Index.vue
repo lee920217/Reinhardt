@@ -23,6 +23,10 @@
           <div class="text-detail">勤洗手，减少出门</div>
         </div>
         <div class="update-time">更新于 2020-04-11 00:00</div>
+        <div class="show-animation" v-on:click="changeAnimationStatus(true)">
+          <div class="button">疫情蔓延动态展示</div>
+          <div class="new">New!</div>
+        </div>
       </div>
       <div class="text-data-container">
         <div class="text-data-detail">
@@ -65,10 +69,6 @@
         </div>
       </div>
       <div class="map-data-container">
-        <div class="show-animation" v-on:click="changeAnimationStatus(true)">
-          <div class="button">疫情蔓延动态展示</div>
-          <div class="new">New!</div>
-        </div>
         <highcharts :constructor-type="'mapChart'" :options="UKMapSettings" ref="ukmap"></highcharts>
       </div>
     </div>
@@ -541,6 +541,8 @@ $designWidth: 750;
   height: 100%;
   background-color: #2f2e2e;
   overflow: scroll;
+  max-width: px2rem(1250);
+  margin: 0 auto;
   //TODO
   .rendering {
     color: #999999;
@@ -776,6 +778,7 @@ $designWidth: 750;
     margin-top: px2rem(16);
     background-color: #232322;
     .base-header {
+      position: relative;
       height: px2rem(100);
       color: #f2f2f2;
       .update-time {
@@ -788,10 +791,38 @@ $designWidth: 750;
         border-top-left-radius: px2rem(16);
         border-bottom-left-radius: px2rem(16);
       }
+      .show-animation {
+        position: absolute;
+        top: px2rem(40);
+        right: px2rem(20);
+        z-index: 96;
+        display: flex;
+        width: px2rem(300);
+        color: #f2f2f2;
+        border-radius: px2rem(10);
+        margin-left: px2rem(30);
+        .button {
+          width: px2rem(200);
+          height: px2rem(30);
+          font-size: px2rem(24);
+          padding: 0 px2rem(4);
+          margin: 0 px2rem(8);
+          line-height: px2rem(40);
+        }
+        .new {
+          height: px2rem(40);
+          font-size: px2rem(24);
+          padding: px2rem(2) px2rem(3);
+          color: red;
+          border-radius: px2rem(10);
+          line-height: px2rem(30);
+        }
+      }
     }
     .text-data-container {
       display: flex;
       // justify-content: space-around;
+
       .text-data-detail {
         width: px2rem(176);
         height: px2rem(128);
@@ -857,31 +888,6 @@ $designWidth: 750;
       position: relative;
       width: 100%;
       height: px2rem(816);
-      .show-animation {
-        position: absolute;
-        z-index: 96;
-        display: flex;
-        width: px2rem(300);
-        background-color: #f2f2f2;
-        border-radius: px2rem(10);
-        margin-left: px2rem(30);
-        .button {
-          width: px2rem(200);
-          height: px2rem(60);
-          font-size: px2rem(24);
-          padding: 0 px2rem(4);
-          margin: 0 px2rem(8);
-          line-height: px2rem(60);
-        }
-        .new {
-          height: px2rem(40);
-          font-size: px2rem(24);
-          padding: px2rem(2) px2rem(3);
-          color: red;
-          border-radius: px2rem(10);
-          line-height: px2rem(30);
-        }
-      }
       div[data-highcharts-chart] {
         height: px2rem(816) !important;
       }

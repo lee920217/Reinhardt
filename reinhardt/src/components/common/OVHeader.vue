@@ -49,6 +49,7 @@ $designWidth: 750;
   width: 100%;
   height: px2rem(88);
   top: 0;
+  left: 0;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
