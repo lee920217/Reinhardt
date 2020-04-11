@@ -815,7 +815,7 @@ $designWidth: 750;
             color: #656eb0;
           }
           &.green-font {
-            color: #04e020;
+            color: #4cc16f;
           }
           &.light-yellow-font {
             color: #f7de25;
@@ -845,7 +845,7 @@ $designWidth: 750;
             color: #656eb0;
           }
           &.green-font {
-            color: #04e020;
+            color: #4cc16f;
           }
         }
         .desc {
@@ -869,16 +869,17 @@ $designWidth: 750;
           width: px2rem(200);
           height: px2rem(60);
           font-size: px2rem(24);
-          padding: 0 px2rem(8);
+          padding: 0 px2rem(4);
           margin: 0 px2rem(8);
           line-height: px2rem(60);
         }
         .new {
           height: px2rem(40);
           font-size: px2rem(24);
-          padding: px2rem(2) px2rem(8);
+          padding: px2rem(2) px2rem(3);
           color: red;
           border-radius: px2rem(10);
+          line-height: px2rem(30);
         }
       }
       div[data-highcharts-chart] {

@@ -1242,7 +1242,7 @@
         "woe-label": null,
         "postal-code": "WI",
         "type": "Island Area",
-        "name": "Eilean Siar"
+        "name": "Western Isles"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2713,7 +2713,7 @@
         "woe-label": null,
         "postal-code": "SA",
         "type": "Unitary District",
-        "name": "South Ayrshire"
+        "name": "Ayrshire and Arran"
       },
       "geometry": {
         "type": "Polygon",
@@ -3468,7 +3468,7 @@
         "woe-label": null,
         "postal-code": "BO",
         "type": "Unitary District",
-        "name": "Scottish Borders"
+        "name": "Borders"
       },
       "geometry": {
         "type": "Polygon",
