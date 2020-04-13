@@ -22,7 +22,7 @@
           <div class="text-header">英国确诊人数</div>
           <div class="text-detail">勤洗手，减少出门</div>
         </div>
-        <div class="update-time">更新于 2020-04-12 09:00</div>
+        <div class="update-time">更新于 2020-04-13 09:00</div>
         <div class="show-animation" v-on:click="changeAnimationStatus(true)">
           <div class="button">疫情蔓延动态展示</div>
           <div class="new">New!</div>
@@ -540,8 +540,8 @@ $designWidth: 750;
   width: 100%;
   height: 100%;
   background-color: #2f2e2e;
-  overflow: scroll;
-  max-width: px2rem(1250);
+  overflow-y: scroll;
+  //max-width: px2rem(1250);
   margin: 0 auto;
   //TODO
   .rendering {
