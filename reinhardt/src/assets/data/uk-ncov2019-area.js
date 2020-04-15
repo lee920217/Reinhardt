@@ -10,36 +10,36 @@ var chartSettings = {
     plotBorderWidth: null,
     plotShadow: false,
     type: "pie",
-    backgroundColor: "#232322",
+    backgroundColor: "#232322"
   },
   title: {
-    text: undefined,
+    text: undefined
   },
   subtitle: {
-    text: undefined,
+    text: undefined
   },
   tooltip: {
-    pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+    pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>"
   },
   accessibility: {
     point: {
-      valueSuffix: "%",
-    },
+      valueSuffix: "%"
+    }
   },
   plotOptions: {
     pie: {
       allowPointSelect: true,
       cursor: "pointer",
       dataLabels: {
-        enabled: false,
+        enabled: false
       },
-      showInLegend: true,
-    },
+      showInLegend: true
+    }
   },
   legend: {
     itemStyle: {
-      color: "#b3b2b2",
-    },
+      color: "#b3b2b2"
+    }
   },
   series: [
     {
@@ -48,35 +48,35 @@ var chartSettings = {
       data: [
         {
           name: "英格兰东部",
-          y: 1339,
+          y: 1339
         },
         {
           name: "伦敦",
-          y: 6521,
+          y: 6521
         },
         {
           name: "中部地区",
-          y: 3188,
+          y: 3188
         },
         {
           name: "东北约克郡",
-          y: 2087,
+          y: 2087
         },
         {
           name: "西北地区",
-          y: 1847,
+          y: 1847
         },
         {
           name: "东南地区",
-          y: 2121,
+          y: 2121
         },
         {
           name: "西南地区",
-          y: 818,
-        },
-      ],
-    },
-  ],
+          y: 818
+        }
+      ]
+    }
+  ]
 };
 
 export default chartSettings;
