@@ -53,7 +53,8 @@ const totalNum = [
   84279,
   88621,
   93873,
-  98476
+  98476,
+  103093
 ];
 const testNum = [
   195524,
@@ -66,7 +67,8 @@ const testNum = [
   282374,
   290720,
   302599,
-  313769
+  313769,
+  327608
 ];
 
 const deathNum = [
@@ -124,7 +126,8 @@ const deathNum = [
   10612,
   11329,
   12107,
-  12868
+  12868,
+  13729
 ];
 
 let increaseNum = calIncrease();
