@@ -4,79 +4,65 @@
 
 // Create the chart
 
-var chartSettings = {
-  chart: {
-    plotBackgroundColor: null,
-    plotBorderWidth: null,
-    plotShadow: false,
-    type: "pie",
-    backgroundColor: "#232322"
-  },
-  title: {
-    text: undefined
-  },
-  subtitle: {
-    text: undefined
-  },
-  tooltip: {
-    pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>"
-  },
-  accessibility: {
-    point: {
-      valueSuffix: "%"
-    }
-  },
-  plotOptions: {
-    pie: {
-      allowPointSelect: true,
-      cursor: "pointer",
-      dataLabels: {
-        enabled: false
-      },
-      showInLegend: true
-    }
-  },
-  legend: {
-    itemStyle: {
-      color: "#b3b2b2"
-    }
-  },
-  series: [
-    {
-      name: "Area",
-      colorByPoint: true,
-      data: [
-        {
-          name: "英格兰东部",
-          y: 1339
-        },
-        {
-          name: "伦敦",
-          y: 6521
-        },
-        {
-          name: "中部地区",
-          y: 3188
-        },
-        {
-          name: "东北约克郡",
-          y: 2087
-        },
-        {
-          name: "西北地区",
-          y: 1847
-        },
-        {
-          name: "东南地区",
-          y: 2121
-        },
-        {
-          name: "西南地区",
-          y: 818
-        }
-      ]
-    }
-  ]
-};
+// import dateList from "../api/date.js";;
 
-export default chartSettings;
+function areaChart(totalDate, totalNum, dailyDate, dailyNum) {
+  return {
+    chart: {
+      zoomType: "xy",
+      backgroundColor: "#232322"
+    },
+    title: {
+      text: undefined
+    },
+    subtitle: {
+      text: undefined
+    },
+    xAxis: [
+      {
+        visible: true,
+        categories: totalDate
+      }
+    ],
+    yAxis: [
+      {
+        title: {
+          text: undefined
+        },
+        visible: true,
+        reversed: false
+        // max: Math.max(...totalNum) + 100
+      },
+      {
+        // Secondary yAxis
+        title: {
+          text: undefined
+        },
+        //max: Math.max(...deathNum) + 100,
+        opposite: true
+      }
+    ],
+    plotOptions: {
+      series: {
+        color: "#b32929"
+      }
+    },
+    series: [
+      {
+        name: "当日总共确诊",
+        data: totalNum,
+        type: "column",
+        yAxis: 1,
+        color: "#580606"
+      },
+      {
+        name: "当日新增确诊",
+        type: "spline",
+        data: dailyNum,
+        color: "#ffffff"
+      }
+    ]
+  };
+}
+
+export default areaChart;

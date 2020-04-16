@@ -73,6 +73,22 @@
       </div>
     </div>
     <div class="chart-total-container chart-display-header">
+      <div class="header">疫情地区变化</div>
+      <div class="input-postcode">
+        <input type="text" v-model="searchPostcode" placeholder="输入邮编查询您地区情况" />
+        <div class="search-btn" v-on:click="checkAreaStatus">{{searchStatus}}</div>
+      </div>
+      <div v-if="areaLocation" class="area-text">
+        <span class="location">{{areaLocation}}</span>地区共有
+        <span class="confirmed-num">{{areaNum}}</span>例新冠肺炎，减少出门，注意安全
+      </div>
+    </div>
+    <transition name="slide-show" v-if="AreaSettings">
+      <div class="chart-display-container">
+        <highcharts :constructor-type="'mapChart'" :options="AreaSettings" ref="areaChart"></highcharts>
+      </div>
+    </transition>
+    <div class="chart-total-container chart-display-header">
       <div class="header">总确诊数</div>
       <div class="time-limit">
         <div
@@ -100,6 +116,7 @@
     <div class="chart-display-container">
       <highcharts :constructor-type="'mapChart'" :options="ChartSettings" ref="totalChart"></highcharts>
     </div>
+
     <div class="chart-total-container chart-display-header">
       <div class="header">增长速度</div>
       <div class="time-limit">
@@ -133,11 +150,17 @@
       ></highcharts>
     </div>
     <div class="chart-total-container chart-display-header">
-      <div class="header">疫情地区分布</div>
+      <div class="header">疫情地区变化</div>
+      <div class="input-postcode">
+        <input type="text" v-model="searchPostcode" placeholder="输入邮编查询您地区情况" />
+        <div class="search-btn" v-on:click="checkAreaStatus">搜索</div>
+      </div>
     </div>
-    <div class="chart-display-container">
-      <highcharts :constructor-type="'mapChart'" :options="AreaSettings"></highcharts>
-    </div>
+    <transition name="slide-show" v-if="AreaSettings">
+      <div class="chart-display-container">
+        <highcharts :constructor-type="'mapChart'" :options="AreaSettings" ref="areaChart"></highcharts>
+      </div>
+    </transition>
     <div class="footer">
       <div class="source-ct">
         <div class="source-title">数据来源</div>
@@ -158,17 +181,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="news-display-container">
-      <div class="base-header">
-        <div class="create-text-container">
-          <div class="text-header">疫情相关新闻</div>
-        </div>
-      </div>
-      <div class="news-body">
-        <NewsPanel v-for="(i, v) in newsList" v-bind:key="v" :Newsdata="i" />
-      </div>
-    </div>-->
-    <!-- <div class="addnew-task-btn" v-on:touchstart="createNewTask">创建我的路线</div> -->
   </div>
 </template>
 
@@ -184,11 +196,12 @@ import ToastMessage from "@/components/common/Toast.vue";
 import UKMapSettings from "@/assets/data/uk-map.js";
 import ChartSettings from "@/assets/data/uk-ncov2019-chart.js";
 import IncreaseChartSettings from "@/assets/data/uk-nconv2019-increase.js";
-import AreaSettings from "@/assets/data/uk-ncov2019-area.js";
+import areaChart from "@/assets/data/uk-ncov2019-area.js";
 import TWEEN from "@tweenjs/tween.js";
-import { Post } from "@/assets/api/api.js";
+import { Get, Post } from "@/assets/api/api.js";
 import { exportAddress } from "@/assets/api/setting.js";
 import { dateList, totalNum, deathNum, increaseNum, testNum } from "@/assets/api/chartData.js";
+import cityData from "@/assets/data/city-map.js";
 
 
 export default {
@@ -209,7 +222,7 @@ export default {
       UKMapSettings: UKMapSettings,
       ChartSettings: ChartSettings,
       IncreaseChartSettings: IncreaseChartSettings,
-      AreaSettings: AreaSettings,
+      AreaSettings: null,
       /**
        * @routeType
        * @ 1 => 个人路线
@@ -236,18 +249,6 @@ export default {
           source: "中国民航局",
           time: "2020, Mar 26th, 00:00"
         },
-        1: {
-          title:
-            "英国王储查尔斯王子确诊感染新冠病毒 “症状轻微”",
-          source: "BBC News",
-          time: "2020, Mar 25th, 14:01"
-        },
-        2: {
-          title:
-            "英国首相鲍里斯约翰逊核酸检测呈阳性",
-          source: "BBC News",
-          time: "2020, Mar 27th, 18:00"
-        }
       },
       dataSet: {
         total: 0,
@@ -262,7 +263,12 @@ export default {
       totalChartTime: 0,
       increaseChartTime: 0,
       animationList: {},
-      addTaskStatus: false
+      addTaskStatus: false,
+      cityDataShow: false,
+      searchPostcode: '',
+      areaLocation: '',
+      areaNum: '',
+      searchStatus: '搜索'
     };
   },
   mounted () {
@@ -515,10 +521,10 @@ export default {
     },
     createNewTask () {
       const self = this;
-      self.ToastMsg = '个人创建暂不可用，可加微信360896263添加行程';
-      setTimeout(() => {
-        self.ToastMsg = ""
-      }, 3000);
+      self.ToastMsg = '';
+      // setTimeout(() => {
+      //   self.ToastMsg = ""
+      // }, 3000);
       // self.addTaskStatus = true;
     },
     cancelNewTask () {
@@ -528,6 +534,52 @@ export default {
     routerDirect (t) {
       const self = this;
       self.$router.push(t);
+    },
+    toastMsgWarning (msg) {
+      const self = this;
+      self.ToastMsg = msg;
+      setTimeout(() => {
+        self.ToastMsg = "";
+      }, 1000);
+    },
+    checkAreaStatus () {
+      const self = this;
+      const postCode = self.searchPostcode;
+      self.searchStatus = '搜索中……'
+      const status = self.postcodeVaild(postCode);
+      if (status) {
+        self.getAreaName(postCode);
+      } else {
+        self.toastMsgWarning('邮编错误')
+      }
+    },
+    getAreaName (postcode) {
+      const self = this;
+      let requestAddr = exportAddress;
+      const c = cityData;
+      Get(`${requestAddr.postcodesio}/postcodes/${postcode}`).then(res => {
+        const area = res.result.admin_district;
+        const adminDistrictCode = res.result.codes.admin_district;
+        // areaChart
+        const totalDate = c[adminDistrictCode].totalDate;
+        const totalNum = c[adminDistrictCode].totalNum;
+        const dailyNum = c[adminDistrictCode].dailyNum;
+        const newChart = areaChart(totalDate, totalNum, totalDate, dailyNum)
+        self.AreaSettings = newChart;
+        self.areaLocation = area;
+        self.areaNum = c[adminDistrictCode].total;
+        self.searchStatus = '搜索';
+        // console.log(area, adminDistrictCode);
+      })
+    },
+    postcodeVaild (postCode) {
+      const self = this;
+      const re =
+        "^([A-Za-z][A-Ha-hJ-Yj-y]?[0-9][A-Za-z0-9]? ?[0-9][A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$";
+      if (postCode.match(re) == null) {
+        return false
+      }
+      return true
     }
   }
 };
@@ -927,6 +979,44 @@ $designWidth: 750;
         &:hover {
           cursor: pointer;
         }
+      }
+    }
+    .input-postcode {
+      display: flex;
+      justify-content: center;
+      padding-bottom: px2rem(48);
+      input {
+        width: px2rem(300);
+        height: px2rem(48);
+        padding: 0 px2rem(20);
+        background-color: #222321;
+        border: px2rem(2) solid #f2f2f2;
+        border-radius: px2rem(10);
+        font-size: px2rem(24);
+        color: #f2f2f2;
+      }
+      .search-btn {
+        height: px2rem(52);
+        padding: 0 px2rem(20);
+        margin: 0 px2rem(24);
+        border-radius: px2rem(10);
+        font-size: px2rem(24);
+        line-height: px2rem(52);
+        background-color: #3599e2;
+        color: #f2f2f2;
+      }
+    }
+    .area-text {
+      color: #f2f2f2;
+      font-size: px2rem(24);
+      padding-bottom: px2rem(48);
+      .location {
+        font-weight: bolder;
+        color: #f7de25;
+      }
+      .confirmed-num {
+        font-weight: bolder;
+        color: #f35252;
       }
     }
   }
