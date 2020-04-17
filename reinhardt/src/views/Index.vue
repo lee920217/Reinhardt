@@ -22,7 +22,7 @@
           <div class="text-header">英国确诊人数</div>
           <div class="text-detail">勤洗手，减少出门</div>
         </div>
-        <div class="update-time">更新于 2020-04-16 09:00</div>
+        <div class="update-time">更新于 2020-04-17 09:00</div>
         <div class="show-animation" v-on:click="changeAnimationStatus(true)">
           <div class="button">疫情蔓延动态展示</div>
           <div class="new">New!</div>
@@ -122,22 +122,22 @@
       <div class="time-limit">
         <div
           class="time-item"
-          :class="[totalChartTime == 0 ? 'active': '']"
+          :class="[increaseChartTime == 0 ? 'active': '']"
           v-on:click="totoalChartTimeUpdate(0, 2)"
         >全部</div>
         <div
           class="time-item"
-          :class="[totalChartTime == 1 ? 'active': '']"
+          :class="[increaseChartTime == 1 ? 'active': '']"
           v-on:click="totoalChartTimeUpdate(1, 2)"
         >30天内</div>
         <div
           class="time-item"
-          :class="[totalChartTime == 2 ? 'active': '']"
+          :class="[increaseChartTime == 2 ? 'active': '']"
           v-on:click="totoalChartTimeUpdate(2, 2)"
         >15天内</div>
         <div
           class="time-item"
-          :class="[totalChartTime == 3 ? 'active': '']"
+          :class="[increaseChartTime == 3 ? 'active': '']"
           v-on:click="totoalChartTimeUpdate(3, 2)"
         >一周内</div>
       </div>
@@ -148,13 +148,6 @@
         :options="IncreaseChartSettings"
         ref="increaseChart"
       ></highcharts>
-    </div>
-    <div class="chart-total-container chart-display-header">
-      <div class="header">疫情地区变化</div>
-      <div class="input-postcode">
-        <input type="text" v-model="searchPostcode" placeholder="输入邮编查询您地区情况" />
-        <div class="search-btn" v-on:click="checkAreaStatus">搜索</div>
-      </div>
     </div>
     <transition name="slide-show" v-if="AreaSettings">
       <div class="chart-display-container">
@@ -296,7 +289,6 @@ export default {
     },
     totoalChartTimeUpdate (t, c) {
       const self = this;
-      self.totalChartTime = t;
       let limitLength = 0;
       let timeLimit = dateList;
       if (t == 0) {
@@ -326,6 +318,7 @@ export default {
         totalChart.series[1].update({
           data: deathList
         })
+        self.totalChartTime = t;
       } else {
         const increaseChart = self.$refs.increaseChart.chart
         let increaseList = increaseNum;
@@ -335,7 +328,8 @@ export default {
         })
         increaseChart.series[0].update({
           data: increaseList
-        })
+        });
+        self.increaseChartTime = t;
       }
     },
     hideMask () {

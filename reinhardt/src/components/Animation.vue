@@ -60,7 +60,9 @@ export default {
       const self = this;
       let index = 0;
       let length = historyData.length;
+      console.log(length);
       self.animationCounter = setInterval(() => {
+        console.log(index)
         if (index >= length) {
           clearInterval(self.animationCounter);
           self.arrowLeft = 98;
