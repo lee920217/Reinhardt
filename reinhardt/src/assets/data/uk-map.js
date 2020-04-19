@@ -9,7 +9,7 @@ var settings = {
     map: "countries/gb/gb-all",
     backgroundColor: "#232322"
   },
-  colors: ["#f99e09", "#fd6904", "#dc3029", "#cc1142", "#a00f5c"],
+  colors: ["#b3b2b2", "#E34E4E", "#860A0A", "#580606", "#000"],
   title: {
     style: {
       display: "none"
@@ -26,8 +26,7 @@ var settings = {
     dataClassColor: "category",
     dataClasses: [
       {
-        from: 1,
-        to: 10
+        from: 1
       },
       {
         from: 10,

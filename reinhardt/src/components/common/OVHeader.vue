@@ -1,6 +1,7 @@
 <template>
   <div class="ov-header-container">
     <div class="app-header" @touchstart="toHome">Lemna</div>
+    <div class="denote" @click="showDenote">赞助4Lemna</div>
     <!-- <div class="login-btn" v-if="this.$userId != -1" @touchstart="redirect">{{this.$userId}}</div>
     <div class="login-btn" v-else @touchstart="redirect">登录 / 注册</div>-->
   </div>
@@ -36,6 +37,10 @@ export default {
     toHome () {
       const self = this;
       self.$router.push('/')
+    },
+    showDenote () {
+      const self = this;
+      self.$emit('changeDenoteDialog', true)
     }
   }
 };
@@ -74,6 +79,12 @@ $designWidth: 750;
   }
   .login-btn {
     font-size: px2rem(28);
+  }
+  .denote {
+    font-size: px2rem(24);
+    padding: px2rem(8) px2rem(12);
+    background-color: #1aad19;
+    border-radius: px2rem(10);
   }
 }
 </style>

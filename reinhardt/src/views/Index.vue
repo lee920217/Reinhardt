@@ -4,7 +4,8 @@
     <LMask v-if="maskStatus" />
     <ToastMessage v-if="ToastMsg" :msg="ToastMsg" />
     <AnimationMap v-if="animationStatus" @changeAnimationStatus="changeAnimationStatus" />
-    <Header />
+    <DenoteDialog v-if="denote" @changeDenoteDialog="changeDenoteDialog" />
+    <Header @changeDenoteDialog="changeDenoteDialog" />
     <AddTask
       v-if="addTaskStatus"
       @cancelAddTaskDialog="cancelNewTask"
@@ -13,9 +14,9 @@
     <!-- <div class="slider-container">
       <img src="@/assets/img/slider.png" />
     </div>-->
-    <div class="for-nconv2019">
+    <!-- <div class="for-nconv2019">
       <a target="_blank" href="https://forms.gle/doSUTnvpmRrhjqu98">留英华人健康包申领 >>>></a>
-    </div>
+    </div>-->
     <div class="data-display-container">
       <div class="base-header">
         <div class="create-text-container">
@@ -186,6 +187,7 @@ import CookieMask from "@/components/common/CookieMask.vue";
 import LMask from "@/components/common/Mask.vue";
 import NewsPanel from "@/components/common/NewsPanel.vue";
 import ToastMessage from "@/components/common/Toast.vue";
+import DenoteDialog from "@/components/common/DenoteDialog.vue";
 import UKMapSettings from "@/assets/data/uk-map.js";
 import ChartSettings from "@/assets/data/uk-ncov2019-chart.js";
 import IncreaseChartSettings from "@/assets/data/uk-nconv2019-increase.js";
@@ -207,7 +209,8 @@ export default {
     CookieMask,
     LMask,
     ToastMessage,
-    AnimationMap
+    AnimationMap,
+    DenoteDialog
   },
   data () {
     return {
@@ -261,7 +264,8 @@ export default {
       searchPostcode: '',
       areaLocation: '',
       areaNum: '',
-      searchStatus: '搜索'
+      searchStatus: '搜索',
+      denote: false,
     };
   },
   mounted () {
@@ -280,6 +284,10 @@ export default {
     //     self.maskStatus = true;
     //   }
     // },
+    changeDenoteDialog (r) {
+      const self = this;
+      self.denote = r;
+    },
     changeAnimationStatus (status) {
       const self = this;
       self.animationStatus = status;
@@ -821,7 +829,7 @@ $designWidth: 750;
     flex-direction: column;
     width: 100%;
     overflow: hidden;
-    margin-top: px2rem(16);
+    margin-top: px2rem(104);
     background-color: #232322;
     .base-header {
       position: relative;
