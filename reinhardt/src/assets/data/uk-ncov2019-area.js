@@ -49,14 +49,14 @@ function areaChart(totalDate, totalNum, dailyDate, dailyNum) {
     },
     series: [
       {
-        name: "当日总共确诊",
+        name: "当日新增确诊",
         data: totalNum,
         type: "column",
         yAxis: 1,
         color: "#580606"
       },
       {
-        name: "当日新增确诊",
+        name: "当日总共确诊",
         type: "spline",
         data: dailyNum,
         color: "#ffffff"

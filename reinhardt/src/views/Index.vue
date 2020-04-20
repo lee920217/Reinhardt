@@ -23,7 +23,7 @@
           <div class="text-header">英国确诊人数</div>
           <div class="text-detail">勤洗手，减少出门</div>
         </div>
-        <div class="update-time">更新于 2020-04-19 09:00</div>
+        <div class="update-time">更新于 2020-04-20 09:00</div>
         <div class="show-animation" v-on:click="changeAnimationStatus(true)">
           <div class="button">疫情蔓延动态展示</div>
           <div class="new">New!</div>
