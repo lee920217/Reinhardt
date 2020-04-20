@@ -150,11 +150,6 @@
         ref="increaseChart"
       ></highcharts>
     </div>
-    <transition name="slide-show" v-if="AreaSettings">
-      <div class="chart-display-container">
-        <highcharts :constructor-type="'mapChart'" :options="AreaSettings" ref="areaChart"></highcharts>
-      </div>
-    </transition>
     <div class="footer">
       <div class="source-ct">
         <div class="source-title">数据来源</div>
