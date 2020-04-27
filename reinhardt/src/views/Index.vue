@@ -70,7 +70,7 @@
         </div>
         <div class="text-data-detail">
           <div class="num yellow-font">{{ dataSet.cured }}</div>
-          <div class="desc"></div>
+          <div class="desc">治愈人数</div>
         </div>
       </div>
       <div class="map-data-container">
