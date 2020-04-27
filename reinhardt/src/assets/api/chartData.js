@@ -64,7 +64,8 @@ const totalNum = [
   138078,
   143464,
   148377,
-  152840
+  152840,
+  157149
 ];
 const testNum = [
   195524,
@@ -88,7 +89,8 @@ const testNum = [
   425821,
   444222,
   517836,
-  543413
+  543413,
+  580437
 ];
 
 const deathNum = [
@@ -157,8 +159,10 @@ const deathNum = [
   18738,
   19506,
   20319,
-  20732
+  20732,
+  21092
 ];
+const hospitalNum = [15239, 15051];
 
 let increaseNum = calIncrease();
 function calIncrease() {
@@ -235,7 +239,9 @@ const dateList = [
   "04-22",
   "04-23",
   "04-24",
-  "04-25"
+  "04-25",
+  "04-26",
+  "04-27"
 ];
 
-export { totalNum, deathNum, increaseNum, dateList, testNum };
+export { totalNum, deathNum, increaseNum, dateList, testNum, hospitalNum };

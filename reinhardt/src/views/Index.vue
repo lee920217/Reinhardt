@@ -36,9 +36,9 @@
           <div class="desc">确诊</div>
         </div>
         <div class="text-data-detail">
-          <div class="num yellow-font">{{ dataSet.cured }}</div>
-          <div class="num-add yellow-font">+{{ dataSet.curedInc }}</div>
-          <div class="desc">康复</div>
+          <div class="num yellow-font">{{ dataSet.hospital }}</div>
+          <div class="num-add yellow-font">{{ dataSet.hospitalInc }}</div>
+          <div class="desc">住院人数</div>
         </div>
         <div class="text-data-detail">
           <div class="num blue-font">{{ dataSet.death }}</div>
@@ -67,6 +67,10 @@
         <div class="text-data-detail">
           <div class="num white-font">{{ ((dataSet.death / dataSet.total) * 100).toFixed(2) }}%</div>
           <div class="desc">死亡率</div>
+        </div>
+        <div class="text-data-detail">
+          <div class="num yellow-font">{{ dataSet.cured }}</div>
+          <div class="desc"></div>
         </div>
       </div>
       <div class="map-data-container">
@@ -190,7 +194,7 @@ import areaChart from "@/assets/data/uk-ncov2019-area.js";
 import TWEEN from "@tweenjs/tween.js";
 import { Get, Post } from "@/assets/api/api.js";
 import { exportAddress } from "@/assets/api/setting.js";
-import { dateList, totalNum, deathNum, increaseNum, testNum } from "@/assets/api/chartData.js";
+import { dateList, totalNum, deathNum, increaseNum, testNum, hospitalNum } from "@/assets/api/chartData.js";
 import cityData from "@/assets/data/city-map.js";
 
 
@@ -246,10 +250,12 @@ export default {
         death: 0,
         cured: 0,
         test: 0,
+        hospital: 0,
         totalInc: 0,
         deathInc: 0,
         curedInc: 0,
-        testInc: 0
+        testInc: 0,
+        hospitalInc: 0,
       },
       totalChartTime: 0,
       increaseChartTime: 0,
@@ -346,11 +352,13 @@ export default {
         total: totalNum[totalNum.length - 1],
         death: deathNum[deathNum.length - 1],
         cured: 359,
+        hospital: hospitalNum[hospitalNum.length - 1],
         test: testNum[testNum.length - 1],
         totalInc: totalNum[totalNum.length - 1] - totalNum[totalNum.length - 2],
         deathInc: deathNum[deathNum.length - 1] - deathNum[deathNum.length - 2],
         curedInc: 0,
-        testInc: testNum[testNum.length - 1] - testNum[testNum.length - 2]
+        testInc: testNum[testNum.length - 1] - testNum[testNum.length - 2],
+        hospitalInc: hospitalNum[hospitalNum.length - 1] - hospitalNum[hospitalNum.length - 2]
       };
       const objKey = Object.keys(self.dataSet);
       for (let i = 0; i < objKey.length; i++) {
