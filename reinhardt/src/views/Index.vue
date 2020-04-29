@@ -37,6 +37,7 @@
         </div>
         <div class="text-data-detail">
           <div class="num yellow-font">{{ dataSet.cured }}</div>
+          <div class="num yellow-font">+0</div>
           <div class="desc">治愈人数</div>
         </div>
         <div class="text-data-detail">
