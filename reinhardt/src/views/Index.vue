@@ -23,7 +23,7 @@
           <div class="text-header">英国确诊人数</div>
           <div class="text-detail">勤洗手，减少出门</div>
         </div>
-        <div class="update-time">更新于 2020-04-29 09:00</div>
+        <div class="update-time">更新于 2020-04-30 09:00</div>
         <div class="show-animation" v-on:click="changeAnimationStatus(true)">
           <div class="button">疫情蔓延动态展示</div>
           <div class="new">New!</div>
@@ -36,9 +36,8 @@
           <div class="desc">确诊</div>
         </div>
         <div class="text-data-detail">
-          <div class="num yellow-font">{{ dataSet.hospital }}</div>
-          <div class="num-add yellow-font">{{ dataSet.hospitalInc }}</div>
-          <div class="desc">住院人数</div>
+          <div class="num yellow-font">{{ dataSet.cured }}</div>
+          <div class="desc">治愈人数</div>
         </div>
         <div class="text-data-detail">
           <div class="num blue-font">{{ dataSet.death }}</div>
@@ -67,10 +66,6 @@
         <div class="text-data-detail">
           <div class="num white-font">{{ ((dataSet.death / dataSet.total) * 100).toFixed(2) }}%</div>
           <div class="desc">死亡率</div>
-        </div>
-        <div class="text-data-detail">
-          <div class="num yellow-font">{{ dataSet.cured }}</div>
-          <div class="desc">治愈人数</div>
         </div>
       </div>
       <div class="map-data-container">
