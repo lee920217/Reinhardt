@@ -73,7 +73,8 @@ const totalNum = [
   182260,
   186599,
   190584,
-  201101
+  201101,
+  206715
 ];
 const testNum = [
   195524,
@@ -105,7 +106,8 @@ const testNum = [
   825946,
   882343,
   945299,
-  1448010
+  1072144,
+  1139626
 ];
 
 const deathNum = [
@@ -183,7 +185,8 @@ const deathNum = [
   28131,
   28446,
   28734,
-  30076
+  30076,
+  30615
 ];
 const hospitalNum = [15239, 15051];
 
@@ -272,7 +275,9 @@ const dateList = [
   "05-02",
   "05-03",
   "05-04",
-  "05-05"
+  "05-05",
+  "05-06",
+  "05-07"
 ];
 
 export { totalNum, deathNum, increaseNum, dateList, testNum, hospitalNum };
