@@ -24,6 +24,7 @@
 <script>
 import UKMapSettings from "@/assets/data/uk-animation-map.js";
 import { historyData, historyDate } from "@/assets/data/animation-data.js";
+import { animationNew } from '@/assets/data/animation-new.js';
 import { dateList, totalNum, deathNum, increaseNum } from "@/assets/api/chartData.js";
 import TWEEN from "@tweenjs/tween.js";
 export default {
@@ -31,7 +32,7 @@ export default {
   data () {
     return {
       UKMapSettings: UKMapSettings,
-      date: "03-05",
+      date: "01-30",
       count: 0,
       animationCounter: null,
       arrowLeft: 0
@@ -42,16 +43,16 @@ export default {
     this.tweenJS(0, 115)
   },
   destroyed () {
-    this.date = "03-05";
-    this.count = "115";
+    this.date = "01-30";
+    this.count = "2";
     this.UKMapSettings = UKMapSettings;
     clearInterval(self.animationCounter);
   },
   methods: {
     closeAnimation () {
       const self = this;
-      self.date = "03-05";
-      self.count = "115";
+      self.date = "01-30";
+      self.count = "02";
       self.UKMapSettings = UKMapSettings;
       clearInterval(self.animationCounter);
       self.$emit('changeAnimationStatus', false)
@@ -59,27 +60,31 @@ export default {
     updateAnimation () {
       const self = this;
       let index = 0;
-      let length = historyData.length;
+      let length = Object.keys(animationNew).length;
       self.animationCounter = setInterval(() => {
         if (index >= length) {
           clearInterval(self.animationCounter);
           self.arrowLeft = 98;
           return
         }
-        let currentDate = historyDate[index];
+        let dataList = Object.keys(animationNew);
+        console.log(dataList[index].slice(5))
+        let currentDate = dataList[index].slice(5);
         self.date = currentDate;
         let dateIndex = dateList.indexOf(currentDate);
-        let currentCount = totalNum[dateIndex];
-        self.arrowLeft = (index / length) * 100;
-        // self.count = currentCount;
-        // console.log('c', self.count);
-        // console.log('n', currentCount);
-        self.tweenJS(self.count, currentCount)
+        if (dateIndex > 0) {
+          let currentCount = totalNum[dateIndex];
+          self.arrowLeft = (index / length) * 100;
+          // self.count = currentCount;
+          // console.log('c', self.count);
+          // console.log('n', currentCount);
+          self.tweenJS(self.count, currentCount)
 
-        let mapBase = self.$refs.ukmap.chart;
-        mapBase.series[0].update({
-          data: historyData[index]
-        })
+          let mapBase = self.$refs.ukmap.chart;
+          mapBase.series[0].update({
+            data: historyData[index]
+          })
+        }
         index++;
       }, 1000)
     },
