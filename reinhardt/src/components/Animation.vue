@@ -68,7 +68,7 @@ export default {
           return
         }
         let dataList = Object.keys(animationNew);
-        console.log(dataList[index].slice(5))
+        // console.log(dataList[index].slice(5))
         let currentDate = dataList[index].slice(5);
         self.date = currentDate;
         let dateIndex = dateList.indexOf(currentDate);
